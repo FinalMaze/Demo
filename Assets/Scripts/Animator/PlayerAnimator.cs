@@ -56,7 +56,7 @@ public class PlayerRun : FsmBase
     }
     public override void OnStay()
     {
-        if (!Data.playerRun)
+        if (!PlayerData.playerRun)
         {
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
         }
@@ -78,16 +78,16 @@ public class PlayerJump : FsmBase
     public override void OnEnter()
     {
         Debug.Log("Jump");
-        Data.playerJumping = true;
+        PlayerData.playerJumping = true;
         animator.SetInteger("Index", 3);
     }
     public override void OnStay()
     {
-        Data.playerStartJump = false;
+        PlayerData.playerStartJump = false;
         timeCount += Time.deltaTime;
         if (timeCount>1.07f)
         {
-            Data.playerJumping = false;
+            PlayerData.playerJumping = false;
             timeCount = 0;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
         }

@@ -33,6 +33,10 @@ public class AudioManager : MonoBehaviour
         {
             bgmSouce.clip = bgmClip;
         }
+        if (!bgmSouce.isPlaying)
+        {
+            bgmSouce.Play();
+        }
     }
 
     //开始播放
@@ -53,15 +57,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        LoopBgm("translate");
+       // LoopBgm("translate");
     }
 
     private void Update()
     {
-        if (!bgmSouce.isPlaying)
-        {
-            bgmSouce.Play();
-        }
+        
     }
 
 }

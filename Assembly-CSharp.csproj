@@ -69,8 +69,11 @@
     <Compile Include="Assets\Scripts\FSM\FSM.cs" />
     <Compile Include="Assets\Scripts\PanelCtrl\LitMap.cs" />
     <Compile Include="Assets\Scripts\System\CharacterController2D.cs" />
-    <Compile Include="Assets\Scripts\System\Data.cs" />
+    <Compile Include="Assets\Scripts\System\Data\Data.cs" />
+    <Compile Include="Assets\Scripts\System\Data\PlayerData.cs" />
     <Compile Include="Assets\Scripts\System\Main.cs" />
+    <Compile Include="Assets\Scripts\UI\EasyTouch\EasyTouch.cs" />
+    <Compile Include="Assets\Scripts\UI\Interface\GameInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIBehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />

@@ -16,7 +16,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         #region 初始化数据
         instance = this;
-        control= GetComponent<CharacterController2D>();
+        control = GetComponent<CharacterController2D>();
         fsmManager = new FSMManager();
         animator = GetComponent<Animator>();
         #endregion
@@ -35,7 +35,7 @@ public class PlayerCtrl : MonoBehaviour
 
     }
     float run;
-    float moveSpeed;
+    float moveSpeed=PlayerData.runSpeed;
     private void Update()
     {
         fsmManager.OnStay();
@@ -43,54 +43,24 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 判断移动和跳跃
         //判断是否在地面上
-        if (!Data.playerIsGround)
+        if (!PlayerData.playerIsGround)
         {
-            Data.playerWalk = false;
-            Data.playerRun = false;
+            PlayerData.playerWalk = false;
+            PlayerData.playerRun = false;
         }
-        //判断是否按下左shift键
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Data.playerRun = true;
-        }
-        else
-        {
-            Data.playerRun = false;
-        }
-        //如果在地上，可以移动
-        if (Data.playerIsGround)
-        {
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-            {
-                Data.playerWalk = true;
-            }
-            else
-            {
-                Data.playerWalk = false;
-            }
-        }
-        //跳跃
+        //跳跃   todo
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine("Jump");
         }
         //如果不是跳跃状态，可以移动
-        if (!Data.playerJumping)
+        if (!PlayerData.playerJumping)
         {
-            if (Data.playerWalk)
+            if (PlayerData.playerRun)
             {
-                if (Data.playerRun)
-                {
-                    moveSpeed = Data.playerRunSpeed;
-                    ChangeState((sbyte)Data.AnimationCount.Run);
-                }
-                else
-                {
-                    moveSpeed = Data.playerWalkSpeed;
-                    ChangeState((sbyte)Data.AnimationCount.Walk);
-                }
+                ChangeState((sbyte)Data.AnimationCount.Run);
             }
-            else if (!Data.playerWalk)
+            else if (!Data.EasyTouch)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -104,13 +74,13 @@ public class PlayerCtrl : MonoBehaviour
         ChangeState((sbyte)Data.AnimationCount.Jump);
         //推迟多少时间进行跳跃
         yield return new WaitForSeconds(0.25f);
-        Data.playerStartJump = true;
+        PlayerData.playerStartJump = true;
     }
     #endregion
 
     private void FixedUpdate()
     {
-        control.Move(run * moveSpeed * Time.fixedDeltaTime, false, Data.playerStartJump);
+        control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
     }
     public void ChangeState(sbyte animationCount)
     {

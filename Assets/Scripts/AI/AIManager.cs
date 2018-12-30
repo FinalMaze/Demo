@@ -24,7 +24,7 @@ public class AIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        GameObject tmpBase = GameObject.FindGameObjectWithTag("PlayerParent");
+        //GameObject tmpBase = GameObject.FindGameObjectWithTag("PlayerParent");
         //BulidPlayer(Data.playerPath, tmpBase.transform);
     }
     #region 创建玩家角色
