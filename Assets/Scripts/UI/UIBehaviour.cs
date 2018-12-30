@@ -80,4 +80,30 @@ public class UIBehaviour : MonoBehaviour
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
     }
+    public void AddPointClickDown(UnityAction<BaseEventData> action)
+    {
+        EventTrigger trigger = gameObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = gameObject.AddComponent<EventTrigger>();
+        }
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerDown;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(action);
+        trigger.triggers.Add(entry);
+    }
+    public void AddPointClickUP(UnityAction<BaseEventData> action)
+    {
+        EventTrigger trigger = gameObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = gameObject.AddComponent<EventTrigger>();
+        }
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerUp;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(action);
+        trigger.triggers.Add(entry);
+    }
 }

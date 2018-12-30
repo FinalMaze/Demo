@@ -80,4 +80,28 @@ public class UIBase : MonoBehaviour
             
         }
     }
+    //点击按下事件
+    public void AddPointClickDown(string controlName, UnityAction<BaseEventData> action)
+    {
+
+        UIBehaviour tmpBehaviour = GetBehaviour(controlName);
+
+        if (tmpBehaviour != null)
+        {
+            tmpBehaviour.AddPointClickDown(action);
+
+        }
+    }
+    //点击抬起事件
+    public void AddPointClickUP(string controlName, UnityAction<BaseEventData> action)
+    {
+
+        UIBehaviour tmpBehaviour = GetBehaviour(controlName);
+
+        if (tmpBehaviour != null)
+        {
+            tmpBehaviour.AddPointClickUP(action);
+
+        }
+    }
 }
