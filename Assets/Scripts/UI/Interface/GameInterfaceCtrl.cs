@@ -7,26 +7,26 @@ using UnityEngine.UI;
 public class GameInterfaceCtrl : UIBase
 {
     public static GameInterfaceCtrl Instance;
-    Easy easyTouch;
+    Slider blood;
+
+    public void UpdateBlood()
+    {
+        blood.value = PlayerData.blood / PlayerData.maxBlood;
+    }
+
+
     private void Start()
     {
         Instance = this;
-
-        EasyTouchInitial();
+        blood = GetControl("Blood_UI").GetComponent<Slider>();
+        UpdateBlood();
+        
     }
 
-    private void EasyTouchInitial()
-    {
-        GameObject tmpObj = GetControl("EasyTouch_UI");
-        GameObject tmpClick = GetControl("Click_UI");
-        easyTouch = new Easy(tmpClick.transform.position, tmpObj, 60f, AIManager.Instance.Player.gameObject, tmpClick);
-
-        AddDrag("Click_UI", easyTouch.OnDragBG);
-        AddOnEndDrag("Click_UI", easyTouch.OnEndDrag);
-    }
 
     private void Update()
     {
+        
     }
 
 

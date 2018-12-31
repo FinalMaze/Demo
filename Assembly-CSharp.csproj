@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\System\Data\Data.cs" />
     <Compile Include="Assets\Scripts\System\Data\PlayerData.cs" />
     <Compile Include="Assets\Scripts\System\Main.cs" />
+    <Compile Include="Assets\Scripts\Test.cs" />
+    <Compile Include="Assets\Scripts\TestInCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\EasyTouch\EasyTouch.cs" />
     <Compile Include="Assets\Scripts\UI\Interface\GameInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
