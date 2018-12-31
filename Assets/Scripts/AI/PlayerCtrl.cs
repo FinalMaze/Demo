@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HedgehogTeam.EasyTouch;
 
 public class PlayerCtrl : MonoBehaviour
 {
@@ -35,63 +36,106 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(playerRun);
         PlayerJump playerJump = new PlayerJump(animator);
         fsmManager.AddState(playerJump);
-        PlayerSway playerSway = new PlayerSway(animator);
-        fsmManager.AddState(playerSway);
+        PlayerJumping playerJumping = new PlayerJumping(animator);
+        fsmManager.AddState(playerJumping);
+        PlayerAttack playerAttack = new PlayerAttack(animator);
+        fsmManager.AddState(playerAttack);
+        PlayerAttack2 playerAttack2 = new PlayerAttack2(animator);
+        fsmManager.AddState(playerAttack2);
+        PlayerAmass playerAmass = new PlayerAmass(animator);
+        fsmManager.AddState(playerAmass);
+        PlayerCast playerCast = new PlayerCast(animator);
+        fsmManager.AddState(playerCast);
+        PlayerJumpEnd playerJumpEnd = new PlayerJumpEnd(animator);
+        fsmManager.AddState(playerJumpEnd);
         #endregion
 
+        // todo
+        //AIManager.Instance.BuildFriend("",transform);
     }
     float run;
     float moveSpeed=PlayerData.runSpeed;
     private void Update()
     {
         fsmManager.OnStay();
+
+        #region 判断是否能进行动作的前置条件
+        //判断是否在地面上
+        if (!PlayerData.playerIsGround)
+        {
+            //PlayerData.playerWalk = false;
+            PlayerData.playerJumping = false;
+            PlayerData.playerRun = false;
+        }
+        #endregion
+
         #region 转向并移动
         if (ETCInput.GetAxis("Horizontal") > 0f)
         {
-
-            run = 1;
+            PlayerData.playerWalk = true;
+            run = 1f;
         }
+        //else if (ETCInput.GetAxis("Horizontal") > 0.5f)
+        //{
+        //    PlayerData.playerWalk = true;
+        //    run = 1;
+        //}
         if (ETCInput.GetAxis("Horizontal") < 0f)
         {
-            run = -1;
+            PlayerData.playerWalk = true;
+            run = -1f;
         }
+        //if (ETCInput.GetAxis("Horizontal") < -0.5f)
+        //{
+        //    PlayerData.playerWalk = true;
+        //    run = -1;
+        //}
         if (ETCInput.GetAxis("Horizontal")==0)
         {
             run = 0;
         }
         #endregion
 
-        if (rightBlink)
+        #region 冲刺
+        if (!PlayerData.playerJumping)
         {
-            StartCoroutine("RightBlink");
+            if (rightBlink)
+            {
+                StartCoroutine("RightBlink");
+            }
+            if (leftBlink)
+            {
+                StartCoroutine("LeftBlink");
+            }
         }
-        if (leftBlink)
-        {
-            StartCoroutine("LeftBlink");
-        }
+        #endregion
 
-
-        #region 判断移动和跳跃
-        //判断是否在地面上
-        if (!PlayerData.playerIsGround)
+        if (PlayerData.playerStartJump)
         {
-            //PlayerData.playerWalk = false;
-            PlayerData.playerJumping = true;
-            PlayerData.playerRun = false;
+            Debug.Log("Jump!!!");
+            ChangeState((sbyte)Data.AnimationCount.Jump);
         }
-        else
-        {
-            PlayerData.playerJumping = false;
-        }
-
+        #region 判断是否播放Walk或Run动画
         //如果不是跳跃状态，可以移动
         if (!PlayerData.playerJumping)
         {
+            //如果在Walk状态，变换成Walk动作
+            if (PlayerData.playerWalk)
+            {
+                ChangeState((sbyte)Data.AnimationCount.Walk);
+            }
+            //如果横轴为0，那么变成Idel状态
+            else if (!PlayerData.playerWalk)
+            {
+                ChangeState((sbyte)Data.AnimationCount.Idel);
+            }
+            //如果在run状态，变换成跑步动作
             if (PlayerData.playerRun)
             {
                 ChangeState((sbyte)Data.AnimationCount.Run);
             }
-            else if (!Data.EasyTouch)
+            //如果横轴为0，那么变成Idel状态
+            else if (run==0)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -99,27 +143,119 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
     }
 
-    #region 协程跳跃
-    IEnumerator Jump()
-    {
-        //ChangeState((sbyte)Data.AnimationCount.Jump);
-
-        
-        //推迟多少时间进行跳跃
-        yield return new WaitForSeconds(0.1f);
-        PlayerData.playerStartJump = false;
-    }
-    #endregion
 
     private void FixedUpdate()
     {
+        
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
+        PlayerData.playerStartJump = false;
     }
+    #region 长按时的攻击变化
+    public void StayAttack(Gesture gesture)
+    {
+        float timeCount = gesture.actionTime;
+        if (timeCount > 0.5f&& PlayerData.distance < PlayerData.throwDistance)
+        {
+            Amass();
+        }
+        else if (timeCount > 1f)
+        {
+            //FriendCtrl.Instance.GoToPlayer();
+        }
+    }
+    #endregion
+    #region 松开时的攻击方法
+    public void AttackAI(Gesture gesture)
+    {
+        
+        float timeCount = gesture.actionTime;
+        Debug.Log(timeCount);
+        if (timeCount<1f)
+        {
+            if (PlayerData.distance < PlayerData.throwDistance)
+            {
+                Debug.Log("扔召唤兽了");
+                ThrowFriend();
+            }
+            else
+            {
+                Attack();
+            }
+        }
+        else if (timeCount>=1f)
+        {
+            if (PlayerData.distance < PlayerData.throwDistance)
+            {
+                Boom();
+            }
+            else
+            {
+                //FriendCtrl.Instance.GoToPlayer();
+            }
+        }
+        else if (timeCount>=3f)
+        {
+            Fit();
+        }
+    }
+    #endregion
+
+    #region 蓄力
+    public void Amass()
+    {
+        ChangeState((sbyte)Data.AnimationCount.Amass);
+    }
+    #endregion
+
+    #region 普通攻击
+    public void Attack()
+    {
+        Debug.Log("Attack!!!");
+        PlayerData.Attack = true;
+        //todo 伤害计算
+        ChangeState((sbyte)Data.AnimationCount.Attack);
+    }
+    #endregion
+
+    #region 扔召唤兽
+    public void ThrowFriend()
+    {
+        //变化动作   To Do
+        PlayerData.Cast = true;
+        //if (transform.localScale.x>0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x+5,transform.position.y));
+        //}
+        //if (transform.localScale.x < 0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y));
+        //}
+        
+    }
+    #endregion
+
+    #region 爆破
+    public void Boom()
+    {
+        Debug.Log("Boom");
+    }
+    #endregion
+
+    #region 合体
+    public void Fit()
+    {
+        Debug.Log("合体！！！");
+    }
+    #endregion
+
+    #region 变化动作的方法
     public void ChangeState(sbyte animationCount)
     {
         fsmManager.ChangeState(animationCount);
     }
+    #endregion
 
+    #region 冲刺的方法
     Vector2 tmp;
     public void Blink()
     {
@@ -139,7 +275,6 @@ public class PlayerCtrl : MonoBehaviour
     IEnumerator RightBlink()
     {
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + 5, tmp.y), 0.5f);
-        //Debug.Log(Mathf.Lerp(0, 10, 0.1f));
         yield return new WaitForSeconds(1f);
             rightBlink = false;
     }
@@ -149,11 +284,25 @@ public class PlayerCtrl : MonoBehaviour
         yield return new WaitForSeconds(1f);
         leftBlink = false;
     }
+    #endregion
 
-
+    #region 跳跃的方法
     public void StartJump()
     {
-       
         PlayerData.playerStartJump = true;
     }
+    #endregion
+
+    #region 协程延迟跳跃
+    IEnumerator Jump()
+    {
+        //ChangeState((sbyte)Data.AnimationCount.Jump);
+
+
+        //推迟多少时间进行跳跃
+        yield return new WaitForSeconds(0.1f);
+        PlayerData.playerStartJump = false;
+    }
+    #endregion
+
 }

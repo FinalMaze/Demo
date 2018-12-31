@@ -190,7 +190,10 @@
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCTouchPad.cs" />
     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
+    <Compile Include="Assets\Scripts\Animator\EnemyAnimator.cs" />
+    <Compile Include="Assets\Scripts\Animator\FriendAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Audio\ClipManager.cs" />
@@ -199,10 +202,11 @@
     <Compile Include="Assets\Scripts\PanelCtrl\LitMap.cs" />
     <Compile Include="Assets\Scripts\System\CharacterController2D.cs" />
     <Compile Include="Assets\Scripts\System\Data\Data.cs" />
+    <Compile Include="Assets\Scripts\System\Data\EnemyData.cs" />
+    <Compile Include="Assets\Scripts\System\Data\FriendData.cs" />
     <Compile Include="Assets\Scripts\System\Data\PlayerData.cs" />
     <Compile Include="Assets\Scripts\System\Main.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
-    <Compile Include="Assets\Scripts\TestInCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\EasyTouch\EasyTouch.cs" />
     <Compile Include="Assets\Scripts\UI\Interface\GameInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />

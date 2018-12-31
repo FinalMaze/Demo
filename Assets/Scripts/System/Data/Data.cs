@@ -17,8 +17,12 @@ public class Data
         Walk,
         Run,
         Jump,
-        Sway,
-
+        Jumping,
+        Attack,
+        Attack2,
+        Amass,
+        Cast,
+        JumpEnd,
 
         Max
     }

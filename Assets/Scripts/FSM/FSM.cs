@@ -38,6 +38,7 @@ public class FSMManager
         }
         if (state!=-1)
         {
+            Debug.Log(animationrCount);
             allState[state].OnExit();
         }
         state = animationrCount;

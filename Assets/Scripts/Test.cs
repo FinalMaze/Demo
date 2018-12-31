@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HedgehogTeam.EasyTouch;
 
 public class Test : MonoBehaviour {
 
-	public void De(Vector2 vector2)
+	public void TTT(Gesture gesture)
     {
-        Debug.Log(vector2);
+        Debug.Log(gesture.actionTime);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIManager : MonoBehaviour
 {
+    #region 单例
     private static AIManager instance;
     public static AIManager Instance
     {
@@ -24,9 +25,9 @@ public class AIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        //GameObject tmpBase = GameObject.FindGameObjectWithTag("PlayerParent");
-        //BulidPlayer(Data.playerPath, tmpBase.transform);
     }
+    #endregion
+
     #region 创建玩家角色
     public void BulidPlayer(string path,Transform tmpBase)
     {
@@ -34,6 +35,17 @@ public class AIManager : MonoBehaviour
         GameObject tmpPlayer = GameObject.Instantiate(tmpObj) as GameObject;
         tmpPlayer.AddComponent<PlayerCtrl>();
         tmpPlayer.transform.SetParent(tmpBase, false);
+    }
+    #endregion
+
+    #region 创建召唤兽
+    public void BuildFriend(string path,Transform player)
+    {
+        Object tmpObj = Resources.Load(path);
+        GameObject tmpPlayer = GameObject.Instantiate(tmpObj) as GameObject;
+        tmpPlayer.AddComponent<PlayerCtrl>();
+        tmpPlayer.transform.SetParent(player, false);
+
     }
     #endregion
 

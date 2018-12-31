@@ -73,8 +73,8 @@ public class EasyTouchWelcomeScreen : EditorWindow {
 	}
 
 	static EasyTouchWelcomeScreen(){
-		EditorApplication.playmodeStateChanged -= OnPlayModeChanged;
-		EditorApplication.playmodeStateChanged += OnPlayModeChanged;
+		//EditorApplication.playmodeStateChanged -= OnPlayModeChanged;
+		//EditorApplication.playmodeStateChanged += OnPlayModeChanged;
 		
 		showAtStartup = EditorPrefs.GetBool(PREFSHOWATSTARTUP, true);
 		
@@ -91,7 +91,7 @@ public class EasyTouchWelcomeScreen : EditorWindow {
 
 	static void OnPlayModeChanged(){
 		EditorApplication.update -= OpenAtStartup;
-		EditorApplication.playmodeStateChanged -= OnPlayModeChanged;
+		//EditorApplication.playmodeStateChanged -= OnPlayModeChanged;
 	}
 	
 	void OnEnable(){
