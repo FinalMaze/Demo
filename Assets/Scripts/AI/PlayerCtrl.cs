@@ -12,6 +12,11 @@ public class PlayerCtrl : MonoBehaviour
     FSMManager fsmManager;
     Animator animator;
     CharacterController2D control;
+    Transform playerR;
+
+    bool leftBlink = false;
+    bool rightBlink = false;
+
     private void Awake()
     {
         #region 初始化数据
@@ -19,6 +24,7 @@ public class PlayerCtrl : MonoBehaviour
         control = GetComponent<CharacterController2D>();
         fsmManager = new FSMManager();
         animator = GetComponent<Animator>();
+        playerR = GetComponent<Transform>();
         #endregion
         #region 添加玩家动画
         PlayerIdel playerIdel = new PlayerIdel(animator);
@@ -39,7 +45,7 @@ public class PlayerCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
-
+        #region 转向并移动
         if (ETCInput.GetAxis("Horizontal") > 0f)
         {
 
@@ -53,7 +59,16 @@ public class PlayerCtrl : MonoBehaviour
         {
             run = 0;
         }
-     
+        #endregion
+
+        if (rightBlink)
+        {
+            StartCoroutine("RightBlink");
+        }
+        if (leftBlink)
+        {
+            StartCoroutine("LeftBlink");
+        }
 
 
         #region 判断移动和跳跃
@@ -98,17 +113,47 @@ public class PlayerCtrl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayerData.playerStartJump = false;
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
     }
     public void ChangeState(sbyte animationCount)
     {
         fsmManager.ChangeState(animationCount);
     }
+
+    Vector2 tmp;
+    public void Blink()
+    {
+        if (!rightBlink&&!leftBlink)
+        {
+            tmp = transform.position;
+            if (playerR.localScale.x > 0)
+            {
+                rightBlink = true;
+            }
+            if (playerR.localScale.x < 0)
+            {
+                leftBlink = true;
+            }
+        }
+    }
+    IEnumerator RightBlink()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + 5, tmp.y), 0.5f);
+        //Debug.Log(Mathf.Lerp(0, 10, 0.1f));
+        yield return new WaitForSeconds(1f);
+            rightBlink = false;
+    }
+    IEnumerator LeftBlink()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - 5, tmp.y), 0.5f);
+        yield return new WaitForSeconds(1f);
+        leftBlink = false;
+    }
+
+
     public void StartJump()
     {
        
         PlayerData.playerStartJump = true;
-        //StartCoroutine("Jump");
     }
 }
