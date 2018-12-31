@@ -39,20 +39,36 @@ public class PlayerCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
-        run = Input.GetAxisRaw("Horizontal");
+
+        if (ETCInput.GetAxis("Horizontal") > 0f)
+        {
+
+            run = 1;
+        }
+        if (ETCInput.GetAxis("Horizontal") < 0f)
+        {
+            run = -1;
+        }
+        if (ETCInput.GetAxis("Horizontal")==0)
+        {
+            run = 0;
+        }
+     
+
 
         #region 判断移动和跳跃
         //判断是否在地面上
         if (!PlayerData.playerIsGround)
         {
-            PlayerData.playerWalk = false;
+            //PlayerData.playerWalk = false;
+            PlayerData.playerJumping = true;
             PlayerData.playerRun = false;
         }
-        //跳跃   todo
-        if (Input.GetKeyDown(KeyCode.Space))
+        else
         {
-            StartCoroutine("Jump");
+            PlayerData.playerJumping = false;
         }
+
         //如果不是跳跃状态，可以移动
         if (!PlayerData.playerJumping)
         {
@@ -71,20 +87,28 @@ public class PlayerCtrl : MonoBehaviour
     #region 协程跳跃
     IEnumerator Jump()
     {
-        ChangeState((sbyte)Data.AnimationCount.Jump);
+        //ChangeState((sbyte)Data.AnimationCount.Jump);
+
+        
         //推迟多少时间进行跳跃
-        yield return new WaitForSeconds(0.25f);
-        PlayerData.playerStartJump = true;
+        yield return new WaitForSeconds(0.1f);
+        PlayerData.playerStartJump = false;
     }
     #endregion
 
     private void FixedUpdate()
     {
+        PlayerData.playerStartJump = false;
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
     }
     public void ChangeState(sbyte animationCount)
     {
         fsmManager.ChangeState(animationCount);
     }
-
+    public void StartJump()
+    {
+       
+        PlayerData.playerStartJump = true;
+        //StartCoroutine("Jump");
+    }
 }

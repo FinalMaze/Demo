@@ -77,7 +77,6 @@ public class PlayerJump : FsmBase
     }
     public override void OnEnter()
     {
-        Debug.Log("Jump");
         PlayerData.playerJumping = true;
         animator.SetInteger("Index", 3);
     }

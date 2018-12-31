@@ -16,7 +16,7 @@ public class PlayerData
     public static float blood = 100f;
     public static float maxBlood = 100f;
     public static float runSpeed = 50f;
-    public static float jumpSpeed = 4f;
+    public static float jumpSpeed = 1f;
 
 
 }
