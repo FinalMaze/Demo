@@ -64,10 +64,10 @@ public class PlayerCtrl : MonoBehaviour
         if (!PlayerData.playerIsGround)
         {
             //PlayerData.playerWalk = false;
-            PlayerData.playerJumping = false;
             PlayerData.playerRun = false;
         }
         #endregion
+
 
         #region 转向并移动
         if (ETCInput.GetAxis("Horizontal") > 0f)
@@ -93,6 +93,11 @@ public class PlayerCtrl : MonoBehaviour
         if (ETCInput.GetAxis("Horizontal")==0)
         {
             run = 0;
+            Data.EasyTouch = false;
+        }
+        if (run!=0)
+        {
+            Data.EasyTouch = true;
         }
         #endregion
 
@@ -110,37 +115,38 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
-        if (PlayerData.playerStartJump)
+        if (PlayerData.playerIsGround&&!PlayerData.playerJumping)
         {
-            Debug.Log("Jump!!!");
-            ChangeState((sbyte)Data.AnimationCount.Jump);
+            if (PlayerData.playerStartJump)
+            {
+                Debug.Log("Jump!!!");
+                ChangeState((sbyte)Data.AnimationCount.Jump);
+            }
+            #region 判断是否播放Walk或Run动画
+                //如果在Walk状态，变换成Walk动作
+                if (Data.EasyTouch)
+                {
+                    ChangeState((sbyte)Data.AnimationCount.Walk);
+                }
+                //如果横轴为0，那么变成Idel状态
+                else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting)
+                {
+                    ChangeState((sbyte)Data.AnimationCount.Idel);
+                }
+                ////如果在run状态，变换成跑步动作
+                //if (PlayerData.playerRun)
+                //{
+                //    ChangeState((sbyte)Data.AnimationCount.Run);
+                //}
+                ////如果横轴为0，那么变成Idel状态
+                //else if (run == 0 && !PlayerData.Attacking)
+                //{
+                //    ChangeState((sbyte)Data.AnimationCount.Idel);
+                //}
+            #endregion
+
         }
-        #region 判断是否播放Walk或Run动画
-        //如果不是跳跃状态，可以移动
-        if (!PlayerData.playerJumping)
-        {
-            //如果在Walk状态，变换成Walk动作
-            if (PlayerData.playerWalk)
-            {
-                ChangeState((sbyte)Data.AnimationCount.Walk);
-            }
-            //如果横轴为0，那么变成Idel状态
-            else if (!PlayerData.playerWalk)
-            {
-                ChangeState((sbyte)Data.AnimationCount.Idel);
-            }
-            //如果在run状态，变换成跑步动作
-            if (PlayerData.playerRun)
-            {
-                ChangeState((sbyte)Data.AnimationCount.Run);
-            }
-            //如果横轴为0，那么变成Idel状态
-            else if (run==0)
-            {
-                ChangeState((sbyte)Data.AnimationCount.Idel);
-            }
-        }
-        #endregion
+
     }
 
 
@@ -169,7 +175,6 @@ public class PlayerCtrl : MonoBehaviour
     {
         
         float timeCount = gesture.actionTime;
-        Debug.Log(timeCount);
         if (timeCount<1f)
         {
             if (PlayerData.distance < PlayerData.throwDistance)
@@ -210,7 +215,6 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        Debug.Log("Attack!!!");
         PlayerData.Attack = true;
         //todo 伤害计算
         ChangeState((sbyte)Data.AnimationCount.Attack);
@@ -221,7 +225,7 @@ public class PlayerCtrl : MonoBehaviour
     public void ThrowFriend()
     {
         //变化动作   To Do
-        PlayerData.Cast = true;
+        ChangeState((sbyte)Data.AnimationCount.Cast);
         //if (transform.localScale.x>0)
         //{
         //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x+5,transform.position.y));
@@ -290,6 +294,7 @@ public class PlayerCtrl : MonoBehaviour
     public void StartJump()
     {
         PlayerData.playerStartJump = true;
+        ChangeState((sbyte)Data.AnimationCount.Jump);
     }
     #endregion
 

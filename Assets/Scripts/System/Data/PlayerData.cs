@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerData
 {
     #region 玩家的状态信息
-    public static bool Cast = false;
+    public static bool Casting = false;
     //是否蓄力
     public static bool Amass = false;
     //是否正在蓄力

@@ -15,30 +15,11 @@ public class PlayerIdel : FsmBase
     }
     public override void OnStay()
     {
-        if (PlayerData.playerStartJump)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Jump);
-        }
-        if (PlayerData.Attack)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Attack);
-        }
-        if (PlayerData.Cast)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Cast);
-        }
-        if (PlayerData.Amass)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Amass);
-        }
-        if (PlayerData.playerWalk)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Walk);
-        }
+ 
     }
     public override void OnExit()
     {
-
+        
     }
 }
 public class PlayerWalk : FsmBase
@@ -97,11 +78,12 @@ public class PlayerJump : FsmBase
     }
     public override void OnStay()
     {
-        if (PlayerData.playerIsGround)
+        timeCount += Time.deltaTime;
+
+        if (timeCount>0.1f&& PlayerData.playerIsGround)
         {
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.JumpEnd);
         }
-        timeCount += Time.deltaTime;
         if (timeCount>0.29f)
         {
             timeCount = 0;
@@ -130,6 +112,7 @@ public class PlayerJumping : FsmBase
         
         if (PlayerData.playerIsGround)
         {
+            Debug.Log(111);
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.JumpEnd);
         }
     }
@@ -149,12 +132,10 @@ public class PlayerJumpEnd : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.playerJumping = true;
         animator.SetInteger("Index", 9);
     }
     public override void OnStay()
     {
-        PlayerData.playerStartJump = false;
         timeCount += Time.deltaTime;
         if (timeCount > 0.05f)
         {
@@ -178,6 +159,7 @@ public class PlayerAttack : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Attacking = true;
         animator.SetInteger("Index", 5);
     }
     public override void OnStay()
@@ -248,14 +230,21 @@ public class PlayerCast : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Casting = true;
         animator.SetInteger("Index", 8);
     }
     public override void OnStay()
     {
-
+        timeCount += Time.deltaTime;
+        if (timeCount>0.39f)
+        {
+            timeCount = 0;
+            PlayerData.Casting = false;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        }
     }
     public override void OnExit()
     {
-
+       
     }
 }
