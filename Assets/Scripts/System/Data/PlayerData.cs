@@ -23,6 +23,8 @@ public class PlayerData
     public static bool Attack = false;
     //玩家是否正在攻击
     public static bool Attacking = false;
+    //开始二段攻击
+    public static bool Attack2Start = false;
     //玩家是否二段攻击
     public static bool Attack2 = false;
     //玩家是否正在二段攻击

@@ -112,7 +112,6 @@ public class PlayerJumping : FsmBase
         
         if (PlayerData.playerIsGround)
         {
-            Debug.Log(111);
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.JumpEnd);
         }
     }
@@ -152,24 +151,28 @@ public class PlayerJumpEnd : FsmBase
 public class PlayerAttack : FsmBase
 {
     Animator animator;
-    float timeCount;
+    public static float timeCount;
     public PlayerAttack(Animator tmpAnimator)
     {
         animator = tmpAnimator;
     }
     public override void OnEnter()
     {
+        PlayerData.Attack = false;
         PlayerData.Attacking = true;
         animator.SetInteger("Index", 5);
     }
     public override void OnStay()
     {
-        PlayerData.Attack = false;
         timeCount += Time.deltaTime;
+        if (timeCount>0.2f)
+        {
+            PlayerData.Attack2 = true;
+        }
         if (timeCount > 0.6f)
         {
-            Debug.Log("Attack End!!!");
             PlayerData.Attacking = false;
+            PlayerData.Attack2 = false;
             timeCount = 0;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
         }
@@ -189,11 +192,21 @@ public class PlayerAttack2 : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerAttack.timeCount = 0;
+        PlayerData.Attack2 = false;
+        PlayerData.Attacking2 = true;
         animator.SetInteger("Index", 6);
     }
     public override void OnStay()
     {
-
+        timeCount += Time.deltaTime;
+        if (timeCount > 0.8f)
+        {
+            PlayerData.Attacking = false;
+            PlayerData.Attacking2 = false;
+            timeCount = 0;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        }
     }
     public override void OnExit()
     {
@@ -240,7 +253,6 @@ public class PlayerCast : FsmBase
         timeCount += Time.deltaTime;
         if (timeCount>0.6f)
         {
-            Debug.Log("Cast End!!!");
             timeCount = 0;
             PlayerData.Casting = false;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);

@@ -118,6 +118,8 @@ public class PlayerCtrl : MonoBehaviour
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.playerJumping)
         {
+            //Debug.Log(PlayerData.Attacking);
+            //Debug.Log(PlayerData.Attacking2);
             if (PlayerData.playerStartJump)
             {
                 Debug.Log("Jump!!!");
@@ -130,7 +132,7 @@ public class PlayerCtrl : MonoBehaviour
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting&&!PlayerData.Amassing)
+            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting&&!PlayerData.Amassing&&!PlayerData.Attacking2)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -163,7 +165,6 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (gesture.actionTime > 0.5f && PlayerData.distance < PlayerData.throwDistance)
         {
-            Debug.Log("Amass!!!");
             Amass();
         }
         //else if (gesture.actionTime > 1f)
@@ -218,9 +219,16 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        PlayerData.Attack = true;
-        //todo 伤害计算
-        ChangeState((sbyte)Data.AnimationCount.Attack);
+        if (PlayerData.Attacking&&PlayerData.Attack2)
+        {
+            ChangeState((sbyte)Data.AnimationCount.Attack2);
+        }
+        else if (!PlayerData.Attacking&&!PlayerData.Attack2)
+        {
+            PlayerData.Attack = true;
+            //todo 伤害计算
+            ChangeState((sbyte)Data.AnimationCount.Attack);
+        }
     }
     #endregion
 

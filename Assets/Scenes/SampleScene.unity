@@ -2898,10 +2898,10 @@ MonoBehaviour:
   gesturePriority: 0
   StationaryTolerance: 15
   longTapTime: 0.4
-  swipeTolerance: 0.85
+  swipeTolerance: 0.2
   minPinchLength: 0
   minTwistAngle: 0
-  doubleTapDetection: 0
+  doubleTapDetection: 1
   doubleTapTime: 0.3
   alwaysSendSwipe: 0
   enable2FingersGesture: 1
@@ -2933,7 +2933,7 @@ MonoBehaviour:
   showGuiInspector: 0
   showSelectInspector: 0
   showGestureInspector: 1
-  showTwoFingerInspector: 1
+  showTwoFingerInspector: 0
   showSecondFingerInspector: 0
   secondFingerTexture: {fileID: 2800000, guid: d3686533aff0e2b4bac7a2a7faf73f7a, type: 3}
 --- !u!4 &2120948880
