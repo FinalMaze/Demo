@@ -84,7 +84,7 @@ public class PlayerJump : FsmBase
         {
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.JumpEnd);
         }
-        if (timeCount>0.29f)
+        if (timeCount>PlayerData.JumpTime)
         {
             timeCount = 0;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Jumping);
@@ -136,7 +136,7 @@ public class PlayerJumpEnd : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount > 0.05f)
+        if (timeCount > PlayerData.JumpEndTime)
         {
             PlayerData.playerJumping = false;
             timeCount = 0;
@@ -165,11 +165,11 @@ public class PlayerAttack : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>0.2f)
+        if (timeCount>PlayerData.Attack2StartTime)
         {
             PlayerData.Attack2 = true;
         }
-        if (timeCount > 0.6f)
+        if (timeCount > PlayerData.AttackTime)
         {
             PlayerData.Attacking = false;
             PlayerData.Attack2 = false;
@@ -200,7 +200,7 @@ public class PlayerAttack2 : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount > 0.8f)
+        if (timeCount > PlayerData.Attack2Time)
         {
             PlayerData.Attacking = false;
             PlayerData.Attacking2 = false;
@@ -251,7 +251,7 @@ public class PlayerCast : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>0.6f)
+        if (timeCount>PlayerData.CastTime)
         {
             timeCount = 0;
             PlayerData.Casting = false;
