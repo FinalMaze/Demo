@@ -16,9 +16,9 @@ public class FSMManager
     public FsmBase[] allState;
     sbyte stateCount = -1;
     sbyte state = -1;
-    public FSMManager()
+    public FSMManager(int count)
     {
-        allState = new FsmBase[(int)Data.AnimationCount.Max];
+        allState = new FsmBase[count];
     }
 
     public void AddState(FsmBase tmpFSM)

@@ -26,4 +26,18 @@ public class Data
 
         Max
     }
+
+    public enum FriendAnimationCount
+    {
+        Idel,
+        Move,
+        Attack,
+        Amass,
+        Amassing,
+        Back,
+
+
+        Max
+    }
+
 }

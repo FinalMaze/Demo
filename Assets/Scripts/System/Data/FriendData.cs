@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class FriendData
 {
+    #region 动作状态信息
     //是否在移动中
-    public static bool moving = false;
+    public static bool Moving = false;
+    //是否在攻击中
+    public static bool Attacking = false;
+
+    #endregion
+
+    #region 动作时间数据
+    //攻击动作的总时长
+    public static float AttackTime = 0.37f;
+
+    #endregion
+
+
     //进行跟随的距离
     public static float followDistance = 3f;
     //普通多长时间跟随到玩家

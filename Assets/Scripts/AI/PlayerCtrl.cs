@@ -23,7 +23,7 @@ public class PlayerCtrl : MonoBehaviour
         #region 初始化数据
         instance = this;
         control = GetComponent<CharacterController2D>();
-        fsmManager = new FSMManager();
+        fsmManager = new FSMManager((int)Data.AnimationCount.Max);
         animator = GetComponent<Animator>();
         playerR = GetComponent<Transform>();
         #endregion

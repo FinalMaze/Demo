@@ -6,6 +6,9 @@ public class FriendCtrl : MonoBehaviour
 {
     public static FriendCtrl Instance;
 
+    Animator animator;
+    FSMManager fsmManager;
+
     //玩家的位置
     Vector2 player;
     //与玩家相距的坐标点
@@ -15,9 +18,32 @@ public class FriendCtrl : MonoBehaviour
     //计时器
     float timeCount;
     bool canMove;
-    private void Update()
+    private void Start()
     {
         Instance = this;
+        fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
+        animator = GetComponent<Animator>();
+
+
+        #region 注册动画
+        FriendIdel friendIdel = new FriendIdel(animator);
+        fsmManager.AddState(friendIdel);
+        FriendMove friendMove = new FriendMove(animator);
+        fsmManager.AddState(friendMove);
+        FriendAttack friendAttack = new FriendAttack(animator);
+        fsmManager.AddState(friendAttack);
+        FriendAmass friendAmass = new FriendAmass(animator);
+        fsmManager.AddState(friendAmass);
+        FriendAmassing friendAmassing = new FriendAmassing(animator);
+        fsmManager.AddState(friendAmassing);
+        FriendBack friendBack = new FriendBack(animator);
+        fsmManager.AddState(friendBack);
+        #endregion
+
+    }
+    private void Update()
+    {
+        fsmManager.OnStay();
         player = AIManager.Instance.Player.transform.position;
         PlayerData.distance = Vector2.Distance(player, transform.position);
         timeCount += Time.deltaTime;
@@ -109,5 +135,10 @@ public class FriendCtrl : MonoBehaviour
         FriendData.moving = false;
     }
     #endregion
+
+    public void ChangeState(sbyte animationCount)
+    {
+        fsmManager.ChangeState(animationCount);
+    }
 
 }
