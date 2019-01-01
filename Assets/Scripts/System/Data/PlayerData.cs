@@ -37,7 +37,7 @@ public class PlayerData
 
 
     public static float runSpeed = 50f;
-    public static float jumpSpeed = 1f;
+   // public static float jumpSpeed = 1f;
 
     //玩家的路径
     public static string playerPath = "Prefabs/Player/Player";

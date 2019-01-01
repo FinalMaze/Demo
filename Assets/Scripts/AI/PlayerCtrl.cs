@@ -54,7 +54,7 @@ public class PlayerCtrl : MonoBehaviour
         //AIManager.Instance.BuildFriend("",transform);
     }
     float run;
-    float moveSpeed=PlayerData.runSpeed;
+    float moveSpeed = PlayerData.runSpeed;
     private void Update()
     {
         fsmManager.OnStay();
@@ -90,12 +90,12 @@ public class PlayerCtrl : MonoBehaviour
         //    PlayerData.playerWalk = true;
         //    run = -1;
         //}
-        if (ETCInput.GetAxis("Horizontal")==0)
+        if (ETCInput.GetAxis("Horizontal") == 0)
         {
             run = 0;
             Data.EasyTouch = false;
         }
-        if (run!=0)
+        if (run != 0)
         {
             Data.EasyTouch = true;
         }
@@ -115,7 +115,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
-        if (PlayerData.playerIsGround&&!PlayerData.playerJumping)
+        if (PlayerData.playerIsGround && !PlayerData.playerJumping)
         {
             if (PlayerData.playerStartJump)
             {
@@ -123,26 +123,26 @@ public class PlayerCtrl : MonoBehaviour
                 ChangeState((sbyte)Data.AnimationCount.Jump);
             }
             #region 判断是否播放Walk或Run动画
-                //如果在Walk状态，变换成Walk动作
-                if (Data.EasyTouch)
-                {
-                    ChangeState((sbyte)Data.AnimationCount.Walk);
-                }
-                //如果横轴为0，那么变成Idel状态
-                else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting)
-                {
-                    ChangeState((sbyte)Data.AnimationCount.Idel);
-                }
-                ////如果在run状态，变换成跑步动作
-                //if (PlayerData.playerRun)
-                //{
-                //    ChangeState((sbyte)Data.AnimationCount.Run);
-                //}
-                ////如果横轴为0，那么变成Idel状态
-                //else if (run == 0 && !PlayerData.Attacking)
-                //{
-                //    ChangeState((sbyte)Data.AnimationCount.Idel);
-                //}
+            //如果在Walk状态，变换成Walk动作
+            if (Data.EasyTouch)
+            {
+                ChangeState((sbyte)Data.AnimationCount.Walk);
+            }
+            //如果横轴为0，那么变成Idel状态
+            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting)
+            {
+                ChangeState((sbyte)Data.AnimationCount.Idel);
+            }
+            ////如果在run状态，变换成跑步动作
+            //if (PlayerData.playerRun)
+            //{
+            //    ChangeState((sbyte)Data.AnimationCount.Run);
+            //}
+            ////如果横轴为0，那么变成Idel状态
+            //else if (run == 0 && !PlayerData.Attacking)
+            //{
+            //    ChangeState((sbyte)Data.AnimationCount.Idel);
+            //}
             #endregion
 
         }
@@ -152,7 +152,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
         PlayerData.playerStartJump = false;
     }
@@ -160,7 +160,7 @@ public class PlayerCtrl : MonoBehaviour
     public void StayAttack(Gesture gesture)
     {
         float timeCount = gesture.actionTime;
-        if (timeCount > 0.5f&& PlayerData.distance < PlayerData.throwDistance)
+        if (timeCount > 0.5f && PlayerData.distance < PlayerData.throwDistance)
         {
             Amass();
         }
@@ -173,9 +173,9 @@ public class PlayerCtrl : MonoBehaviour
     #region 松开时的攻击方法
     public void AttackAI(Gesture gesture)
     {
-        
+
         float timeCount = gesture.actionTime;
-        if (timeCount<1f)
+        if (timeCount < 1f)
         {
             if (PlayerData.distance < PlayerData.throwDistance)
             {
@@ -187,7 +187,7 @@ public class PlayerCtrl : MonoBehaviour
                 Attack();
             }
         }
-        else if (timeCount>=1f)
+        else if (timeCount >= 1f)
         {
             if (PlayerData.distance < PlayerData.throwDistance)
             {
@@ -198,7 +198,7 @@ public class PlayerCtrl : MonoBehaviour
                 //FriendCtrl.Instance.GoToPlayer();
             }
         }
-        else if (timeCount>=3f)
+        else if (timeCount >= 3f)
         {
             Fit();
         }
@@ -234,7 +234,7 @@ public class PlayerCtrl : MonoBehaviour
         //{
         //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y));
         //}
-        
+
     }
     #endregion
 
@@ -263,7 +263,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void Blink()
     {
-        if (!rightBlink&&!leftBlink)
+        if (!rightBlink && !leftBlink)
         {
             tmp = transform.position;
             if (playerR.localScale.x > 0)
@@ -280,7 +280,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + 5, tmp.y), 0.5f);
         yield return new WaitForSeconds(1f);
-            rightBlink = false;
+        rightBlink = false;
     }
     IEnumerator LeftBlink()
     {
