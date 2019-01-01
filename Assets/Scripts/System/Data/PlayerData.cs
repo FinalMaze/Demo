@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerData
 {
     #region 玩家的状态信息
+    public static bool Cast = false;
     public static bool Casting = false;
     //是否蓄力
     public static bool Amass = false;
@@ -22,6 +23,10 @@ public class PlayerData
     public static bool Attack = false;
     //玩家是否正在攻击
     public static bool Attacking = false;
+    //玩家是否二段攻击
+    public static bool Attack2 = false;
+    //玩家是否正在二段攻击
+    public static bool Attacking2 = false;
     //玩家是否在地面上
     public static bool playerIsGround = true;
     //玩家是否被攻击

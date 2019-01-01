@@ -166,8 +166,9 @@ public class PlayerAttack : FsmBase
     {
         PlayerData.Attack = false;
         timeCount += Time.deltaTime;
-        if (timeCount > 0.35f)
+        if (timeCount > 0.6f)
         {
+            Debug.Log("Attack End!!!");
             PlayerData.Attacking = false;
             timeCount = 0;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
@@ -209,15 +210,15 @@ public class PlayerAmass : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Amassing = true;
         animator.SetInteger("Index", 7);
     }
     public override void OnStay()
     {
-
     }
     public override void OnExit()
     {
-
+        PlayerData.Amassing = false;
     }
 }
 public class PlayerCast : FsmBase
@@ -226,6 +227,7 @@ public class PlayerCast : FsmBase
     float timeCount;
     public PlayerCast(Animator tmpAnimator)
     {
+        PlayerData.Cast = false;
         animator = tmpAnimator;
     }
     public override void OnEnter()
@@ -236,8 +238,9 @@ public class PlayerCast : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>0.39f)
+        if (timeCount>0.6f)
         {
+            Debug.Log("Cast End!!!");
             timeCount = 0;
             PlayerData.Casting = false;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);

@@ -115,6 +115,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
+        #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.playerJumping)
         {
             if (PlayerData.playerStartJump)
@@ -129,7 +130,7 @@ public class PlayerCtrl : MonoBehaviour
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting)
+            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting&&!PlayerData.Amassing)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -146,6 +147,7 @@ public class PlayerCtrl : MonoBehaviour
             #endregion
 
         }
+        #endregion
 
     }
 
@@ -159,17 +161,18 @@ public class PlayerCtrl : MonoBehaviour
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
-        float timeCount = gesture.actionTime;
-        if (timeCount > 0.5f && PlayerData.distance < PlayerData.throwDistance)
+        if (gesture.actionTime > 0.5f && PlayerData.distance < PlayerData.throwDistance)
         {
+            Debug.Log("Amass!!!");
             Amass();
         }
-        else if (timeCount > 1f)
-        {
-            //FriendCtrl.Instance.GoToPlayer();
-        }
+        //else if (gesture.actionTime > 1f)
+        //{
+        //    //FriendCtrl.Instance.GoToPlayer();
+        //}
     }
     #endregion
+
     #region 松开时的攻击方法
     public void AttackAI(Gesture gesture)
     {
@@ -242,6 +245,8 @@ public class PlayerCtrl : MonoBehaviour
     public void Boom()
     {
         Debug.Log("Boom");
+        PlayerData.Cast = true;
+        ChangeState((sbyte)Data.AnimationCount.Cast);
     }
     #endregion
 
