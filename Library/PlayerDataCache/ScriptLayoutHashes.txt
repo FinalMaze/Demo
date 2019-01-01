@@ -91,7 +91,6 @@ f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 ca3ac0b37762af0a2124a1fd6e4bfbed Assembly-CSharp.dll:Cinemachine.CinemachineExternalCamera
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ETWindow
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Ball
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.FriendAnimator
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AIManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TwoDragMe
 6a8efab554b1045c2c9dd2e0836bac77 Assembly-CSharp.dll:HedgehogTeam.EasyTouch.QuickSwipe

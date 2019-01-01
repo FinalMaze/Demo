@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendIdel:FsmBase
+public class FriendIdel : FsmBase
 {
     Animator animator;
     public FriendIdel(Animator tmpAnimator)
@@ -40,7 +40,7 @@ public class FriendMove : FsmBase
     }
     public override void OnExit()
     {
-        FriendData.Moving = false; 
+        FriendData.Moving = false;
     }
 }
 public class FriendAttack : FsmBase
@@ -59,9 +59,11 @@ public class FriendAttack : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>FriendData.AttackTime)
+        if (timeCount > FriendData.AttackTime)
         {
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            timeCount = 0;
+            FriendData.Attacking = false;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
         }
     }
     public override void OnExit()
@@ -79,11 +81,17 @@ public class FriendAmass : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Amassing = true;
         animator.SetInteger("Index", 3);
     }
     public override void OnStay()
     {
-
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.AmassTime)
+        {
+            timeCount = 0;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+        }
     }
     public override void OnExit()
     {
@@ -107,7 +115,7 @@ public class FriendAmassing : FsmBase
     }
     public override void OnExit()
     {
-
+        FriendData.Amassing = false;
     }
 }
 public class FriendBack : FsmBase
@@ -120,10 +128,48 @@ public class FriendBack : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Backing = true;
         animator.SetInteger("Index", 5);
     }
     public override void OnStay()
     {
+        timeCount += Time.deltaTime;
+        FriendCtrl.Instance.GoToPlayer();
+        if (timeCount > FriendData.BackTime)
+        {
+            timeCount = 0;
+            FriendData.Backing = false;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+        }
+    }
+    public override void OnExit()
+    {
+
+    }
+}
+public class FriendCast : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public FriendCast(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        FriendData.Cast = false;
+        FriendData.Casting = true;
+        animator.SetInteger("Index", 6);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.CastTime)
+        {
+            timeCount = 0;
+            FriendData.Casting = false;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Attack);
+        }
 
     }
     public override void OnExit()

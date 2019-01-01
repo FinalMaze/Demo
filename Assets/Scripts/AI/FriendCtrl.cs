@@ -12,11 +12,17 @@ public class FriendCtrl : MonoBehaviour
     //玩家的位置
     Vector2 player;
     //与玩家相距的坐标点
-    public Vector2 distanceV=Vector2.one;
+    public Vector2 distanceV=Vector2.zero;
+    //将要被扔到的位置
+    private Vector2 target;
+    //与玩家x相距的距离
+    float distance;
     //跟随的速度
     private Vector2 velocity = Vector2.one;
     //计时器
     float timeCount;
+    //是否冲刺
+    bool blink = false;
     bool canMove;
     private void Start()
     {
@@ -38,6 +44,8 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.AddState(friendAmassing);
         FriendBack friendBack = new FriendBack(animator);
         fsmManager.AddState(friendBack);
+        FriendCast friendCast = new FriendCast(animator);
+        fsmManager.AddState(friendCast);
         #endregion
 
     }
@@ -54,9 +62,9 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
         #region 跟随的方法
-        if (PlayerData.distance > FriendData.followDistance&&!FriendData.moving)
+        if (PlayerData.distance > FriendData.followDistance&&!FriendData.Moving)
         {
-            FriendData.moving = true;
+            FriendData.Moving = true;
             if (player.x>transform.position.x)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -65,7 +73,7 @@ public class FriendCtrl : MonoBehaviour
         }
         if (PlayerData.distance > FriendData.followDistance*2)
         {
-            FriendData.moving = true;
+            FriendData.Moving = true;
             if (player.x < transform.position.x)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
@@ -75,14 +83,40 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
         #region 巡逻的方法
-        if (!FriendData.moving)
+        if (!FriendData.Moving)
         {
             StartCoroutine("Ran");
             StartCoroutine("Patrol");
         }
         #endregion
 
+        if (FriendData.Cast)
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+            blink = true;
+
+        }
+        if (blink)
+        {
+            StartCoroutine("Blink");
+        }
     }
+
+    #region 蓄力
+    public void Amass()
+    {
+        ChangeState((sbyte)Data.FriendAnimationCount.Amass);
+    }
+    #endregion
+
+    #region 冲刺
+    IEnumerator Blink()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, target, 0.2f);
+        yield return new WaitForSeconds(1f);
+        blink = false;
+    }
+    #endregion
 
     #region 合体
     public void Fit()
@@ -94,15 +128,33 @@ public class FriendCtrl : MonoBehaviour
     #region 扔召唤兽
     public void ThrowFriend(Vector2 target)
     {
-        transform.position = Vector2.MoveTowards(transform.position, target, 0.5f);
+        FriendData.Cast = true;
+        this.target = target;
     }
     #endregion
 
     #region 被召唤到玩家位置
     public void GoToPlayer()
     {
+        distance = player.x - transform.position.x;
+        if (distance>0)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+        if (distance<0)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        }
+        if (PlayerData.Dircetion>0)
+        {
+            distanceV = new Vector2(-0.45f, -0.1f);
+        }
+        if (PlayerData.Dircetion<0)
+        {
+            distanceV = new Vector2(0.45f, -0.1f);
+        }
         Debug.Log("对碰到的敌人造成伤害");
-        FriendData.moving = true;
+        FriendData.Moving = true;
         transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime);
     }
     #endregion
@@ -132,7 +184,7 @@ public class FriendCtrl : MonoBehaviour
         }
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + ran, transform.position.y), 0.5f);
         yield return new WaitForSeconds(1.5f);
-        FriendData.moving = false;
+        FriendData.Moving = false;
     }
     #endregion
 

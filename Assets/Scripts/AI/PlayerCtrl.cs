@@ -58,6 +58,8 @@ public class PlayerCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
+        PlayerData.Dircetion = transform.localScale.x;
+
 
         #region 判断是否能进行动作的前置条件
         //判断是否在地面上
@@ -120,11 +122,15 @@ public class PlayerCtrl : MonoBehaviour
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
+
+            #region 跳跃
             if (PlayerData.playerStartJump)
             {
                 Debug.Log("Jump!!!");
                 ChangeState((sbyte)Data.AnimationCount.Jump);
             }
+            #endregion
+
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
             if (Data.EasyTouch)
@@ -167,10 +173,10 @@ public class PlayerCtrl : MonoBehaviour
         {
             Amass();
         }
-        //else if (gesture.actionTime > 1f)
-        //{
-        //    //FriendCtrl.Instance.GoToPlayer();
-        //}
+        if (gesture.actionTime > 1f)
+        {
+            FriendCtrl.Instance.GoToPlayer();
+        }
     }
     #endregion
 
@@ -212,6 +218,8 @@ public class PlayerCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
+        FriendCtrl.Instance.GoToPlayer();
+        FriendCtrl.Instance.Amass();
         ChangeState((sbyte)Data.AnimationCount.Amass);
     }
     #endregion
@@ -237,14 +245,15 @@ public class PlayerCtrl : MonoBehaviour
     {
         //变化动作   To Do
         ChangeState((sbyte)Data.AnimationCount.Cast);
-        //if (transform.localScale.x>0)
-        //{
-        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x+5,transform.position.y));
-        //}
-        //if (transform.localScale.x < 0)
-        //{
-        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y));
-        //}
+        PlayerData.Cast = true;
+        if (transform.localScale.x > 0)
+        {
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x+ 5, 0));
+        }
+        if (transform.localScale.x < 0)
+        {
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x -5, 0));
+        }
 
     }
     #endregion
@@ -276,7 +285,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void Blink()
     {
-        if (!rightBlink && !leftBlink)
+        if (!rightBlink && !leftBlink&&!PlayerData.playerJumping)
         {
             tmp = transform.position;
             if (playerR.localScale.x > 0)
