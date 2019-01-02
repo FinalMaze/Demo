@@ -9,6 +9,9 @@ public class FriendCtrl : MonoBehaviour
     Animator animator;
     FSMManager fsmManager;
 
+
+    Rigidbody2D tmpRgb;
+    CircleCollider2D friendC;
     //玩家的位置
     Vector2 player;
     //与玩家相距的坐标点
@@ -29,6 +32,11 @@ public class FriendCtrl : MonoBehaviour
         Instance = this;
         fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
         animator = GetComponent<Animator>();
+        //tmpRgb = GetComponent<Rigidbody2D>();
+        //tmpRgb.gravityScale = 0;
+        friendC = GetComponent<CircleCollider2D>();
+        friendC.isTrigger = true;
+
 
 
         #region 注册动画
@@ -65,16 +73,24 @@ public class FriendCtrl : MonoBehaviour
         if (PlayerData.distance > FriendData.followDistance&&!FriendData.Moving)
         {
             FriendData.Moving = true;
-            if (player.x>transform.position.x)
+            if (PlayerData.Dircetion>0)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            }
+            if (PlayerData.Dircetion < 0)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
             transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
         }
         if (PlayerData.distance > FriendData.followDistance*2)
         {
             FriendData.Moving = true;
-            if (player.x < transform.position.x)
+            if (PlayerData.Dircetion > 0)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            }
+            if (PlayerData.Dircetion < 0)
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
@@ -89,6 +105,18 @@ public class FriendCtrl : MonoBehaviour
             StartCoroutine("Patrol");
         }
         #endregion
+
+        if (FriendData.Casting&&tmpRgb!=null)
+        {
+            Debug.Log("Cast");
+            StartCoroutine("Rigi");
+        }
+        if (FriendData.Backing)
+        {
+            friendC.isTrigger = true;
+            Destroy(tmpRgb);
+            tmpRgb = null;
+        }
 
         if (FriendData.Cast)
         {
@@ -131,27 +159,35 @@ public class FriendCtrl : MonoBehaviour
         FriendData.Cast = true;
         this.target = target;
     }
+    IEnumerator Rigi()
+    {
+        yield return new WaitForSeconds(0.2f);
+        friendC.isTrigger = false;
+        tmpRgb= gameObject.AddComponent<Rigidbody2D>();
+    }
     #endregion
 
     #region 被召唤到玩家位置
     public void GoToPlayer()
     {
         distance = player.x - transform.position.x;
-        if (distance>0)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        }
-        if (distance<0)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
+        //if (distance>0)
+        //{
+        //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        //}
+        //if (distance<0)
+        //{
+        //    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        //}
         if (PlayerData.Dircetion>0)
         {
-            distanceV = new Vector2(-0.45f, -0.1f);
+            distanceV = new Vector2(-0.25f, -0.27f);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
         if (PlayerData.Dircetion<0)
         {
-            distanceV = new Vector2(0.45f, -0.1f);
+            distanceV = new Vector2(0.25f, -0.27f);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
         Debug.Log("对碰到的敌人造成伤害");
         FriendData.Moving = true;

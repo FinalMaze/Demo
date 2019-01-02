@@ -264,6 +264,16 @@ public class PlayerCtrl : MonoBehaviour
         Debug.Log("Boom");
         PlayerData.Cast = true;
         ChangeState((sbyte)Data.AnimationCount.Cast);
+
+        if (transform.localScale.x > 0)
+        {
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, 0));
+        }
+        if (transform.localScale.x < 0)
+        {
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, 0));
+        }
+
     }
     #endregion
 

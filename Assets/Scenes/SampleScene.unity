@@ -1380,6 +1380,7 @@ GameObject:
   - component: {fileID: 1065634259}
   - component: {fileID: 1065634258}
   - component: {fileID: 1065634261}
+  - component: {fileID: 1065634262}
   m_Layer: 0
   m_Name: Firend
   m_TagString: Untagged
@@ -1475,6 +1476,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceV: {x: 0, y: 0}
+--- !u!58 &1065634262
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1065634257}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.13
 --- !u!1 &1075098240
 GameObject:
   m_ObjectHideFlags: 0
