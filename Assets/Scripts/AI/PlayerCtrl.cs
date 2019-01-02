@@ -14,6 +14,7 @@ public class PlayerCtrl : MonoBehaviour
     Animator animator;
     CharacterController2D control;
     Transform playerR;
+    Rigidbody2D rgb;
 
     bool leftBlink = false;
     bool rightBlink = false;
@@ -26,6 +27,7 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager = new FSMManager((int)Data.AnimationCount.Max);
         animator = GetComponent<Animator>();
         playerR = GetComponent<Transform>();
+        rgb = GetComponent<Rigidbody2D>();
         #endregion
         #region 添加玩家动画
         PlayerIdel playerIdel = new PlayerIdel(animator);
@@ -70,6 +72,20 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
+        #region 蓄力 中锁移动
+        if (PlayerData.Amassing)
+        {
+            rgb.constraints = RigidbodyConstraints2D.FreezePositionX|RigidbodyConstraints2D.FreezeRotation;
+        }
+        else
+        {
+            rgb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+        }
+        #endregion
+        
+
+        #region 判断是否进行投掷
+        #endregion
 
         #region 转向并移动
         if (ETCInput.GetAxis("Horizontal") > 0f)
@@ -133,12 +149,12 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Data.EasyTouch)
+            if (Data.EasyTouch && !PlayerData.Attacking&&!PlayerData.Attacking2&&!PlayerData.Amassing&&!PlayerData.Casting)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting&&!PlayerData.Amassing&&!PlayerData.Attacking2)
+            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -158,22 +174,26 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
     }
-
-
     private void FixedUpdate()
     {
 
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
         PlayerData.playerStartJump = false;
     }
+
+
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
-        if (gesture.actionTime > 0.5f && PlayerData.distance < PlayerData.throwDistance)
+        if (PlayerData.distance < PlayerData.throwDistance)
         {
-            Amass();
+            FriendCtrl.Instance.GoToPlayer();
+            if (gesture.actionTime>0.5f)
+            {
+                Amass();
+            }
         }
-        if (gesture.actionTime > 1f)
+        else if (PlayerData.distance > PlayerData.throwDistance&& gesture.actionTime > 1f)
         {
             FriendCtrl.Instance.GoToPlayer();
         }
@@ -185,40 +205,49 @@ public class PlayerCtrl : MonoBehaviour
     {
 
         float timeCount = gesture.actionTime;
-        if (timeCount < 1f)
+        if (timeCount >0.5f)
         {
             if (PlayerData.distance < PlayerData.throwDistance)
             {
-                Debug.Log("扔召唤兽了");
-                ThrowFriend();
+                if (PlayerData.Amassing)
+                {
+                    ThrowFriend();
+                }
+                else
+                {
+                    Debug.LogWarning("没在进行Amass");
+                }
             }
             else
             {
                 Attack();
             }
         }
-        else if (timeCount >= 1f)
+        else
         {
-            if (PlayerData.distance < PlayerData.throwDistance)
-            {
-                Boom();
-            }
-            else
-            {
-                //FriendCtrl.Instance.GoToPlayer();
-            }
+            Debug.Log("0.5秒以下");
         }
-        else if (timeCount >= 3f)
-        {
-            Fit();
-        }
+        //else if (timeCount >= 1f)
+        //{
+        //    if (PlayerData.distance < PlayerData.throwDistance)
+        //    {
+        //        Boom();
+        //    }
+        //    else
+        //    {
+        //        FriendCtrl.Instance.GoToPlayer();
+        //    }
+        //}
+        //else if (timeCount >= 3f)
+        //{
+        //    Fit();
+        //}
     }
     #endregion
 
     #region 蓄力
     public void Amass()
     {
-        FriendCtrl.Instance.GoToPlayer();
         FriendCtrl.Instance.Amass();
         ChangeState((sbyte)Data.AnimationCount.Amass);
     }
@@ -227,11 +256,11 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        if (PlayerData.Attacking&&PlayerData.Attack2)
+        if (PlayerData.Attacking && PlayerData.Attack2)
         {
             ChangeState((sbyte)Data.AnimationCount.Attack2);
         }
-        else if (!PlayerData.Attacking&&!PlayerData.Attack2)
+        else if (!PlayerData.Attacking && !PlayerData.Attack2)
         {
             PlayerData.Attack = true;
             //todo 伤害计算
@@ -243,16 +272,17 @@ public class PlayerCtrl : MonoBehaviour
     #region 扔召唤兽
     public void ThrowFriend()
     {
+        Debug.Log("进入扔的方法");
         //变化动作   To Do
-        ChangeState((sbyte)Data.AnimationCount.Cast);
         PlayerData.Cast = true;
+        ChangeState((sbyte)Data.AnimationCount.Cast);
         if (transform.localScale.x > 0)
         {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x+ 5, 0));
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y));
         }
         if (transform.localScale.x < 0)
         {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x -5, 0));
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y));
         }
 
     }
@@ -295,7 +325,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void Blink()
     {
-        if (!rightBlink && !leftBlink&&!PlayerData.playerJumping)
+        if (!rightBlink && !leftBlink && !PlayerData.playerJumping)
         {
             tmp = transform.position;
             if (playerR.localScale.x > 0)

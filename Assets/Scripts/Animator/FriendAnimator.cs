@@ -63,7 +63,6 @@ public class FriendAttack : FsmBase
         {
             timeCount = 0;
             FriendData.Attacking = false;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
         }
     }
     public override void OnExit()
@@ -81,6 +80,7 @@ public class FriendAmass : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Amass = false;
         FriendData.Amassing = true;
         animator.SetInteger("Index", 3);
     }
@@ -129,12 +129,12 @@ public class FriendBack : FsmBase
     public override void OnEnter()
     {
         FriendData.Backing = true;
+        FriendData.Back = false;
         animator.SetInteger("Index", 5);
     }
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        FriendCtrl.Instance.GoToPlayer();
         if (timeCount > FriendData.BackTime)
         {
             timeCount = 0;
@@ -168,7 +168,10 @@ public class FriendCast : FsmBase
         {
             timeCount = 0;
             FriendData.Casting = false;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Attack);
+            FriendData.Biging = true;
+            //变化到大型的动作流程
+
+            //FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Attack);
         }
 
     }

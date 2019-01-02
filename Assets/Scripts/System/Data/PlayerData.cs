@@ -21,11 +21,11 @@ public class PlayerData
 
     #endregion
 
-
-
     #region 玩家的状态信息
     //玩家面向的方向,大于0为正
     public static float Dircetion;
+
+    public static bool Ideling = false;
     //投掷
     public static bool Cast = false;
     public static bool Casting = false;
@@ -56,7 +56,6 @@ public class PlayerData
     //玩家是否被攻击
     public static bool playerAttacked = false;
     #endregion
-
 
     #region 玩家的数据信息
     public static float hp = 100f;

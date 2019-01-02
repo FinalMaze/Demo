@@ -11,6 +11,7 @@ public class PlayerIdel : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Ideling = true;
         animator.SetInteger("Index", 0);
     }
     public override void OnStay()
@@ -19,7 +20,7 @@ public class PlayerIdel : FsmBase
     }
     public override void OnExit()
     {
-        
+        PlayerData.Ideling = false;
     }
 }
 public class PlayerWalk : FsmBase
@@ -228,6 +229,7 @@ public class PlayerAmass : FsmBase
     }
     public override void OnStay()
     {
+
     }
     public override void OnExit()
     {
