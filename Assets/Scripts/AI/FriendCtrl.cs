@@ -97,7 +97,7 @@ public class FriendCtrl : MonoBehaviour
         {
             if (!FriendData.Attacking&& !FriendData.Backing && !FriendData.Casting&&!FriendData.Runing)
             {
-                Debug.Log(111111111111111);
+                Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
             }
         }
@@ -175,6 +175,7 @@ public class FriendCtrl : MonoBehaviour
         ChangeState((sbyte)Data.FriendAnimationCount.Back);
         yield return new WaitForSeconds(0.5f);
         back = false;
+        canPartol = false;
     }
     #endregion
 
@@ -335,7 +336,7 @@ public class FriendCtrl : MonoBehaviour
                 lastTime = Time.time;
                 ran = Random.Range(-5, 5);
                 tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
-                //Debug.Log(ran);
+                
             }
 
             StartCoroutine("IEPatrol");
@@ -389,7 +390,20 @@ public class FriendCtrl : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
         transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
-        yield return null;
+        if (canPartol)
+        {
+            if (Vector2.Distance(transform.position, tmpVec) != 0f)
+            {
+                Debug.Log("Want run");
+                ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+            }
+            else
+            {
+                FriendData.Runing = false;
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
+        canPartol = true;
     }
     #endregion
 

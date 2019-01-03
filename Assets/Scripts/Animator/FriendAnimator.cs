@@ -116,6 +116,10 @@ public class FriendAmassing : FsmBase
         {
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
+        else
+        {
+            FriendData.Runing = false;
+        }
     }
     public override void OnExit()
     {
@@ -214,15 +218,16 @@ public class FriendRun2 : FsmBase
     }
     public override void OnEnter()
     {
-        
         animator.SetInteger("Index", 8);
+        FriendData.Runing = true;
+        Debug.Log("Start run");
     }
     public override void OnStay()
     {
-        
+        Debug.Log("Runing");
     }
     public override void OnExit()
     {
-        
+        FriendData.Runing = false;
     }
 }
