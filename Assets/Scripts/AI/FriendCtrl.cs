@@ -12,6 +12,9 @@ public class FriendCtrl : MonoBehaviour
 
     Rigidbody2D tmpRgb;
     BoxCollider2D friendC;
+
+    //巡逻目标点
+    Vector2 tmpVec;
     //玩家的位置
     Vector2 player;
     //与玩家相距的坐标点
@@ -24,13 +27,16 @@ public class FriendCtrl : MonoBehaviour
     private Vector2 velocity = Vector2.one;
     //计时器
     float timeCount;
+    //上次记录的时间
+    float lastTime;
     //是否冲刺
     bool blink = false;
     //是否Back
     bool back = false;
     //是否amass
     bool amass = true;
-    bool canMove;
+    bool canMove=false;
+    bool canPartol=false;
     private void Start()
     {
         Instance = this;
@@ -39,7 +45,7 @@ public class FriendCtrl : MonoBehaviour
         //tmpRgb = GetComponent<Rigidbody2D>();
         //tmpRgb.gravityScale = 0;
         friendC = GetComponent<BoxCollider2D>();
-        friendC.isTrigger = true;
+        //friendC.isTrigger = true;
 
 
 
@@ -75,21 +81,257 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
         #region 巡逻
-        
+        Partol();
+        #endregion
+
+        #region 回到Idel的方法
+        //Debug.Log(!FriendData.Attacking);
+        //Debug.Log(!FriendData.Amassing);
+        //Debug.Log(!FriendData.Backing);
+        //Debug.Log(!FriendData.Casting);
+        if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting)
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+        }
+        #endregion
+
+        #region 判断什么时候被投掷
+        Throwed();
+        #endregion
+
+        #region 判断什么时候召回
+        Back();
+        #endregion
+    }
+
+    #region 蓄力
+    public void Amass()
+    {
         if (FriendData.Biging)
         {
-            if (timeCount>3&& !FriendData.Attacking)
-            {
-                timeCount = 0;
-                ran = Random.Range(-5, 5);
-                Debug.Log(ran);
-                //StartCoroutine("Patrol");
-            }
-            StartCoroutine("Patrol");
+            FriendData.Back = true;
+        }
+        GoToPlayer();
+        if (!FriendData.Amassing)
+        {
+            FriendData.Amass = true;
+            ChangeState((sbyte)Data.FriendAnimationCount.Amass);
         }
         else
         {
-            if (!FriendData.Casting&&!FriendData.Amassing&&!FriendData.Backing)
+            ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+        }
+    }
+    #endregion
+
+    #region Back
+    private void Back()
+    {
+        if (FriendData.Back)
+        {
+            //friendC.isTrigger = true;
+            friendC.size = new Vector2(0.47f, 0.2f);
+            friendC.offset = new Vector2(0, 0);
+            Destroy(GetComponent<Rigidbody2D>());
+            tmpRgb = null;
+
+            back = true;
+        }
+
+        if (back)
+        {
+            StartCoroutine("IEBack");
+        }
+
+    }
+
+    IEnumerator IEBack()
+    {
+        GoToPlayer(2);
+        FriendData.Biging = false;
+        if (distance>0)
+        {
+            transform.rotation =Quaternion.Euler(0, 180, 0);
+        }
+        if (distance < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        ChangeState((sbyte)Data.FriendAnimationCount.Back);
+        yield return new WaitForSeconds(0.5f);
+        back = false;
+    }
+    #endregion
+
+    #region 合体
+    public void Fit()
+    {
+
+    }
+    #endregion
+
+    #region 被扔出去
+    private void Throwed()
+    {
+        if (blink)
+        {
+            StartCoroutine("Blink");
+        }
+        if (FriendData.Cast)
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+        }
+        //添加和销毁刚体
+        if (FriendData.Casting)
+        {
+            StartCoroutine("AddRigibody");
+        }
+    }
+
+
+
+    public void ThrowFriend(Vector2 target)
+    {
+        Debug.Log("进入被扔的方法");
+        FriendData.Cast = true;
+        this.target = target;
+        if (animator.GetInteger("Index")!=4)
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+            #region 移动到玩家手的位置
+            if (PlayerData.Dircetion > 0)
+            {
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(-0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            }
+            if (PlayerData.Dircetion < 0)
+            {
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+            }
+            transform.position = player + distanceV;
+
+            #endregion
+        }
+        else
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+        }
+        blink = true;
+        StartCoroutine("BigTime");
+    }
+
+
+
+    IEnumerator Blink()
+    {
+        if (target.x<transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (target.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        transform.position = Vector2.MoveTowards(transform.position, target, 0.2f);
+        yield return new WaitForSeconds(1f);
+        blink = false;
+    }
+
+    IEnumerator AddRigibody()
+    {
+        //0.5秒后更改碰撞器大小，添加刚体组件并设置
+        yield return new WaitForSeconds(0.5f);
+        friendC.size = new Vector2(1.8f, 0.8f);
+        friendC.offset = new Vector2(0, -0.3f);
+        if (tmpRgb == null)
+        {
+            gameObject.AddComponent<Rigidbody2D>();
+            tmpRgb = GetComponent<Rigidbody2D>();
+        }
+        tmpRgb.freezeRotation = true;
+        tmpRgb.mass = 100;
+        tmpRgb.gravityScale = 100;
+    }
+    #endregion
+
+    #region 被召唤到玩家位置
+    public void GoToPlayer(float timeRatio=1)
+    {
+        distance = player.x - transform.position.x;
+        //if (distance>0)
+        //{
+        //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        //}
+        //if (distance<0)
+        //{
+        //    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        //}
+        if (PlayerData.Dircetion > 0)
+        {
+            if (back)
+            {
+                distanceV = Vector2.zero;
+            }
+            else
+            {
+                distanceV = new Vector2(-0.25f, -0.27f);
+            }
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+        if (PlayerData.Dircetion < 0)
+        {
+            if (back)
+            {
+                distanceV = Vector2.zero;
+            }
+            else
+            {
+                distanceV = new Vector2(0.25f, -0.27f);
+            }
+            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        }
+        FriendData.Moving = true;
+        transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime* timeRatio);
+    }
+    #endregion
+
+    #region 巡逻
+    private void Partol()
+    {
+        //Debug.Log(FriendData.Biging);
+        if (FriendData.Biging)
+        {
+            if (Time.time - lastTime > FriendData.PartolTime && !FriendData.Attacking)
+            {
+                lastTime = Time.time;
+                ran = Random.Range(-5, 5);
+                tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
+                //Debug.Log(ran);
+                //StartCoroutine("Patrol");
+            }
+
+            StartCoroutine("IEPatrol");
+        }
+        else
+        {
+            //Debug.Log(!FriendData.Amassing);
+            //Debug.Log(!back);
+            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing&&!back)
             {
                 #region 跟随
                 if (PlayerData.distance > FriendData.followDistance)
@@ -115,148 +357,15 @@ public class FriendCtrl : MonoBehaviour
                     {
                         transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     }
-                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
+                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime*0.5f);
                 }
                 #endregion
             }
         }
-        #endregion
-
-        #region 回到Idel的方法
-        //Debug.Log(!FriendData.Attacking);
-        //Debug.Log(!FriendData.Amassing);
-        //Debug.Log(!FriendData.Backing);
-        //Debug.Log(!FriendData.Casting);
-        if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting)
-        {
-            ChangeState((sbyte)Data.FriendAnimationCount.Idel);
-        }
-        #endregion
-
-        #region 被投掷的方法
-        if (blink)
-        {
-            StartCoroutine("Blink");
-        }
-        //添加和销毁刚体
-        if (FriendData.Casting)
-        {
-            StartCoroutine("Rigi");
-        }
-        if (FriendData.Back)
-        {
-            friendC.isTrigger = true;
-            friendC.size = new Vector2(0.47f, 0.2f);
-            friendC.offset = new Vector2(0, 0);
-            Destroy(GetComponent<Rigidbody2D>());
-            tmpRgb = null;
-
-            back = true;
-        }
-
-        if (back)
-        {
-            StartCoroutine("Back");
-        }
-        #endregion
-    }
-
-    #region 蓄力
-    public void Amass()
-    {
-        GoToPlayer();
-        if (!FriendData.Amassing)
-        {
-            FriendData.Amass = true;
-            ChangeState((sbyte)Data.FriendAnimationCount.Amass);
-        }
-        else
-        {
-            ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
-        }
-    }
-    #endregion
-
-    #region 冲刺
-    IEnumerator Blink()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, target, 0.2f);
-        yield return new WaitForSeconds(1f);
-        blink = false;
-    }
-    #endregion
-
-    #region Back
-    IEnumerator Back()
-    {
-        GoToPlayer();
-        ChangeState((sbyte)Data.FriendAnimationCount.Back);
-        yield return new WaitForSeconds(1f);
-        back = false;
-    }
-    #endregion
-
-    #region 合体
-    public void Fit()
-    {
 
     }
-    #endregion
 
-    #region 被扔出去
-    public void ThrowFriend(Vector2 target)
-    {
-        FriendData.Cast = true;
-        this.target = target;
-        ChangeState((sbyte)Data.FriendAnimationCount.Cast);
-        blink = true;
-        StartCoroutine("BigTime");
-    }
-    IEnumerator Rigi()
-    {
-        yield return new WaitForSeconds(0.2f);
-        friendC.isTrigger = false;
-        friendC.size = new Vector2(1.8f, 0.8f);
-        friendC.offset = new Vector2(0, -0.18f);
-        if (tmpRgb == null)
-        {
-            gameObject.AddComponent<Rigidbody2D>();
-            tmpRgb = GetComponent<Rigidbody2D>();
-        }
-        tmpRgb.mass = 100;
-        tmpRgb.gravityScale = 100;
-    }
-    #endregion
-
-    #region 被召唤到玩家位置
-    public void GoToPlayer()
-    {
-        distance = player.x - transform.position.x;
-        //if (distance>0)
-        //{
-        //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        //}
-        //if (distance<0)
-        //{
-        //    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        //}
-        if (PlayerData.Dircetion > 0)
-        {
-            distanceV = new Vector2(-0.25f, -0.27f);
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        }
-        if (PlayerData.Dircetion < 0)
-        {
-            distanceV = new Vector2(0.25f, -0.27f);
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
-        FriendData.Moving = true;
-        transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime);
-    }
-    #endregion
-
-    #region 巡逻
-    IEnumerator Patrol()
+    IEnumerator IEPatrol()
     {
         if (ran > 0)
         {
@@ -266,9 +375,9 @@ public class FriendCtrl : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + ran, transform.position.y), 0.5f);
-        yield return new WaitForSeconds(1.5f);
-        FriendData.Moving = false;
+        
+        transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
+        yield return null;
     }
     #endregion
 

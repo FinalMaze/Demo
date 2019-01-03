@@ -185,17 +185,24 @@ public class PlayerCtrl : MonoBehaviour
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
-        if (PlayerData.distance < PlayerData.throwDistance)
+        if (!FriendData.Biging)
         {
-            FriendCtrl.Instance.GoToPlayer();
-            if (gesture.actionTime>0.5f)
+            if (PlayerData.distance < PlayerData.throwDistance)
             {
-                Amass();
+                FriendCtrl.Instance.GoToPlayer();
+                if (gesture.actionTime > 0.5f)
+                {
+                    Amass();
+                }
+            }
+            else if (PlayerData.distance > PlayerData.throwDistance && gesture.actionTime > 1f)
+            {
+                FriendCtrl.Instance.GoToPlayer();
             }
         }
-        else if (PlayerData.distance > PlayerData.throwDistance&& gesture.actionTime > 1f)
+        else
         {
-            FriendCtrl.Instance.GoToPlayer();
+            Debug.Log("变大中，暂时还不能召回");
         }
     }
     #endregion
@@ -256,7 +263,11 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        if (PlayerData.Attacking && PlayerData.Attack2)
+        if (PlayerData.distance<1f)
+        {
+            ThrowFriend();
+        }
+        else if (PlayerData.Attacking && PlayerData.Attack2)
         {
             ChangeState((sbyte)Data.AnimationCount.Attack2);
         }
@@ -270,19 +281,21 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 扔召唤兽
+    //直接扔
+
+    //蓄力扔
     public void ThrowFriend()
     {
-        Debug.Log("进入扔的方法");
         //变化动作   To Do
         PlayerData.Cast = true;
         ChangeState((sbyte)Data.AnimationCount.Cast);
         if (transform.localScale.x > 0)
         {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y));
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y+0.4f));
         }
         if (transform.localScale.x < 0)
         {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y));
+            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y+0.4f));
         }
 
     }

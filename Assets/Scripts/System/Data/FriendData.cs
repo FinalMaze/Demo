@@ -32,17 +32,20 @@ public class FriendData
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
-    public static float BackTime = 0.2f;
+    public static float BackTime = 0.05f;
     //投掷动作的总时长
-    public static float CastTime = 0.31f;
+    public static float CastTime = 0.5f;
 
     #endregion
 
-
+    #region 基础数据
+    //巡逻的时间间隔
+    public static float PartolTime = 1.5f;
     //进行跟随的距离
     public static float followDistance = 3f;
     //普通多长时间跟随到玩家
     public static float smoothTime = 2f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
+    #endregion
 }

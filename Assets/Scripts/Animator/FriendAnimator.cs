@@ -101,6 +101,7 @@ public class FriendAmass : FsmBase
 public class FriendAmassing : FsmBase
 {
     Animator animator;
+    float timeCount;
     public FriendAmassing(Animator tmpAnimator)
     {
         animator = tmpAnimator;
@@ -111,11 +112,14 @@ public class FriendAmassing : FsmBase
     }
     public override void OnStay()
     {
-
+        if (FriendData.Cast)
+        {
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+        }
     }
     public override void OnExit()
     {
-        FriendData.Amassing = false;
+        
     }
 }
 public class FriendBack : FsmBase
@@ -157,6 +161,7 @@ public class FriendCast : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Amassing = false;
         FriendData.Cast = false;
         FriendData.Casting = true;
         animator.SetInteger("Index", 6);
