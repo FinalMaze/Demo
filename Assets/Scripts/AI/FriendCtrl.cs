@@ -185,8 +185,8 @@ public class FriendCtrl : MonoBehaviour
         {
             if (!FriendData.Backing)
             {
-                Debug.Log("Change");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+                Debug.Log("从这里变回Idel");
             }
         }
         else
@@ -276,7 +276,11 @@ public class FriendCtrl : MonoBehaviour
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
         blink = true;
-        StartCoroutine("BigTime");
+        if (FriendData.Biging)
+        {
+            Debug.Log("从这里变回Idel");
+            StartCoroutine("BigTime");
+        }
     }
 
 

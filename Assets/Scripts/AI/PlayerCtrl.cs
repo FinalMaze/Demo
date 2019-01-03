@@ -181,13 +181,21 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.playerStartJump = false;
     }
 
+    #region 长按开始时调用的方法
+    float tmpDis;
+    public void GetMessage()
+    {
+        tmpDis = PlayerData.distance;
+    }
+
+    #endregion
 
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
         if (!FriendData.Biging&&!FriendData.Backing)
         {
-            if (PlayerData.distance < PlayerData.throwDistance)
+            if (tmpDis < PlayerData.throwDistance)
             {
                 FriendCtrl.Instance.GoToPlayer();
                 if (gesture.actionTime > 0.5f)
@@ -195,7 +203,7 @@ public class PlayerCtrl : MonoBehaviour
                     Amass();
                 }
             }
-            else if (PlayerData.distance > PlayerData.throwDistance && gesture.actionTime > 1f)
+            else if (tmpDis > PlayerData.throwDistance && gesture.actionTime > 1f)
             {
                 FriendCtrl.Instance.GoToPlayer();
             }
