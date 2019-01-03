@@ -36,6 +36,8 @@ public class Data
         Amassing,
         Back,
         Cast,
+        Idel2,
+        Run2,
 
 
         Max

@@ -176,12 +176,53 @@ public class FriendCast : FsmBase
             FriendData.Biging = true;
             //变化到大型的动作流程
 
-            //FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Attack);
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
         }
 
     }
     public override void OnExit()
     {
 
+    }
+}
+public class FriendIdel2 : FsmBase
+{
+    Animator animator;
+    public FriendIdel2(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        animator.SetInteger("Index", 7);
+    }
+    public override void OnStay()
+    {
+
+    }
+    public override void OnExit()
+    {
+
+    }
+}
+public class FriendRun2 : FsmBase
+{
+    Animator animator;
+    public FriendRun2(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        
+        animator.SetInteger("Index", 8);
+    }
+    public override void OnStay()
+    {
+        
+    }
+    public override void OnExit()
+    {
+        
     }
 }

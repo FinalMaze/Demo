@@ -23,6 +23,8 @@ public class FriendData
     public static bool Casting = false;
     //是否在变大的状态
     public static bool Biging = false;
+    //是否在Run2状态
+    public static bool Runing = false;
 
     #endregion
 

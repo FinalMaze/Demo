@@ -64,6 +64,10 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.AddState(friendBack);
         FriendCast friendCast = new FriendCast(animator);
         fsmManager.AddState(friendCast);
+        FriendIdel2 friendIdel2 = new FriendIdel2(animator);
+        fsmManager.AddState(friendIdel2);
+        FriendRun2 friendRun2 = new FriendRun2(animator);
+        fsmManager.AddState(friendRun2);
         #endregion
 
     }
@@ -89,9 +93,20 @@ public class FriendCtrl : MonoBehaviour
         //Debug.Log(!FriendData.Amassing);
         //Debug.Log(!FriendData.Backing);
         //Debug.Log(!FriendData.Casting);
-        if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting)
+        if (FriendData.Biging)
         {
-            ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            if (!FriendData.Attacking&& !FriendData.Backing && !FriendData.Casting&&!FriendData.Runing)
+            {
+                Debug.Log(111111111111111);
+                ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+        }
+        else
+        {
+            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting)
+            {
+                ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
         }
         #endregion
 
@@ -192,7 +207,6 @@ public class FriendCtrl : MonoBehaviour
 
     public void ThrowFriend(Vector2 target)
     {
-        Debug.Log("进入被扔的方法");
         FriendData.Cast = true;
         this.target = target;
         if (animator.GetInteger("Index")!=4)
@@ -322,7 +336,6 @@ public class FriendCtrl : MonoBehaviour
                 ran = Random.Range(-5, 5);
                 tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
                 //Debug.Log(ran);
-                //StartCoroutine("Patrol");
             }
 
             StartCoroutine("IEPatrol");
@@ -375,7 +388,6 @@ public class FriendCtrl : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
-        
         transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
         yield return null;
     }
