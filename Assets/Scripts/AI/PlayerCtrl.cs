@@ -263,7 +263,7 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        if (PlayerData.distance<1f)
+        if (PlayerData.distance<1f&&!FriendData.Backing)
         {
             ThrowFriend();
         }
@@ -271,7 +271,7 @@ public class PlayerCtrl : MonoBehaviour
         {
             ChangeState((sbyte)Data.AnimationCount.Attack2);
         }
-        else if (!PlayerData.Attacking && !PlayerData.Attack2)
+        else if (!PlayerData.Attack2)
         {
             PlayerData.Attack = true;
             //todo 伤害计算

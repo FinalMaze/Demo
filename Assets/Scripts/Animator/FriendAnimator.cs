@@ -11,6 +11,7 @@ public class FriendIdel : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Biging = false;
         animator.SetInteger("Index", 0);
     }
     public override void OnStay()
