@@ -49,5 +49,7 @@ public class FriendData
     public static float smoothTime = 2f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
+    //变大的持续时间
+    public static float BigTime = 4f;
     #endregion
 }

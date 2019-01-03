@@ -185,7 +185,7 @@ public class PlayerCtrl : MonoBehaviour
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
-        if (!FriendData.Biging)
+        if (!FriendData.Biging&&!FriendData.Backing)
         {
             if (PlayerData.distance < PlayerData.throwDistance)
             {
@@ -202,7 +202,11 @@ public class PlayerCtrl : MonoBehaviour
         }
         else
         {
-            Debug.Log("变大中，暂时还不能召回");
+            if (gesture.actionTime>0.3f)
+            {
+                FriendData.Back = true;
+                return;
+            }
         }
     }
     #endregion
@@ -210,45 +214,38 @@ public class PlayerCtrl : MonoBehaviour
     #region 松开时的攻击方法
     public void AttackAI(Gesture gesture)
     {
-
-        float timeCount = gesture.actionTime;
-        if (timeCount >0.5f)
+        if (!FriendData.Biging&&!FriendData.Backing)
         {
-            if (PlayerData.distance < PlayerData.throwDistance)
+            float timeCount = gesture.actionTime;
+            if (timeCount > 0.5f)
             {
-                if (PlayerData.Amassing)
+                if (PlayerData.distance < PlayerData.throwDistance)
                 {
-                    ThrowFriend();
+                    if (PlayerData.Amassing)
+                    {
+                        ThrowFriend();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("没在进行Amass");
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning("没在进行Amass");
+                    Attack();
                 }
             }
             else
             {
-                Attack();
+                Debug.Log("0.5秒以下");
             }
         }
         else
         {
-            Debug.Log("0.5秒以下");
+            Debug.Log("在Biging状态");
+            Debug.Log(FriendData.Biging);
+            Debug.Log(FriendData.Backing);
         }
-        //else if (timeCount >= 1f)
-        //{
-        //    if (PlayerData.distance < PlayerData.throwDistance)
-        //    {
-        //        Boom();
-        //    }
-        //    else
-        //    {
-        //        FriendCtrl.Instance.GoToPlayer();
-        //    }
-        //}
-        //else if (timeCount >= 3f)
-        //{
-        //    Fit();
-        //}
     }
     #endregion
 

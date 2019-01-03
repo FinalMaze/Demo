@@ -103,8 +103,9 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting)
+            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting&&!FriendData.Biging)
             {
+                Debug.Log("强制Idel1");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             }
         }
@@ -139,7 +140,17 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
-    #region Back
+    #region 变小的两种方法
+
+    #region 变小
+    private void Small()
+    {
+        ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+        StartCoroutine("DelRigibody");
+    }
+    #endregion
+
+    #region 召回
     private void Back()
     {
         if (FriendData.Back)
@@ -149,7 +160,6 @@ public class FriendCtrl : MonoBehaviour
             friendC.offset = new Vector2(0, 0);
             Destroy(GetComponent<Rigidbody2D>());
             tmpRgb = null;
-
             back = true;
         }
 
@@ -163,7 +173,6 @@ public class FriendCtrl : MonoBehaviour
     IEnumerator IEBack()
     {
         GoToPlayer(2);
-        FriendData.Biging = false;
         if (distance>0)
         {
             transform.rotation =Quaternion.Euler(0, 180, 0);
@@ -172,11 +181,24 @@ public class FriendCtrl : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        ChangeState((sbyte)Data.FriendAnimationCount.Back);
+        if (animator.GetInteger("Index")==5)
+        {
+            if (!FriendData.Backing)
+            {
+                Debug.Log("Change");
+                ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
+        }
+        else
+        {
+            ChangeState((sbyte)Data.FriendAnimationCount.Back);
+        }
         yield return new WaitForSeconds(0.5f);
         back = false;
         canPartol = false;
     }
+    #endregion
+
     #endregion
 
     #region 合体
@@ -266,7 +288,11 @@ public class FriendCtrl : MonoBehaviour
         yield return new WaitForSeconds(1f);
         blink = false;
     }
+    #endregion
 
+
+    #region 添加和销毁刚体
+    //添加刚体
     IEnumerator AddRigibody()
     {
         //0.5秒后更改碰撞器大小，添加刚体组件并设置
@@ -281,6 +307,17 @@ public class FriendCtrl : MonoBehaviour
         tmpRgb.freezeRotation = true;
         tmpRgb.mass = 100;
         tmpRgb.gravityScale = 100;
+    }
+
+    //销毁刚体
+    IEnumerator DelRigibody()
+    {
+        friendC.size = new Vector2(0.47f, 0.2f);
+        friendC.offset = new Vector2(0, 0);
+        Destroy(GetComponent<Rigidbody2D>());
+        tmpRgb = null;
+        yield return new WaitForSeconds(0.5f);
+        canPartol = false;
     }
     #endregion
 
@@ -394,7 +431,6 @@ public class FriendCtrl : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, tmpVec) != 0f)
             {
-                Debug.Log("Want run");
                 ChangeState((sbyte)Data.FriendAnimationCount.Run2);
             }
             else
@@ -410,8 +446,9 @@ public class FriendCtrl : MonoBehaviour
     #region 变大的总时长
     IEnumerator BigTime()
     {
-        yield return new WaitForSeconds(4f);
-        FriendData.Back = true;
+        yield return new WaitForSeconds(FriendData.BigTime);
+        //FriendData.Back = true;
+        Small();
     }
     #endregion
 

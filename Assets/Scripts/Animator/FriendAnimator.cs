@@ -169,6 +169,7 @@ public class FriendCast : FsmBase
         FriendData.Amassing = false;
         FriendData.Cast = false;
         FriendData.Casting = true;
+        FriendData.Biging = true;
         animator.SetInteger("Index", 6);
     }
     public override void OnStay()
@@ -178,7 +179,6 @@ public class FriendCast : FsmBase
         {
             timeCount = 0;
             FriendData.Casting = false;
-            FriendData.Biging = true;
             //变化到大型的动作流程
 
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -221,11 +221,10 @@ public class FriendRun2 : FsmBase
     {
         animator.SetInteger("Index", 8);
         FriendData.Runing = true;
-        Debug.Log("Start run");
     }
     public override void OnStay()
     {
-        Debug.Log("Runing");
+
     }
     public override void OnExit()
     {
