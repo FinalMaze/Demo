@@ -97,7 +97,7 @@ public class FriendCtrl : MonoBehaviour
         {
             if (!FriendData.Attacking&& !FriendData.Backing && !FriendData.Casting&&!FriendData.Runing)
             {
-                Debug.Log("强制Idel2");
+                //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
             }
         }
@@ -105,7 +105,7 @@ public class FriendCtrl : MonoBehaviour
         {
             if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting&&!FriendData.Biging)
             {
-                Debug.Log("强制Idel1");
+                //Debug.Log("强制Idel1");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             }
         }
@@ -145,8 +145,8 @@ public class FriendCtrl : MonoBehaviour
     #region 变小
     private void Small()
     {
-        ChangeState((sbyte)Data.FriendAnimationCount.Idel);
         StartCoroutine("DelRigibody");
+        ChangeState((sbyte)Data.FriendAnimationCount.Idel);
     }
     #endregion
 
@@ -209,6 +209,7 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被扔出去
+    bool tmpRigi = true;
     private void Throwed()
     {
         if (blink)
@@ -217,12 +218,18 @@ public class FriendCtrl : MonoBehaviour
         }
         if (FriendData.Cast)
         {
+            Debug.Log(FriendData.Cast);
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
-        //添加和销毁刚体
+        //添加刚体
         if (FriendData.Casting)
         {
-            StartCoroutine("AddRigibody");
+            if (tmpRigi)
+            {
+                Debug.Log("调用添加刚体的方法");
+                StartCoroutine("AddRigibody");
+            }
+
         }
     }
 
@@ -285,7 +292,7 @@ public class FriendCtrl : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         transform.position = Vector2.MoveTowards(transform.position, target, 0.2f);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         blink = false;
     }
     #endregion
@@ -295,10 +302,13 @@ public class FriendCtrl : MonoBehaviour
     //添加刚体
     IEnumerator AddRigibody()
     {
+        tmpRigi = false;
         //0.5秒后更改碰撞器大小，添加刚体组件并设置
         yield return new WaitForSeconds(0.5f);
         friendC.size = new Vector2(1.8f, 0.8f);
         friendC.offset = new Vector2(0, -0.3f);
+
+        Debug.Log("添加刚体");
         if (tmpRgb == null)
         {
             gameObject.AddComponent<Rigidbody2D>();
@@ -312,12 +322,14 @@ public class FriendCtrl : MonoBehaviour
     //销毁刚体
     IEnumerator DelRigibody()
     {
+        Debug.Log("销毁刚体");
         friendC.size = new Vector2(0.47f, 0.2f);
         friendC.offset = new Vector2(0, 0);
         Destroy(GetComponent<Rigidbody2D>());
         tmpRgb = null;
         yield return new WaitForSeconds(0.5f);
         canPartol = false;
+        tmpRigi = true;
     }
     #endregion
 
@@ -426,11 +438,12 @@ public class FriendCtrl : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
-        transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
         if (canPartol)
         {
+            transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
             if (Vector2.Distance(transform.position, tmpVec) != 0f)
             {
+                Debug.Log("巡逻中");
                 ChangeState((sbyte)Data.FriendAnimationCount.Run2);
             }
             else
@@ -438,7 +451,7 @@ public class FriendCtrl : MonoBehaviour
                 FriendData.Runing = false;
             }
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         canPartol = true;
     }
     #endregion
