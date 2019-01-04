@@ -82,7 +82,8 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Boom!!!");
+                Debug.Log("虽然应该是爆破，但是先用投掷代替");
+                Throw();
             }
         }
     }
@@ -91,7 +92,7 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击
     public void SimpleAttack()
     {
-        if (PlayerData.distance < PlayerData.CanSimpleThrow)
+        if (PlayerData.distance < PlayerData.CanSimpleThrow&&!FriendData.Biging)
         {
             Throw();
         }

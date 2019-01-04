@@ -83,16 +83,18 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
+        #region 攻击中锁移动
         if (PlayerData.Attacking||PlayerData.Casting)
         {
             ETCJoystick.Instance.activated = false;
-            Debug.Log(PlayerData.Attacking);
-            Debug.Log(PlayerData.Casting);
+            //Debug.Log(PlayerData.Attacking);
+            //Debug.Log(PlayerData.Casting);
         }
         else
         {
             ETCJoystick.Instance.activated = true;
         }
+        #endregion
 
         #region 判断是否进行投掷
         #endregion
@@ -191,82 +193,6 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.playerStartJump = false;
     }
 
-    //#region 长按开始时调用的方法
-    //float tmpDis;
-    //public void GetMessage()
-    //{
-    //    tmpDis = PlayerData.distance;
-    //}
-
-    //#endregion
-
-    //#region 长按时的攻击变化
-    //public void StayAttack(Gesture gesture)
-    //{
-    //    if (!FriendData.Biging&&!FriendData.Backing)
-    //    {
-    //        if (tmpDis < PlayerData.CanThrow)
-    //        {
-    //            FriendCtrl.Instance.GoToPlayer();
-    //            if (gesture.actionTime > 0.5f)
-    //            {
-    //                Amass();
-    //            }
-    //        }
-    //        else if (tmpDis > PlayerData.CanThrow && gesture.actionTime > 1f)
-    //        {
-    //            FriendCtrl.Instance.GoToPlayer();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        if (gesture.actionTime>0.3f)
-    //        {
-    //            FriendData.Back = true;
-    //            return;
-    //        }
-    //    }
-    //}
-    //#endregion
-
-    //#region 松开时的攻击方法
-    //public void AttackAI(Gesture gesture)
-    //{
-    //    if (!FriendData.Biging&&!FriendData.Backing)
-    //    {
-    //        float timeCount = gesture.actionTime;
-    //        if (timeCount > 0.5f)
-    //        {
-    //            if (PlayerData.distance < PlayerData.CanThrow)
-    //            {
-    //                if (PlayerData.Amassing)
-    //                {
-    //                    ThrowFriend();
-    //                }
-    //                else
-    //                {
-    //                    Debug.LogWarning("没在进行Amass");
-    //                }
-    //            }
-    //            else
-    //            {
-    //                Attack();
-    //            }
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("0.5秒以下");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("在Biging状态");
-    //        Debug.Log(FriendData.Biging);
-    //        Debug.Log(FriendData.Backing);
-    //    }
-    //}
-    //#endregion
-
     #region 蓄力
     public void Amass()
     {
@@ -348,13 +274,13 @@ public class PlayerCtrl : MonoBehaviour
     }
     IEnumerator RightBlink()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + 5, tmp.y), 0.5f);
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + PlayerData.BlinkDistance, tmp.y),PlayerData.BlinkTempDistance);
         yield return new WaitForSeconds(1f);
         rightBlink = false;
     }
     IEnumerator LeftBlink()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - 5, tmp.y), 0.5f);
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
         yield return new WaitForSeconds(1f);
         leftBlink = false;
     }
@@ -367,17 +293,5 @@ public class PlayerCtrl : MonoBehaviour
         ChangeState((sbyte)Data.AnimationCount.Jump);
     }
     #endregion
-
-    //#region 协程延迟跳跃
-    //IEnumerator Jump()
-    //{
-    //    //ChangeState((sbyte)Data.AnimationCount.Jump);
-
-
-    //    //推迟多少时间进行跳跃
-    //    yield return new WaitForSeconds(0.1f);
-    //    PlayerData.playerStartJump = false;
-    //}
-    //#endregion
 
 }

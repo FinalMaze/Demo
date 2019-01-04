@@ -13,12 +13,12 @@ public class FriendCtrl : MonoBehaviour
     Rigidbody2D tmpRgb;
     BoxCollider2D friendC;
 
-    #region 临时数据 
+    #region 临时变量
     //巡逻目标点
     Vector2 tmpVec;
     //玩家的位置
     Vector2 player;
-    //与玩家相距的坐标点
+    //玩家手的位置
     public Vector2 distanceV = Vector2.zero;
     //将要被扔到的位置
     private Vector2 target;
@@ -34,7 +34,10 @@ public class FriendCtrl : MonoBehaviour
     bool blink = false;
     //是否Back
     bool back = false;
+    //是否可以巡逻
     bool canPartol = false;
+    //巡逻用的随机数
+    float ran;
     #endregion
 
     private void Awake()
@@ -68,7 +71,6 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
     }
-    float ran;
     private void Update()
     {
         fsmManager.OnStay();
@@ -130,9 +132,6 @@ public class FriendCtrl : MonoBehaviour
         }
         #endregion
 
-        //#region 判断什么时候召回
-        //Back();
-        //#endregion
     }
 
     #region 蓄力
@@ -382,7 +381,7 @@ public class FriendCtrl : MonoBehaviour
                     {
                         transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     }
-                    Debug.Log("跟随中");
+                    //Debug.Log("跟随中");
                     transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
                 }
                 else if (PlayerData.distance > FriendData.followDistance * 2)

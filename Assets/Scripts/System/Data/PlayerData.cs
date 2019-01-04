@@ -63,8 +63,12 @@ public class PlayerData
     public static float mp = 100f;
     public static float mpMax = 100f;
 
-
+    //移动速度
     public static float runSpeed = 50f;
+    //冲刺距离
+    public static float BlinkDistance = 5f;
+    //冲刺时每次移动的距离
+    public static float BlinkTempDistance = 0.5f;
    // public static float jumpSpeed = 1f;
 
     //玩家的路径
