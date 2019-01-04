@@ -152,6 +152,7 @@ public class FriendBack : FsmBase
         if (timeCount > FriendData.BackTime)
         {
             timeCount = 0;
+            FriendData.CanBack = false;
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             FriendData.Backing = false;
         }

@@ -41,11 +41,16 @@ public class PlayerManager : MonoBehaviour
         {
             if (gesture.actionTime>FriendData.BackStayTime)
             {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
                 FriendData.CanBack = true;
+            }
+            else if (gesture.actionTime > FriendData.BackStayTime+FriendData.BackTime)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             }
         }
         //小型时，长按触发的方法
-        else
+        else if (!tmpBiging&&!FriendData.Biging)
         {
             if (!FriendData.Backing)
             {
@@ -70,6 +75,10 @@ public class PlayerManager : MonoBehaviour
             {
                 return;
             }
+        }
+        else
+        {
+            return;
         }
     }
     #endregion
@@ -129,9 +138,17 @@ public class PlayerManager : MonoBehaviour
     #region 蓄力
     private void Amass()
     {
-        FriendCtrl.Instance.GoToPlayer(0.1f);
-        PlayerCtrl.Instance.Amass();
-        FriendCtrl.Instance.Amass();
+        if (!FriendData.Biging)
+        {
+            FriendCtrl.Instance.GoToPlayer(0.1f);
+            PlayerCtrl.Instance.Amass();
+            FriendCtrl.Instance.Amass();
+        }
+        else
+        {
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
+            FriendData.CanBack = true;
+        }
     }
     #endregion
 
