@@ -166,9 +166,9 @@ public class PlayerAttack : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>PlayerData.Attack2StartTime)
+        if (timeCount>PlayerData.Attack2StartTime&&PlayerData.Attack2)
         {
-            PlayerData.Attack2 = true;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Attack2);
         }
         if (timeCount > PlayerData.AttackTime)
         {

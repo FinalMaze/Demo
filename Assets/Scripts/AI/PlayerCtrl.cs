@@ -181,81 +181,81 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.playerStartJump = false;
     }
 
-    #region 长按开始时调用的方法
-    float tmpDis;
-    public void GetMessage()
-    {
-        tmpDis = PlayerData.distance;
-    }
+    //#region 长按开始时调用的方法
+    //float tmpDis;
+    //public void GetMessage()
+    //{
+    //    tmpDis = PlayerData.distance;
+    //}
 
-    #endregion
+    //#endregion
 
-    #region 长按时的攻击变化
-    public void StayAttack(Gesture gesture)
-    {
-        if (!FriendData.Biging&&!FriendData.Backing)
-        {
-            if (tmpDis < PlayerData.throwDistance)
-            {
-                FriendCtrl.Instance.GoToPlayer();
-                if (gesture.actionTime > 0.5f)
-                {
-                    Amass();
-                }
-            }
-            else if (tmpDis > PlayerData.throwDistance && gesture.actionTime > 1f)
-            {
-                FriendCtrl.Instance.GoToPlayer();
-            }
-        }
-        else
-        {
-            if (gesture.actionTime>0.3f)
-            {
-                FriendData.Back = true;
-                return;
-            }
-        }
-    }
-    #endregion
+    //#region 长按时的攻击变化
+    //public void StayAttack(Gesture gesture)
+    //{
+    //    if (!FriendData.Biging&&!FriendData.Backing)
+    //    {
+    //        if (tmpDis < PlayerData.CanThrow)
+    //        {
+    //            FriendCtrl.Instance.GoToPlayer();
+    //            if (gesture.actionTime > 0.5f)
+    //            {
+    //                Amass();
+    //            }
+    //        }
+    //        else if (tmpDis > PlayerData.CanThrow && gesture.actionTime > 1f)
+    //        {
+    //            FriendCtrl.Instance.GoToPlayer();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if (gesture.actionTime>0.3f)
+    //        {
+    //            FriendData.Back = true;
+    //            return;
+    //        }
+    //    }
+    //}
+    //#endregion
 
-    #region 松开时的攻击方法
-    public void AttackAI(Gesture gesture)
-    {
-        if (!FriendData.Biging&&!FriendData.Backing)
-        {
-            float timeCount = gesture.actionTime;
-            if (timeCount > 0.5f)
-            {
-                if (PlayerData.distance < PlayerData.throwDistance)
-                {
-                    if (PlayerData.Amassing)
-                    {
-                        ThrowFriend();
-                    }
-                    else
-                    {
-                        Debug.LogWarning("没在进行Amass");
-                    }
-                }
-                else
-                {
-                    Attack();
-                }
-            }
-            else
-            {
-                Debug.Log("0.5秒以下");
-            }
-        }
-        else
-        {
-            Debug.Log("在Biging状态");
-            Debug.Log(FriendData.Biging);
-            Debug.Log(FriendData.Backing);
-        }
-    }
-    #endregion
+    //#region 松开时的攻击方法
+    //public void AttackAI(Gesture gesture)
+    //{
+    //    if (!FriendData.Biging&&!FriendData.Backing)
+    //    {
+    //        float timeCount = gesture.actionTime;
+    //        if (timeCount > 0.5f)
+    //        {
+    //            if (PlayerData.distance < PlayerData.CanThrow)
+    //            {
+    //                if (PlayerData.Amassing)
+    //                {
+    //                    ThrowFriend();
+    //                }
+    //                else
+    //                {
+    //                    Debug.LogWarning("没在进行Amass");
+    //                }
+    //            }
+    //            else
+    //            {
+    //                Attack();
+    //            }
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("0.5秒以下");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("在Biging状态");
+    //        Debug.Log(FriendData.Biging);
+    //        Debug.Log(FriendData.Backing);
+    //    }
+    //}
+    //#endregion
 
     #region 蓄力
     public void Amass()
@@ -268,40 +268,41 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        if (PlayerData.distance<1f&&!FriendData.Backing)
-        {
-            ThrowFriend();
-        }
-        else if (PlayerData.Attacking && PlayerData.Attack2)
-        {
-            ChangeState((sbyte)Data.AnimationCount.Attack2);
-        }
-        else if (!PlayerData.Attack2)
-        {
+        //if (PlayerData.distance<1f&&!FriendData.Backing)
+        //{
+        //    Throw();
+        //}
+        //else if (PlayerData.Attacking && PlayerData.Attack2)
+        //{
+        //    ChangeState((sbyte)Data.AnimationCount.Attack2);
+        //}
+        //else if (!PlayerData.Attack2)
+        //{
             PlayerData.Attack = true;
             //todo 伤害计算
             ChangeState((sbyte)Data.AnimationCount.Attack);
-        }
+        //}
+    }
+    public void Attack2()
+    {
+        PlayerData.Attack2 = true;
     }
     #endregion
 
     #region 扔召唤兽
-    //直接扔
-
-    //蓄力扔
-    public void ThrowFriend()
+    public void Throw()
     {
         //变化动作   To Do
         PlayerData.Cast = true;
         ChangeState((sbyte)Data.AnimationCount.Cast);
-        if (transform.localScale.x > 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y+0.4f));
-        }
-        if (transform.localScale.x < 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y+0.4f));
-        }
+        //if (transform.localScale.x > 0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y+0.4f));
+        //}
+        //if (transform.localScale.x < 0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y+0.4f));
+        //}
 
     }
     #endregion
@@ -310,17 +311,17 @@ public class PlayerCtrl : MonoBehaviour
     public void Boom()
     {
         Debug.Log("Boom");
-        PlayerData.Cast = true;
-        ChangeState((sbyte)Data.AnimationCount.Cast);
+        //PlayerData.Cast = true;
+        //ChangeState((sbyte)Data.AnimationCount.Cast);
 
-        if (transform.localScale.x > 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, 0));
-        }
-        if (transform.localScale.x < 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, 0));
-        }
+        //if (transform.localScale.x > 0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, 0));
+        //}
+        //if (transform.localScale.x < 0)
+        //{
+        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, 0));
+        //}
 
     }
     #endregion
@@ -378,16 +379,16 @@ public class PlayerCtrl : MonoBehaviour
     }
     #endregion
 
-    #region 协程延迟跳跃
-    IEnumerator Jump()
-    {
-        //ChangeState((sbyte)Data.AnimationCount.Jump);
+    //#region 协程延迟跳跃
+    //IEnumerator Jump()
+    //{
+    //    //ChangeState((sbyte)Data.AnimationCount.Jump);
 
 
-        //推迟多少时间进行跳跃
-        yield return new WaitForSeconds(0.1f);
-        PlayerData.playerStartJump = false;
-    }
-    #endregion
+    //    //推迟多少时间进行跳跃
+    //    yield return new WaitForSeconds(0.1f);
+    //    PlayerData.playerStartJump = false;
+    //}
+    //#endregion
 
 }

@@ -11,6 +11,7 @@ public class FriendIdel : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.DelRigibody = false;
         FriendData.Biging = false;
         animator.SetInteger("Index", 0);
     }
@@ -137,6 +138,8 @@ public class FriendBack : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.DelRigibody = true;
+        FriendCtrl.Instance.RigibodyCtrl();
         FriendData.Backing = true;
         FriendData.Back = false;
         animator.SetInteger("Index", 5);
@@ -186,7 +189,11 @@ public class FriendCast : FsmBase
     }
     public override void OnExit()
     {
-
+        //添加刚体
+        FriendData.AddRigibody = true;
+        FriendCtrl.Instance.RigibodyCtrl();
+        //转换为变大状态
+        FriendData.Biging = true;
     }
 }
 public class FriendIdel2 : FsmBase
@@ -198,7 +205,7 @@ public class FriendIdel2 : FsmBase
     }
     public override void OnEnter()
     {
-        FriendData.Biging = true;
+        FriendData.AddRigibody = false;
         animator.SetInteger("Index", 7);
     }
     public override void OnStay()

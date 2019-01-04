@@ -28,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -192,6 +194,7 @@
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Animator\EnemyAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\FriendAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />

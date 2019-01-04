@@ -13,6 +13,7 @@ public class FriendCtrl : MonoBehaviour
     Rigidbody2D tmpRgb;
     BoxCollider2D friendC;
 
+    #region 临时数据 
     //巡逻目标点
     Vector2 tmpVec;
     //玩家的位置
@@ -37,17 +38,17 @@ public class FriendCtrl : MonoBehaviour
     bool amass = true;
     bool canMove=false;
     bool canPartol=false;
-    private void Start()
+
+    #endregion
+
+    private void Awake()
     {
+        #region 初始化
         Instance = this;
         fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
         animator = GetComponent<Animator>();
-        //tmpRgb = GetComponent<Rigidbody2D>();
-        //tmpRgb.gravityScale = 0;
         friendC = GetComponent<BoxCollider2D>();
-        //friendC.isTrigger = true;
-
-
+        #endregion
 
         #region 注册动画
         FriendIdel friendIdel = new FriendIdel(animator);
@@ -75,17 +76,15 @@ public class FriendCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
-        player = AIManager.Instance.Player.transform.position;
-        PlayerData.distance = Vector2.Distance(player, transform.position);
+        player = PlayerCtrl.Instance.transform.position;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
-        timeCount += Time.deltaTime;
 
-        #region 进行动作的前置条件
-        //todo
-        #endregion
 
-        #region 巡逻
-        Partol();
+        #region 巡逻与跟随
+        if (!blink)
+        {
+            Partol();
+        }
         #endregion
 
         #region 回到Idel的方法
@@ -111,13 +110,29 @@ public class FriendCtrl : MonoBehaviour
         }
         #endregion
 
-        #region 判断什么时候被投掷
-        Throwed();
+
+        #region 被投掷的位移
+        if (blink)
+        {
+            StartCoroutine("Blink");
+        }
         #endregion
 
-        #region 判断什么时候召回
-        Back();
+        #region 判断什么时候变小
+        if (FriendData.Biging)
+        {
+            timeCount += Time.deltaTime;
+            if (timeCount>FriendData.BigTime)
+            {
+                timeCount = 0;
+                Small();
+            }
+        }
         #endregion
+
+        //#region 判断什么时候召回
+        //Back();
+        //#endregion
     }
 
     #region 蓄力
@@ -145,7 +160,7 @@ public class FriendCtrl : MonoBehaviour
     #region 变小
     private void Small()
     {
-        StartCoroutine("DelRigibody");
+        DelRigibody();
         ChangeState((sbyte)Data.FriendAnimationCount.Idel);
     }
     #endregion
@@ -153,15 +168,15 @@ public class FriendCtrl : MonoBehaviour
     #region 召回
     private void Back()
     {
-        if (FriendData.Back)
-        {
+        //if (FriendData.Back)
+        //{
             //friendC.isTrigger = true;
             friendC.size = new Vector2(0.47f, 0.2f);
             friendC.offset = new Vector2(0, 0);
             Destroy(GetComponent<Rigidbody2D>());
             tmpRgb = null;
             back = true;
-        }
+        //}
 
         if (back)
         {
@@ -209,32 +224,6 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被扔出去
-    bool tmpRigi = true;
-    private void Throwed()
-    {
-        if (blink)
-        {
-            StartCoroutine("Blink");
-        }
-        if (FriendData.Cast)
-        {
-            Debug.Log(FriendData.Cast);
-            ChangeState((sbyte)Data.FriendAnimationCount.Cast);
-        }
-        //添加刚体
-        if (FriendData.Casting)
-        {
-            if (tmpRigi)
-            {
-                Debug.Log("调用添加刚体的方法");
-                StartCoroutine("AddRigibody");
-            }
-
-        }
-    }
-
-
-
     public void ThrowFriend(Vector2 target)
     {
         FriendData.Cast = true;
@@ -275,18 +264,15 @@ public class FriendCtrl : MonoBehaviour
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
+        Debug.Log(target+""+transform.position);
         blink = true;
-        if (FriendData.Biging)
-        {
-            Debug.Log("从这里变回Idel");
-            StartCoroutine("BigTime");
-        }
     }
 
 
 
     IEnumerator Blink()
     {
+        Debug.Log(target+""+transform.position);
         if (target.x<transform.position.x)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -303,16 +289,26 @@ public class FriendCtrl : MonoBehaviour
 
 
     #region 添加和销毁刚体
-    //添加刚体
-    IEnumerator AddRigibody()
+
+    public void RigibodyCtrl()
     {
-        tmpRigi = false;
-        //0.5秒后更改碰撞器大小，添加刚体组件并设置
-        yield return new WaitForSeconds(0.5f);
+        if (FriendData.AddRigibody)
+        {
+            Debug.Log("添加刚体");
+            AddRigibody();
+        }
+        if (FriendData.DelRigibody)
+        {
+            DelRigibody();
+        }
+    }
+
+    //添加刚体
+    private void AddRigibody()
+    {
         friendC.size = new Vector2(1.8f, 0.8f);
         friendC.offset = new Vector2(0, -0.3f);
 
-        Debug.Log("添加刚体");
         if (tmpRgb == null)
         {
             gameObject.AddComponent<Rigidbody2D>();
@@ -324,16 +320,15 @@ public class FriendCtrl : MonoBehaviour
     }
 
     //销毁刚体
-    IEnumerator DelRigibody()
+    private void DelRigibody()
     {
         Debug.Log("销毁刚体");
         friendC.size = new Vector2(0.47f, 0.2f);
         friendC.offset = new Vector2(0, 0);
         Destroy(GetComponent<Rigidbody2D>());
         tmpRgb = null;
-        yield return new WaitForSeconds(0.5f);
-        canPartol = false;
-        tmpRigi = true;
+        //yield return new WaitForSeconds(0.5f);
+        //canPartol = false;
     }
     #endregion
 
@@ -388,6 +383,14 @@ public class FriendCtrl : MonoBehaviour
             {
                 lastTime = Time.time;
                 ran = Random.Range(-5, 5);
+                if (ran<0)
+                {
+                    ran = Mathf.Clamp(ran, -5, -3);
+                }
+                if (ran>0)
+                {
+                    ran = Mathf.Clamp(ran, 3, 5);
+                }
                 tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
                 
             }
@@ -447,25 +450,16 @@ public class FriendCtrl : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
             if (Vector2.Distance(transform.position, tmpVec) != 0f)
             {
-                Debug.Log("巡逻中");
+                //Debug.Log("巡逻中");
                 ChangeState((sbyte)Data.FriendAnimationCount.Run2);
             }
             else
             {
-                FriendData.Runing = false;
+                ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
             }
         }
         yield return new WaitForSeconds(0.4f);
         canPartol = true;
-    }
-    #endregion
-
-    #region 变大的总时长
-    IEnumerator BigTime()
-    {
-        yield return new WaitForSeconds(FriendData.BigTime);
-        //FriendData.Back = true;
-        Small();
     }
     #endregion
 

@@ -40,6 +40,11 @@ public class FriendData
 
     #endregion
 
+    #region 组件增减条件
+    public static bool AddRigibody = false;
+    public static bool DelRigibody = false;
+    #endregion
+
     #region 基础数据
     //巡逻的时间间隔
     public static float PartolTime = 1.5f;
