@@ -73,7 +73,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 蓄力 中锁移动
-        if (PlayerData.Amassing)
+        if (PlayerData.Amassing|| PlayerData.Attacking || PlayerData.Casting)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -83,18 +83,18 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
-        #region 攻击中锁移动
-        if (PlayerData.Attacking||PlayerData.Casting)
-        {
-            ETCJoystick.Instance.activated = false;
-            //Debug.Log(PlayerData.Attacking);
-            //Debug.Log(PlayerData.Casting);
-        }
-        else
-        {
-            ETCJoystick.Instance.activated = true;
-        }
-        #endregion
+        //#region 攻击中锁移动
+        //if (PlayerData.Attacking||PlayerData.Casting)
+        //{
+        //    ETCJoystick.Instance.activated = false;
+        //    //Debug.Log(PlayerData.Attacking);
+        //    //Debug.Log(PlayerData.Casting);
+        //}
+        //else
+        //{
+        //    ETCJoystick.Instance.activated = true;
+        //}
+        //#endregion
 
         #region 判断是否进行投掷
         #endregion
@@ -289,8 +289,11 @@ public class PlayerCtrl : MonoBehaviour
     #region 跳跃的方法
     public void StartJump()
     {
-        PlayerData.playerStartJump = true;
-        ChangeState((sbyte)Data.AnimationCount.Jump);
+        if (!PlayerData.Casting&&!PlayerData.Attacking)
+        {
+            PlayerData.playerStartJump = true;
+            ChangeState((sbyte)Data.AnimationCount.Jump);
+        }
     }
     #endregion
 

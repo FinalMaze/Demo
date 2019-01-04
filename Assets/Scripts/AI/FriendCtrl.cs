@@ -161,7 +161,6 @@ public class FriendCtrl : MonoBehaviour
     public void Back()
     {
         ChangeState((sbyte)Data.FriendAnimationCount.Back);
-        GoToPlayer();
     }
     #endregion
 
@@ -351,13 +350,14 @@ public class FriendCtrl : MonoBehaviour
                 if (ran < 0)
                 {
                     ran = Mathf.Clamp(ran, -5, -3);
+                    tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
+
                 }
                 if (ran > 0)
                 {
                     ran = Mathf.Clamp(ran, 3, 5);
+                    tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
                 }
-                tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
-
             }
             if (!FriendData.Backing)
             {

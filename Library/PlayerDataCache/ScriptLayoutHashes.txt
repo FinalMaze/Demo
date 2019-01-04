@@ -1,6 +1,6 @@
-WindowsStandalone
+Android
 PlayerPath?
-C:/Users/Administrator/Desktop/Demo/Demo.exe
+C:/Users/Administrator/Desktop/Demo/Demo.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
@@ -244,6 +244,7 @@ a0f94ec51c559b50eab9df220bdfd467 Assembly-CSharp.dll:.Swipe
 5e15245a410c44a1daa341620c1fb47c Assembly-CSharp.dll:.ButtonInputUI
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerCtrl
 379acab70fc57aedaf18eacfba911dff Assembly-CSharp.dll:.FriendCtrl
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerManager
 4221d6f2d120ea1c2b5b1485c67f9a95 Assembly-CSharp.dll:.MultiLayerTouch
 af4c120c08a83517c5ff7a79f5380780 Assembly-CSharp.dll:.ButtonUIEvent
 ba3bd209617a51f21ebc145dc5acefe8 Assembly-CSharp.dll:.ETCArea
