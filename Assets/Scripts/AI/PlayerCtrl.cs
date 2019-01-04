@@ -83,6 +83,16 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
+        if (PlayerData.Attacking||PlayerData.Casting)
+        {
+            ETCJoystick.Instance.activated = false;
+            Debug.Log(PlayerData.Attacking);
+            Debug.Log(PlayerData.Casting);
+        }
+        else
+        {
+            ETCJoystick.Instance.activated = true;
+        }
 
         #region 判断是否进行投掷
         #endregion

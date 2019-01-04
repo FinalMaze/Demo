@@ -188,6 +188,7 @@ public class FriendCast : FsmBase
     }
     public override void OnExit()
     {
+        FriendData.Casting = false;
         //添加刚体
         FriendData.AddRigibody = true;
         FriendCtrl.Instance.RigibodyCtrl();

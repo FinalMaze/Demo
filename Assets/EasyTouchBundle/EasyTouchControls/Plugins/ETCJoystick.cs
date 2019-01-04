@@ -157,12 +157,13 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 		showEventInspector = false;
 		showSpriteInspector = false;
 	}
-	#endregion
-
+    #endregion
+    public static ETCJoystick Instance;
 	#region Monobehaviours Callback
 	protected override void Awake (){
+        Instance = this;
 
-		base.Awake ();
+        base.Awake ();
 
 		if (joystickType == JoystickType.Dynamic){
 			this.rectTransform().anchorMin = new Vector2(0.5f,0.5f);

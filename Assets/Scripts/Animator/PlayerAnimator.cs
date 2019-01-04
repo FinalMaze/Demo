@@ -11,6 +11,7 @@ public class PlayerIdel : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Attacking = false;
         PlayerData.Ideling = true;
         animator.SetInteger("Index", 0);
     }
@@ -33,6 +34,7 @@ public class PlayerWalk : FsmBase
     }
     public override void OnEnter()
     {
+        PlayerData.Attacking = false;
         animator.SetInteger("Index", 1);
     }
     public override void OnStay()
@@ -211,7 +213,8 @@ public class PlayerAttack2 : FsmBase
     }
     public override void OnExit()
     {
-
+        PlayerData.Attacking = false;
+        PlayerData.Attacking2 = false;
     }
 }
 public class PlayerAmass : FsmBase
@@ -262,6 +265,6 @@ public class PlayerCast : FsmBase
     }
     public override void OnExit()
     {
-       
+        PlayerData.Casting = false;
     }
 }
