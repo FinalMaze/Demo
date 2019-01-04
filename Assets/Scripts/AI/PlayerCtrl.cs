@@ -83,19 +83,6 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
-        //#region 攻击中锁移动
-        //if (PlayerData.Attacking||PlayerData.Casting)
-        //{
-        //    ETCJoystick.Instance.activated = false;
-        //    //Debug.Log(PlayerData.Attacking);
-        //    //Debug.Log(PlayerData.Casting);
-        //}
-        //else
-        //{
-        //    ETCJoystick.Instance.activated = true;
-        //}
-        //#endregion
-
         #region 判断是否进行投掷
         #endregion
 
@@ -146,7 +133,8 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 在地上的动作判断
-        if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+        if (PlayerData.playerIsGround && !PlayerData.playerJumping&&!PlayerData.Amassing&&!PlayerData.Attacking
+            &&!PlayerData.Casting)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -289,7 +277,13 @@ public class PlayerCtrl : MonoBehaviour
     #region 跳跃的方法
     public void StartJump()
     {
-        if (!PlayerData.Casting&&!PlayerData.Attacking)
+        Debug.Log(PlayerData.playerIsGround);
+        Debug.Log(PlayerData.playerJumping);
+        Debug.Log(PlayerData.Amassing);
+        Debug.Log(PlayerData.Attacking);
+        Debug.Log(PlayerData.Casting);
+        if (PlayerData.playerIsGround && !PlayerData.playerJumping && !PlayerData.Amassing && !PlayerData.Attacking
+            && !PlayerData.Casting)
         {
             PlayerData.playerStartJump = true;
             ChangeState((sbyte)Data.AnimationCount.Jump);

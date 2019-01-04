@@ -55,13 +55,20 @@ public class PlayerManager : MonoBehaviour
                     //需要长按的时间
                     if (gesture.actionTime > FriendData.ComeStayTime)
                     {
-                        Amass();
+                        if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                        {
+                            Amass();
+                        }
                     }
                 }
                 else
                 {
                     FriendCtrl.Instance.GoToPlayer();
                 }
+            }
+            else
+            {
+                return;
             }
         }
     }
@@ -78,12 +85,18 @@ public class PlayerManager : MonoBehaviour
         {
             if (gesture.actionTime < PlayerData.ToCastStayTime)
             {
-                Throw();
+                if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                {
+                    Throw();
+                }
             }
             else
             {
                 Debug.Log("虽然应该是爆破，但是先用投掷代替");
-                Throw();
+                if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                {
+                    Throw();
+                }
             }
         }
     }
