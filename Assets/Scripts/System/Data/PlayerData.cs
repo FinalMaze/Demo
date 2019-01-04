@@ -83,4 +83,10 @@ public class PlayerData
     //投掷后的Y轴偏移量
     public static float ThrowEndY = 0.4f;
     #endregion
+
+    #region 蓄力时间相关的数据
+    //蓄力多少时间以下进行投掷
+    public static float ToCastStayTime = 1f;
+
+    #endregion
 }

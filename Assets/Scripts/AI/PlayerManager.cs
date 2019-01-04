@@ -21,9 +21,11 @@ public class PlayerManager : MonoBehaviour
 
     #region 长按开始时调用的方法
     float tmpDis;
+    bool tmpBiging;
     public void GetDistance()
     {
         tmpDis = PlayerData.distance;
+        tmpBiging = FriendData.Biging;
     }
     
     #endregion
@@ -31,69 +33,55 @@ public class PlayerManager : MonoBehaviour
     #region 长按时的攻击变化
     public void StayAttack(Gesture gesture)
     {
-        //if (!FriendData.Biging && !FriendData.Backing)
-        //{
-        //    if (tmpDis < PlayerData.CanThrow)
-        //    {
-        //        FriendCtrl.Instance.GoToPlayer();
-        //        if (gesture.actionTime > 0.5f)
-        //        {
-        //            PlayerCtrl.Instance.Amass();
-        //        }
-        //    }
-        //    else if (tmpDis > PlayerData.CanThrow && gesture.actionTime > 1f)
-        //    {
-        //        FriendCtrl.Instance.GoToPlayer();
-        //    }
-        //}
-        //else
-        //{
-        //    if (gesture.actionTime > 0.3f)
-        //    {
-        //        FriendData.Back = true;
-        //        return;
-        //    }
-        //}
+        //大型时，长按触发的方法
+        if (tmpBiging)
+        {
+            if (gesture.actionTime>FriendData.BackStayTime)
+            {
+                FriendCtrl.Instance.Back();
+            }
+        }
+        //小型时，长按触发的方法
+        else
+        {
+            if (!FriendData.Backing)
+            {
+                if (tmpDis < PlayerData.CanThrow)
+                {
+                    FriendCtrl.Instance.GoToPlayer();
+                    //需要长按的时间
+                    if (gesture.actionTime > FriendData.ComeStayTime)
+                    {
+                        Amass();
+                    }
+                }
+                else
+                {
+                    FriendCtrl.Instance.GoToPlayer();
+                }
+            }
+        }
     }
     #endregion
 
     #region 松开时的攻击方法
     public void AttackAI(Gesture gesture)
     {
+        if (tmpBiging)
+        {
 
-        Debug.Log(gesture.actionTime);
-        //if (!FriendData.Biging && !FriendData.Backing)
-        //{
-        //    float timeCount = gesture.actionTime;
-        //    if (timeCount > 0.5f)
-        //    {
-        //        if (PlayerData.distance < PlayerData.CanThrow)
-        //        {
-        //            if (PlayerData.Amassing)
-        //            {
-        //                PlayerCtrl.Instance.Throw();
-        //            }
-        //            else
-        //            {
-        //                Debug.LogWarning("没在进行Amass");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            PlayerCtrl.Instance.Attack();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("0.5秒以下");
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("在Biging状态");
-        //    Debug.Log(FriendData.Biging);
-        //    Debug.Log(FriendData.Backing);
-        //}
+        }
+        else
+        {
+            if (gesture.actionTime < PlayerData.ToCastStayTime)
+            {
+                Throw();
+            }
+            else
+            {
+                Debug.Log("Boom!!!");
+            }
+        }
     }
     #endregion
 
@@ -118,6 +106,14 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #region 蓄力
+    private void Amass()
+    {
+        FriendCtrl.Instance.GoToPlayer(0.1f);
+        PlayerCtrl.Instance.Amass();
+        FriendCtrl.Instance.Amass();
+    }
+    #endregion
 
     #region 投掷动作
     public void Throw()

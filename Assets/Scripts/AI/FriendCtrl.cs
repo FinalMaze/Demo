@@ -36,8 +36,8 @@ public class FriendCtrl : MonoBehaviour
     bool back = false;
     //是否amass
     bool amass = true;
-    bool canMove=false;
-    bool canPartol=false;
+    bool canMove = false;
+    bool canPartol = false;
 
     #endregion
 
@@ -94,7 +94,7 @@ public class FriendCtrl : MonoBehaviour
         //Debug.Log(!FriendData.Casting);
         if (FriendData.Biging)
         {
-            if (!FriendData.Attacking&& !FriendData.Backing && !FriendData.Casting&&!FriendData.Runing)
+            if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing)
             {
                 //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -102,7 +102,7 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting&&!FriendData.Biging)
+            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting && !FriendData.Biging)
             {
                 //Debug.Log("强制Idel1");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
@@ -122,11 +122,15 @@ public class FriendCtrl : MonoBehaviour
         if (FriendData.Biging)
         {
             timeCount += Time.deltaTime;
-            if (timeCount>FriendData.BigTime)
+            if (timeCount > FriendData.BigTime)
             {
                 timeCount = 0;
                 Small();
             }
+        }
+        else
+        {
+            timeCount = 0;
         }
         #endregion
 
@@ -138,24 +142,17 @@ public class FriendCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        if (FriendData.Biging)
-        {
-            FriendData.Back = true;
-        }
-        GoToPlayer();
+        GoToPlayer(0.01f);
         if (!FriendData.Amassing)
         {
             FriendData.Amass = true;
             ChangeState((sbyte)Data.FriendAnimationCount.Amass);
         }
-        else
-        {
-            ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
-        }
+        ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
     }
     #endregion
 
-    #region 变小的两种方法
+    #region 变小和召回
 
     #region 变小
     private void Small()
@@ -166,51 +163,10 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 召回
-    private void Back()
+    public void Back()
     {
-        //if (FriendData.Back)
-        //{
-            //friendC.isTrigger = true;
-            friendC.size = new Vector2(0.47f, 0.2f);
-            friendC.offset = new Vector2(0, 0);
-            Destroy(GetComponent<Rigidbody2D>());
-            tmpRgb = null;
-            back = true;
-        //}
-
-        if (back)
-        {
-            StartCoroutine("IEBack");
-        }
-
-    }
-
-    IEnumerator IEBack()
-    {
-        GoToPlayer(2);
-        if (distance>0)
-        {
-            transform.rotation =Quaternion.Euler(0, 180, 0);
-        }
-        if (distance < 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-        if (animator.GetInteger("Index")==5)
-        {
-            if (!FriendData.Backing)
-            {
-                ChangeState((sbyte)Data.FriendAnimationCount.Idel);
-                Debug.Log("从这里变回Idel");
-            }
-        }
-        else
-        {
-            ChangeState((sbyte)Data.FriendAnimationCount.Back);
-        }
-        yield return new WaitForSeconds(0.5f);
-        back = false;
-        canPartol = false;
+        ChangeState((sbyte)Data.FriendAnimationCount.Back);
+        GoToPlayer();
     }
     #endregion
 
@@ -228,7 +184,7 @@ public class FriendCtrl : MonoBehaviour
     {
         FriendData.Cast = true;
         this.target = target;
-        if (animator.GetInteger("Index")!=4)
+        if (animator.GetInteger("Index") != 4)
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
             #region 移动到玩家手的位置
@@ -264,7 +220,6 @@ public class FriendCtrl : MonoBehaviour
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
-        Debug.Log(target+""+transform.position);
         blink = true;
     }
 
@@ -272,8 +227,7 @@ public class FriendCtrl : MonoBehaviour
 
     IEnumerator Blink()
     {
-        Debug.Log(target+""+transform.position);
-        if (target.x<transform.position.x)
+        if (target.x < transform.position.x)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
@@ -287,14 +241,12 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
-
     #region 添加和销毁刚体
 
     public void RigibodyCtrl()
     {
         if (FriendData.AddRigibody)
         {
-            Debug.Log("添加刚体");
             AddRigibody();
         }
         if (FriendData.DelRigibody)
@@ -322,7 +274,6 @@ public class FriendCtrl : MonoBehaviour
     //销毁刚体
     private void DelRigibody()
     {
-        Debug.Log("销毁刚体");
         friendC.size = new Vector2(0.47f, 0.2f);
         friendC.offset = new Vector2(0, 0);
         Destroy(GetComponent<Rigidbody2D>());
@@ -333,43 +284,64 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被召唤到玩家位置
-    public void GoToPlayer(float timeRatio=1)
+    public void GoToPlayer(float timeRatio = 1)
     {
-        distance = player.x - transform.position.x;
-        //if (distance>0)
-        //{
-        //    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        //}
-        //if (distance<0)
-        //{
-        //    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        //}
-        if (PlayerData.Dircetion > 0)
+        if (FriendData.Backing)
         {
-            if (back)
+            if (distance > 0)
             {
-                distanceV = Vector2.zero;
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(-0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
-            else
+            if (distance < 0)
             {
-                distanceV = new Vector2(-0.25f, -0.27f);
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+
         }
-        if (PlayerData.Dircetion < 0)
+        else
         {
-            if (back)
+            if (PlayerData.Dircetion > 0)
             {
-                distanceV = Vector2.zero;
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(-0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
-            else
+            if (PlayerData.Dircetion < 0)
             {
-                distanceV = new Vector2(0.25f, -0.27f);
+                if (back)
+                {
+                    distanceV = Vector2.zero;
+                }
+                else
+                {
+                    distanceV = new Vector2(0.25f, -0.27f);
+                }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
-        FriendData.Moving = true;
-        transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime* timeRatio);
+        transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime * timeRatio);
     }
     #endregion
 
@@ -383,25 +355,27 @@ public class FriendCtrl : MonoBehaviour
             {
                 lastTime = Time.time;
                 ran = Random.Range(-5, 5);
-                if (ran<0)
+                if (ran < 0)
                 {
                     ran = Mathf.Clamp(ran, -5, -3);
                 }
-                if (ran>0)
+                if (ran > 0)
                 {
                     ran = Mathf.Clamp(ran, 3, 5);
                 }
                 tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
-                
-            }
 
-            StartCoroutine("IEPatrol");
+            }
+            if (!FriendData.Backing)
+            {
+                StartCoroutine("IEPatrol");
+            }
         }
         else
         {
             //Debug.Log(!FriendData.Amassing);
             //Debug.Log(!back);
-            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing&&!back)
+            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing)
             {
                 #region 跟随
                 if (PlayerData.distance > FriendData.followDistance)
@@ -427,7 +401,7 @@ public class FriendCtrl : MonoBehaviour
                     {
                         transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     }
-                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime*0.5f);
+                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime * 0.5f);
                 }
                 #endregion
             }

@@ -150,8 +150,8 @@ public class FriendBack : FsmBase
         if (timeCount > FriendData.BackTime)
         {
             timeCount = 0;
-            FriendData.Backing = false;
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            FriendData.Backing = false;
         }
     }
     public override void OnExit()
@@ -182,7 +182,6 @@ public class FriendCast : FsmBase
             timeCount = 0;
             FriendData.Casting = false;
             //变化到大型的动作流程
-            Debug.Log("Casting=false");
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
         }
 

@@ -34,7 +34,7 @@ public class FriendData
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
-    public static float BackTime = 0.05f;
+    public static float BackTime = 0.3f;
     //投掷动作的总时长
     public static float CastTime = 0.5f;
 
@@ -54,7 +54,11 @@ public class FriendData
     public static float smoothTime = 2f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
+    //变小时,离开可蓄力距离，召回需要按住攻击键的时长
+    public static float ComeStayTime = 0.5f;
     //变大的持续时间
     public static float BigTime = 4f;
+    //变大时召回需要按住攻击键的时长
+    public static float BackStayTime = 0.3f;
     #endregion
 }

@@ -75,14 +75,14 @@ public class PlayerCtrl : MonoBehaviour
         #region 蓄力 中锁移动
         if (PlayerData.Amassing)
         {
-            rgb.constraints = RigidbodyConstraints2D.FreezePositionX|RigidbodyConstraints2D.FreezeRotation;
+            rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
         else
         {
             rgb.constraints = ~RigidbodyConstraints2D.FreezePosition;
         }
         #endregion
-        
+
 
         #region 判断是否进行投掷
         #endregion
@@ -149,7 +149,7 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Data.EasyTouch && !PlayerData.Attacking&&!PlayerData.Attacking2&&!PlayerData.Amassing&&!PlayerData.Casting)
+            if (Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Attacking2 && !PlayerData.Amassing && !PlayerData.Casting)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
@@ -260,7 +260,6 @@ public class PlayerCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        FriendCtrl.Instance.Amass();
         ChangeState((sbyte)Data.AnimationCount.Amass);
     }
     #endregion
@@ -268,20 +267,9 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        //if (PlayerData.distance<1f&&!FriendData.Backing)
-        //{
-        //    Throw();
-        //}
-        //else if (PlayerData.Attacking && PlayerData.Attack2)
-        //{
-        //    ChangeState((sbyte)Data.AnimationCount.Attack2);
-        //}
-        //else if (!PlayerData.Attack2)
-        //{
-            PlayerData.Attack = true;
-            //todo 伤害计算
-            ChangeState((sbyte)Data.AnimationCount.Attack);
-        //}
+        PlayerData.Attack = true;
+        //todo 伤害计算
+        ChangeState((sbyte)Data.AnimationCount.Attack);
     }
     public void Attack2()
     {
@@ -295,15 +283,6 @@ public class PlayerCtrl : MonoBehaviour
         //变化动作   To Do
         PlayerData.Cast = true;
         ChangeState((sbyte)Data.AnimationCount.Cast);
-        //if (transform.localScale.x > 0)
-        //{
-        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x + 5, transform.position.y+0.4f));
-        //}
-        //if (transform.localScale.x < 0)
-        //{
-        //    FriendCtrl.Instance.ThrowFriend(new Vector2(transform.position.x - 5, transform.position.y+0.4f));
-        //}
-
     }
     #endregion
 
