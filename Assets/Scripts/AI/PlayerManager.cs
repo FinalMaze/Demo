@@ -111,13 +111,16 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            if (PlayerData.Attacking && !PlayerData.Attacking2)
+            if (!PlayerData.playerJumping)
             {
-                PlayerCtrl.Instance.Attack2();
-            }
-            else if (!PlayerData.Attacking)
-            {
-                PlayerCtrl.Instance.Attack();
+                if (PlayerData.Attacking && !PlayerData.Attacking2)
+                {
+                    PlayerCtrl.Instance.Attack2();
+                }
+                else if (!PlayerData.Attacking)
+                {
+                    PlayerCtrl.Instance.Attack();
+                }
             }
         }
     }

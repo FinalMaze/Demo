@@ -108,6 +108,7 @@ public class PlayerJumping : FsmBase
     }
     public override void OnEnter()
     {
+
         animator.SetInteger("Index", 4);
     }
     public override void OnStay()
@@ -148,7 +149,7 @@ public class PlayerJumpEnd : FsmBase
     }
     public override void OnExit()
     {
-
+        PlayerData.playerJumping = false;
     }
 }
 public class PlayerAttack : FsmBase
