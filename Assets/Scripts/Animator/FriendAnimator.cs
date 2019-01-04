@@ -156,7 +156,7 @@ public class FriendBack : FsmBase
     }
     public override void OnExit()
     {
-
+        FriendData.CanBack = false;
     }
 }
 public class FriendCast : FsmBase

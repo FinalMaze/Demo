@@ -16,7 +16,10 @@ public class PlayerManager : MonoBehaviour
     {
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
-
+        if (FriendData.CanBack)
+        {
+            FriendCtrl.Instance.Back();
+        }
     }
 
     #region 长按开始时调用的方法
@@ -27,7 +30,7 @@ public class PlayerManager : MonoBehaviour
         tmpDis = PlayerData.distance;
         tmpBiging = FriendData.Biging;
     }
-    
+
     #endregion
 
     #region 长按时的攻击变化
@@ -38,7 +41,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (gesture.actionTime>FriendData.BackStayTime)
             {
-                FriendCtrl.Instance.Back();
+                FriendData.CanBack = true;
             }
         }
         //小型时，长按触发的方法

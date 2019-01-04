@@ -13,6 +13,7 @@ public class FriendData
     public static bool Amass = false;
     //是否在蓄力中
     public static bool Amassing = false;
+    public static bool CanBack = false;
     //是否Back
     public static bool Back = false;
     //是否在Back中

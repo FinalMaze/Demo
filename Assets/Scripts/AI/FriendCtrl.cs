@@ -34,11 +34,7 @@ public class FriendCtrl : MonoBehaviour
     bool blink = false;
     //是否Back
     bool back = false;
-    //是否amass
-    bool amass = true;
-    bool canMove = false;
     bool canPartol = false;
-
     #endregion
 
     private void Awake()
@@ -278,8 +274,6 @@ public class FriendCtrl : MonoBehaviour
         friendC.offset = new Vector2(0, 0);
         Destroy(GetComponent<Rigidbody2D>());
         tmpRgb = null;
-        //yield return new WaitForSeconds(0.5f);
-        //canPartol = false;
     }
     #endregion
 
@@ -433,7 +427,14 @@ public class FriendCtrl : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.4f);
-        canPartol = true;
+        if (FriendData.Biging)
+        {
+            canPartol = true;
+        }
+        else
+        {
+            canPartol = false;
+        }
     }
     #endregion
 
