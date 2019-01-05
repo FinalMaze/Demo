@@ -82,16 +82,20 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            PlayerData.hp = 0;
-            PlayerData.mp = 0;
-            GameInterfaceCtrl.Instance.UpdateHP();
-            GameInterfaceCtrl.Instance.UpdateMP();
-
-            if (!FriendData.Backing)
+            if (tmpBiging)
             {
-                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
+                PlayerData.hp = 100;
+                PlayerData.mp = 0;
+                GameInterfaceCtrl.Instance.UpdateHP();
+                GameInterfaceCtrl.Instance.UpdateMP();
             }
-            return;
+            else
+            {
+                PlayerData.hp = 0;
+                PlayerData.mp = 100;
+                GameInterfaceCtrl.Instance.UpdateHP();
+                GameInterfaceCtrl.Instance.UpdateMP();
+            }
         }
     }
     #endregion
@@ -121,6 +125,8 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+
+        tmpBiging = FriendData.Biging;
     }
     #endregion
 
