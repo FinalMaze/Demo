@@ -25,10 +25,19 @@ public class PlayerManager : MonoBehaviour
     #region 长按开始时调用的方法
     float tmpDis;
     bool tmpBiging;
+    bool canThrow;
     public void GetDistance()
     {
         tmpDis = PlayerData.distance;
         tmpBiging = FriendData.Biging;
+        if (PlayerData.distance <= PlayerData.CanThrow)
+        {
+            canThrow = true;
+        }
+        else
+        {
+            canThrow = false;
+        }
     }
 
     #endregion
@@ -60,7 +69,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (tmpDis < PlayerData.CanThrow)
             {
-                FriendCtrl.Instance.GoToPlayer();
                 //需要长按的时间
                 if (gesture.actionTime > FriendData.ComeStayTime)
                 {
@@ -109,20 +117,17 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            if (gesture.actionTime < PlayerData.ToCastStayTime)
+            if (canThrow)
             {
-                if (PlayerData.playerIsGround && !PlayerData.Jumping)
-                {
-                    Throw();
-                }
+                Throw();
             }
             else
             {
-                Debug.Log("虽然应该是爆破，但是先用投掷代替");
-                if (PlayerData.playerIsGround && !PlayerData.Jumping)
+                if (true)
                 {
-                    Throw();
+
                 }
+                PlayerCtrl.Instance.Attack();
             }
         }
 

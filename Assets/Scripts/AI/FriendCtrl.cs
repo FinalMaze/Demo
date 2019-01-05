@@ -372,6 +372,7 @@ public class FriendCtrl : MonoBehaviour
             if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing)
             {
                 #region 跟随
+
                 if (PlayerData.distance > FriendData.followDistance)
                 {
                     if (distance > 0)
@@ -385,18 +386,7 @@ public class FriendCtrl : MonoBehaviour
                     //Debug.Log("跟随中");
                     transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
                 }
-                else if (PlayerData.distance > FriendData.followDistance * 2)
-                {
-                    if (PlayerData.Dircetion > 0)
-                    {
-                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                    }
-                    if (PlayerData.Dircetion < 0)
-                    {
-                        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                    }
-                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime * 0.5f);
-                }
+                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y-0.3f),PlayerData.distance*0.001f);
                 #endregion
             }
         }
