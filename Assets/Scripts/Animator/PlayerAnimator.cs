@@ -12,13 +12,6 @@ public class PlayerIdel : FsmBase
     public override void OnEnter()
     {
         PlayerData.Ideling = true;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
-        PlayerData.Jumping = false;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 0;
         animator.SetInteger("Index", 0);
@@ -39,13 +32,9 @@ public class PlayerWalk : FsmBase
     public override void OnEnter()
     {
         PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
         PlayerData.Jumping = false;
         PlayerData.Walking = true;
         PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 1;
         animator.SetInteger("Index", 1);
@@ -64,15 +53,7 @@ public class PlayerRun : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
-        PlayerData.Jumping = false;
-        PlayerData.Walking = false;
         PlayerData.Runing = true;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 2;
         animator.SetInteger("Index", 2);
@@ -93,15 +74,7 @@ public class PlayerJump : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
         PlayerData.Jumping = true;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 3;
         animator.SetInteger("Index", 3);
@@ -135,15 +108,7 @@ public class PlayerJumping : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
         PlayerData.Jumping = true;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 4;
         animator.SetInteger("Index", 4);
@@ -172,15 +137,7 @@ public class PlayerJumpEnd : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
-        PlayerData.Casting = false;
         PlayerData.Jumping = true;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 9;
         animator.SetInteger("Index", 9);
@@ -297,15 +254,7 @@ public class PlayerAmass : FsmBase
     }
     public override void OnEnter()
     {
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
         PlayerData.Amassing = true;
-        PlayerData.Casting = false;
-        PlayerData.Jumping = false;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 7;
         animator.SetInteger("Index", 7);
@@ -331,15 +280,7 @@ public class PlayerCast : FsmBase
     {
         PlayerData.Cast = false;
 
-        PlayerData.Attacking = false;
-        PlayerData.Ideling = false;
-        PlayerData.Amassing = false;
         PlayerData.Casting = true;
-        PlayerData.Jumping = false;
-        PlayerData.Walking = false;
-        PlayerData.Runing = false;
-        PlayerData.Attacking = false;
-        PlayerData.Attacking2 = false;
 
         PlayerData.State = 8;
         animator.SetInteger("Index", 8);

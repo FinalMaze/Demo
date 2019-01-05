@@ -50,9 +50,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
             {
-                PlayerData.hp -= 5;
-                Debug.Log("HP减少");
-                GameInterfaceCtrl.Instance.UpdateHP();
 
                 Debug.Log("调用Back方法");
                 FriendCtrl.Instance.Back();
@@ -60,8 +57,6 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                PlayerData.mp += 1;
-                GameInterfaceCtrl.Instance.UpdateMP();
             }
         }
         //小型时，长按触发的方法
@@ -74,35 +69,13 @@ public class PlayerManager : MonoBehaviour
                 {
                     if (PlayerData.playerIsGround && !PlayerData.Jumping)
                     {
-                        PlayerData.mp -= 1;
-                        GameInterfaceCtrl.Instance.UpdateMP();
-
                         Amass();
                     }
                 }
             }
             else
             {
-                PlayerData.hp += 5;
-                GameInterfaceCtrl.Instance.UpdateHP();
                 FriendCtrl.Instance.GoToPlayer();
-            }
-        }
-        else
-        {
-            if (tmpBiging)
-            {
-                PlayerData.hp = 100;
-                PlayerData.mp = 0;
-                GameInterfaceCtrl.Instance.UpdateHP();
-                GameInterfaceCtrl.Instance.UpdateMP();
-            }
-            else
-            {
-                PlayerData.hp = 0;
-                PlayerData.mp = 100;
-                GameInterfaceCtrl.Instance.UpdateHP();
-                GameInterfaceCtrl.Instance.UpdateMP();
             }
         }
     }
@@ -138,13 +111,14 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击
     public void SimpleAttack()
     {
-        if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
+        if (!PlayerData.Jumping)
         {
-            Throw();
-        }
-        else
-        {
-            if (!PlayerData.Jumping)
+
+            if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
+            {
+                Throw();
+            }
+            else
             {
                 if (PlayerData.Attacking && !PlayerData.Attacking2)
                 {
@@ -162,7 +136,7 @@ public class PlayerManager : MonoBehaviour
     #region 蓄力
     private void Amass()
     {
-        if (!FriendData.Biging && !tmpBiging)
+        if (!FriendData.Biging && !tmpBiging && !FriendData.Backing)
         {
             FriendCtrl.Instance.GoToPlayer(0.1f);
             PlayerCtrl.Instance.Amass();

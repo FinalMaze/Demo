@@ -69,7 +69,9 @@ public class PlayerData
     //移动速度
     public static float runSpeed = 50f;
     //冲刺距离
-    public static float BlinkDistance = 5f;
+    public static float BlinkDistance = 4f;
+    //冲刺的CD
+    public static float BlinkTime = 1f;
     //冲刺时每次移动的距离
     public static float BlinkTempDistance = 0.5f;
    // public static float jumpSpeed = 1f;

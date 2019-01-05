@@ -27,14 +27,6 @@ public class FriendIdel : FsmBase
         FriendData.State = 0;
         animator.SetInteger("Index", 0);
     }
-    public override void OnStay()
-    {
-        Debug.Log("Ideling");
-    }
-    public override void OnExit()
-    {
-
-    }
 }
 public class FriendMove : FsmBase
 {
