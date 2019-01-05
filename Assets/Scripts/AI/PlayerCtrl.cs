@@ -272,16 +272,27 @@ public class PlayerCtrl : MonoBehaviour
             leftBlink = true;
         }
     }
+    float timeCount;
     IEnumerator RightBlink()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + PlayerData.BlinkDistance, tmp.y),PlayerData.BlinkTempDistance);
+        timeCount += Time.deltaTime;
+        if (timeCount<0.3f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
+        }
         yield return new WaitForSeconds(PlayerData.BlinkTime);
+        timeCount = 0;
         rightBlink = false;
     }
     IEnumerator LeftBlink()
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
+        timeCount += Time.deltaTime;
+        if (timeCount < 0.3f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
+        }
         yield return new WaitForSeconds(PlayerData.BlinkTime);
+        timeCount = 0;
         leftBlink = false;
     }
     #endregion
