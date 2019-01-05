@@ -11,6 +11,7 @@ public class FriendIdel : FsmBase
     }
     public override void OnEnter()
     {
+        Debug.Log("Enter Idel");
         FriendData.DelRigibody = false;
 
         FriendData.Smalling = true;
@@ -28,7 +29,7 @@ public class FriendIdel : FsmBase
     }
     public override void OnStay()
     {
-
+        Debug.Log("Ideling");
     }
     public override void OnExit()
     {
@@ -183,6 +184,8 @@ public class FriendBack : FsmBase
         FriendData.DelRigibody = true;
         FriendCtrl.Instance.RigibodyCtrl();
 
+        Debug.Log("Enter Back!");
+
         FriendData.Biging = false;
         FriendData.Backing = true;
         FriendData.Back = false;
@@ -203,7 +206,8 @@ public class FriendBack : FsmBase
         if (timeCount > FriendData.BackTime)
         {
             timeCount = 0;
-            FriendData.CanBack = false;
+            //FriendData.CanBack = false;
+            Debug.Log(FriendData.Backing);
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
         }
     }
@@ -211,6 +215,7 @@ public class FriendBack : FsmBase
     {
         FriendData.Backing = false;
         FriendData.CanBack = false;
+        FriendData.Smalling = true;
     }
 }
 public class FriendCast : FsmBase
@@ -223,10 +228,12 @@ public class FriendCast : FsmBase
     }
     public override void OnEnter()
     {
+        FriendData.Biging = true;
+        FriendData.Smalling = false;
         FriendData.Amassing = false;
         FriendData.Cast = false;
         FriendData.Casting = true;
-        FriendData.Backing = true;
+        FriendData.Backing = false;
         FriendData.Attacking = false;
         FriendData.Amassing = false;
         FriendData.Runing = false;
@@ -254,7 +261,6 @@ public class FriendCast : FsmBase
         FriendData.AddRigibody = true;
         FriendCtrl.Instance.RigibodyCtrl();
         //转换为变大状态
-        FriendData.Biging = true;
     }
 }
 public class FriendIdel2 : FsmBase

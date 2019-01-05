@@ -225,16 +225,19 @@ public class PlayerAttack : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount>PlayerData.Attack2StartTime&&PlayerData.Attack2)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Attack2);
-        }
         if (timeCount > PlayerData.AttackTime)
         {
-            PlayerData.Attacking = false;
-            PlayerData.Attack2 = false;
-            timeCount = 0;
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+            if (PlayerData.Attack2)
+            {
+                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Attack2);
+            }
+            else
+            {
+                PlayerData.Attacking = false;
+                PlayerData.Attack2 = false;
+                timeCount = 0;
+                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+            }
         }
     }
     public override void OnExit()
@@ -260,7 +263,6 @@ public class PlayerAttack2 : FsmBase
         PlayerData.Jumping = false;
         PlayerData.Walking = false;
         PlayerData.Runing = false;
-        PlayerData.Attacking = false;
         PlayerData.Attacking2 = true;
 
 

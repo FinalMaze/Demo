@@ -16,10 +16,10 @@ public class PlayerManager : MonoBehaviour
     {
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
-        if (FriendData.CanBack)
-        {
-            FriendCtrl.Instance.Back();
-        }
+        //if (FriendData.CanBack)
+        //{
+        //    FriendCtrl.Instance.Back();
+        //}
     }
 
     #region 长按开始时调用的方法
@@ -37,16 +37,17 @@ public class PlayerManager : MonoBehaviour
     public void StayAttack(Gesture gesture)
     {
         //大型时，长按触发的方法
-        if (tmpBiging)
+        if (tmpBiging || FriendData.Biging)
         {
-            if (FriendData.State != (int)Data.FriendAnimationCount.Back)
+            if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
             {
                 PlayerData.hp -= 5;
                 Debug.Log("HP减少");
                 GameInterfaceCtrl.Instance.UpdateHP();
 
-                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
-                FriendData.CanBack = true;
+                Debug.Log("调用Back方法");
+                FriendCtrl.Instance.Back();
+                //FriendData.CanBack = true;
             }
             else
             {
@@ -55,35 +56,28 @@ public class PlayerManager : MonoBehaviour
             }
         }
         //小型时，长按触发的方法
-        else if (!tmpBiging && !FriendData.Biging)
+        else if (!tmpBiging && !FriendData.Biging && FriendData.Smalling && !FriendData.Backing)
         {
-            if (!FriendData.Backing)
+            if (tmpDis < PlayerData.CanThrow)
             {
-                if (tmpDis < PlayerData.CanThrow)
+                FriendCtrl.Instance.GoToPlayer();
+                //需要长按的时间
+                if (gesture.actionTime > FriendData.ComeStayTime)
                 {
-                    FriendCtrl.Instance.GoToPlayer();
-                    //需要长按的时间
-                    if (gesture.actionTime > FriendData.ComeStayTime)
+                    if (PlayerData.playerIsGround && !PlayerData.Jumping)
                     {
-                        if (PlayerData.playerIsGround && !PlayerData.Jumping)
-                        {
-                            PlayerData.mp -= 1;
-                            GameInterfaceCtrl.Instance.UpdateMP();
+                        PlayerData.mp -= 1;
+                        GameInterfaceCtrl.Instance.UpdateMP();
 
-                            Amass();
-                        }
+                        Amass();
                     }
-                }
-                else
-                {
-                    PlayerData.hp += 5;
-                    GameInterfaceCtrl.Instance.UpdateHP();
-                    FriendCtrl.Instance.GoToPlayer();
                 }
             }
             else
             {
-                return;
+                PlayerData.hp += 5;
+                GameInterfaceCtrl.Instance.UpdateHP();
+                FriendCtrl.Instance.GoToPlayer();
             }
         }
         else
@@ -92,6 +86,11 @@ public class PlayerManager : MonoBehaviour
             PlayerData.mp = 0;
             GameInterfaceCtrl.Instance.UpdateHP();
             GameInterfaceCtrl.Instance.UpdateMP();
+
+            if (!FriendData.Backing)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
+            }
             return;
         }
     }
@@ -152,16 +151,11 @@ public class PlayerManager : MonoBehaviour
     #region 蓄力
     private void Amass()
     {
-        if (!FriendData.Biging)
+        if (!FriendData.Biging && !tmpBiging)
         {
             FriendCtrl.Instance.GoToPlayer(0.1f);
             PlayerCtrl.Instance.Amass();
             FriendCtrl.Instance.Amass();
-        }
-        else
-        {
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
-            FriendData.CanBack = true;
         }
     }
     #endregion
