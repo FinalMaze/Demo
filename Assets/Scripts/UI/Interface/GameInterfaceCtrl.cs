@@ -9,15 +9,21 @@ public class GameInterfaceCtrl : UIBase
     public static GameInterfaceCtrl Instance;
     Slider hp;
     Slider mp;
+    float tmpHP;
+    float tmpMP;
 
     public void UpdateHP()
     {
-        hp.value = PlayerData.hp / PlayerData.hpMax;
-        hp.value = Mathf.Clamp(hp.value, 0, 1);
+        PlayerData.hp = Mathf.Clamp(PlayerData.hp, 0, PlayerData.hpMax);
+        tmpHP = PlayerData.hp / PlayerData.hpMax;
+        hp.value = Mathf.Clamp(tmpHP, 0, 1);
     }
     public void UpdateMP()
     {
-        mp.value = PlayerData.mp / PlayerData.mpMax;
+        PlayerData.mp = Mathf.Clamp(PlayerData.mp, 0, PlayerData.mpMax);
+        tmpMP = PlayerData.mp / PlayerData.mpMax;
+        mp.value = Mathf.Clamp(tmpMP, 0, 1);
+
     }
 
     private void Start()

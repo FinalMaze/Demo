@@ -248,21 +248,6 @@ public class PlayerCtrl : MonoBehaviour
 
     #region 冲刺的方法
     Vector2 tmp;
-    //public void Blink()
-    //{
-    //    if (!rightBlink && !leftBlink && !PlayerData.Jumping)
-    //    {
-    //        tmp = transform.position;
-    //        if (playerR.localScale.x > 0)
-    //        {
-    //            rightBlink = true;
-    //        }
-    //        if (playerR.localScale.x < 0)
-    //        {
-    //            leftBlink = true;
-    //        }
-    //    }
-    //}
     public void BlinkR(Gesture gesture)
     {
         if (rightBlink || leftBlink)
@@ -289,14 +274,12 @@ public class PlayerCtrl : MonoBehaviour
     }
     IEnumerator RightBlink()
     {
-        playerR.localScale = new Vector2(3, 3);
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + PlayerData.BlinkDistance, tmp.y),PlayerData.BlinkTempDistance);
         yield return new WaitForSeconds(PlayerData.BlinkTime);
         rightBlink = false;
     }
     IEnumerator LeftBlink()
     {
-        playerR.localScale = new Vector2(-3, 3);
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x - PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
         yield return new WaitForSeconds(PlayerData.BlinkTime);
         leftBlink = false;

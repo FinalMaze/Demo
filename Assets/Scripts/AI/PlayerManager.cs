@@ -26,10 +26,14 @@ public class PlayerManager : MonoBehaviour
     float tmpDis;
     bool tmpBiging;
     bool canThrow;
+    Vector2 tmpPlayer;
+    float reduceMP;
     public void GetDistance()
     {
         tmpDis = PlayerData.distance;
         tmpBiging = FriendData.Biging;
+        tmpPlayer = player.transform.position;
+        reduceMP = PlayerData.mp - PlayerData.GoToPlayerMP;
         if (PlayerData.distance <= PlayerData.CanThrow)
         {
             canThrow = true;
@@ -50,17 +54,19 @@ public class PlayerManager : MonoBehaviour
         {
             if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
             {
-
-                Debug.Log("调用Back方法");
-                FriendCtrl.Instance.Back();
-                //FriendData.CanBack = true;
+                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                {
+                    FriendCtrl.Instance.Back();
+                    PlayerData.mp -= PlayerData.BackMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
+                }
             }
             else
             {
             }
         }
         //小型时，长按触发的方法
-        else if (!tmpBiging && !FriendData.Biging && FriendData.Smalling && !FriendData.Backing)
+        else if (!tmpBiging && FriendData.Smalling)
         {
             if (tmpDis < PlayerData.CanThrow)
             {
@@ -75,7 +81,13 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                FriendCtrl.Instance.GoToPlayer();
+                if (PlayerData.mp!=0)
+                {
+                    PlayerData.mp = reduceMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
+                    Debug.Log(PlayerData.mp);
+                    FriendCtrl.Instance.GoToPlayer(tmpPlayer);
+                }
             }
         }
     }
@@ -96,10 +108,6 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                if (true)
-                {
-
-                }
                 PlayerCtrl.Instance.Attack();
             }
         }
@@ -136,9 +144,17 @@ public class PlayerManager : MonoBehaviour
     #region 蓄力
     private void Amass()
     {
+        if (PlayerData.mp<=0)
+        {
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            return;
+        }
         if (!FriendData.Biging && !tmpBiging && !FriendData.Backing)
         {
-            FriendCtrl.Instance.GoToPlayer(0.1f);
+            PlayerData.mp -= PlayerData.AmassingMP;
+            GameInterfaceCtrl.Instance.UpdateMP();
+
             PlayerCtrl.Instance.Amass();
             FriendCtrl.Instance.Amass();
         }
@@ -148,6 +164,23 @@ public class PlayerManager : MonoBehaviour
     #region 投掷动作
     public void Throw()
     {
+        if (PlayerData.mp <= 0) 
+        {
+            #region mp=0时，调用的攻击方法
+            if (PlayerData.Attacking && !PlayerData.Attacking2)
+            {
+                PlayerCtrl.Instance.Attack2();
+            }
+            else if (!PlayerData.Attacking)
+            {
+                PlayerCtrl.Instance.Attack();
+            }
+            #endregion
+            return;
+        }
+        PlayerData.mp -= PlayerData.CastMP;
+        GameInterfaceCtrl.Instance.UpdateMP();
+
         //让玩家进入投掷状态
         PlayerCtrl.Instance.Throw();
         //将投掷的目标位置传给宠物

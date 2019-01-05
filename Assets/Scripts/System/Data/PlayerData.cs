@@ -66,6 +66,15 @@ public class PlayerData
     public static float mp = 100f;
     public static float mpMax = 100f;
 
+    //蓄力掉mp的速度
+    public static float AmassingMP = 0.1f;
+    //投掷的mp消耗量
+    public static float CastMP = 10f;
+    //小型时召回的mp消耗量
+    public static float GoToPlayerMP = 10f;
+    //大型时召回的mp消耗量
+    public static float BackMP = 10f;
+
     //移动速度
     public static float runSpeed = 50f;
     //冲刺距离

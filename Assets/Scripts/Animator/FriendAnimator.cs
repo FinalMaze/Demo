@@ -192,7 +192,7 @@ public class FriendBack : FsmBase
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.GoToPlayer();
+        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position);
 
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.BackTime)

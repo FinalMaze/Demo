@@ -138,7 +138,7 @@ public class FriendCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        GoToPlayer(0.01f);
+        GoToPlayer(player,0);
         if (!FriendData.Amassing)
         {
             FriendData.Amass = true;
@@ -277,7 +277,7 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被召唤到玩家位置
-    public void GoToPlayer(float timeRatio = 1)
+    public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1)
     {
         if (FriendData.Backing)
         {
@@ -334,7 +334,7 @@ public class FriendCtrl : MonoBehaviour
                 transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
         }
-        transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.comeTime * timeRatio);
+        transform.position = Vector2.SmoothDamp(transform.position, playerPostion + distanceV, ref velocity, FriendData.comeTime * timeRatio);
     }
     #endregion
 
