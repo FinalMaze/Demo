@@ -22,6 +22,9 @@ public class PlayerData
     #endregion
 
     #region 玩家的状态信息
+    //现在是什么状态
+    public static int State;
+
     //玩家面向的方向,大于0为正
     public static float Dircetion;
 
@@ -34,11 +37,11 @@ public class PlayerData
     //是否正在蓄力
     public static bool Amassing = false;
     //玩家是否在Run状态
-    public static bool playerRun = false;
+    public static bool Runing = false;
     //玩家是否在Walk状态
-    public static bool playerWalk = false;
+    public static bool Walking = false;
     //玩家是否在跳跃中
-    public static bool playerJumping = false;
+    public static bool Jumping = false;
     //玩家是否可以起跳
     public static bool playerStartJump = false;
     //玩家是否攻击

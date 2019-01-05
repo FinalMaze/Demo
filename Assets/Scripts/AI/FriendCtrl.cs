@@ -92,7 +92,8 @@ public class FriendCtrl : MonoBehaviour
         //Debug.Log(!FriendData.Casting);
         if (FriendData.Biging)
         {
-            if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing)
+            if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing
+                &&!FriendData.Amassing&&!FriendData.Smalling)
             {
                 //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);

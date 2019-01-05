@@ -39,18 +39,23 @@ public class PlayerManager : MonoBehaviour
         //大型时，长按触发的方法
         if (tmpBiging)
         {
-            if (gesture.actionTime>FriendData.BackStayTime)
+            if (FriendData.State != (int)Data.FriendAnimationCount.Back)
             {
+                PlayerData.hp -= 5;
+                Debug.Log("HP减少");
+                GameInterfaceCtrl.Instance.UpdateHP();
+
                 FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Back);
                 FriendData.CanBack = true;
             }
-            else if (gesture.actionTime > FriendData.BackStayTime+FriendData.BackTime)
+            else
             {
-                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+                PlayerData.mp += 1;
+                GameInterfaceCtrl.Instance.UpdateMP();
             }
         }
         //小型时，长按触发的方法
-        else if (!tmpBiging&&!FriendData.Biging)
+        else if (!tmpBiging && !FriendData.Biging)
         {
             if (!FriendData.Backing)
             {
@@ -60,14 +65,19 @@ public class PlayerManager : MonoBehaviour
                     //需要长按的时间
                     if (gesture.actionTime > FriendData.ComeStayTime)
                     {
-                        if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                        if (PlayerData.playerIsGround && !PlayerData.Jumping)
                         {
+                            PlayerData.mp -= 1;
+                            GameInterfaceCtrl.Instance.UpdateMP();
+
                             Amass();
                         }
                     }
                 }
                 else
                 {
+                    PlayerData.hp += 5;
+                    GameInterfaceCtrl.Instance.UpdateHP();
                     FriendCtrl.Instance.GoToPlayer();
                 }
             }
@@ -78,6 +88,10 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
+            PlayerData.hp = 0;
+            PlayerData.mp = 0;
+            GameInterfaceCtrl.Instance.UpdateHP();
+            GameInterfaceCtrl.Instance.UpdateMP();
             return;
         }
     }
@@ -94,7 +108,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (gesture.actionTime < PlayerData.ToCastStayTime)
             {
-                if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                if (PlayerData.playerIsGround && !PlayerData.Jumping)
                 {
                     Throw();
                 }
@@ -102,7 +116,7 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 Debug.Log("虽然应该是爆破，但是先用投掷代替");
-                if (PlayerData.playerIsGround && !PlayerData.playerJumping)
+                if (PlayerData.playerIsGround && !PlayerData.Jumping)
                 {
                     Throw();
                 }
@@ -114,13 +128,13 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击
     public void SimpleAttack()
     {
-        if (PlayerData.distance < PlayerData.CanSimpleThrow&&!FriendData.Biging)
+        if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
         {
             Throw();
         }
         else
         {
-            if (!PlayerData.playerJumping)
+            if (!PlayerData.Jumping)
             {
                 if (PlayerData.Attacking && !PlayerData.Attacking2)
                 {

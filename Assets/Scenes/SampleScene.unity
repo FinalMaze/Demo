@@ -3154,7 +3154,7 @@ MonoBehaviour:
   enableRemote: 0
   gesturePriority: 0
   StationaryTolerance: 15
-  longTapTime: 0.4
+  longTapTime: 0.3
   swipeTolerance: 0.2
   minPinchLength: 0
   minTwistAngle: 0

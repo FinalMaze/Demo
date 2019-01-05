@@ -5,6 +5,14 @@ using UnityEngine;
 public class FriendData
 {
     #region 动作状态信息
+    //现在是什么状态
+    public static int State;
+
+    //是否在小型状态
+    public static bool Smalling = false;
+    //是否在大型的状态
+    public static bool Biging = false;
+
     //是否在移动中
     public static bool Moving = false;
     //是否在攻击中
@@ -22,8 +30,6 @@ public class FriendData
     public static bool Cast = false;
     //是否在投掷中
     public static bool Casting = false;
-    //是否在变大的状态
-    public static bool Biging = false;
     //是否在Run2状态
     public static bool Runing = false;
 

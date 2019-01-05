@@ -65,11 +65,18 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 判断是否能进行动作的前置条件
         //判断是否在地面上
-        if (!PlayerData.playerIsGround)
-        {
-            //PlayerData.playerWalk = false;
-            PlayerData.playerRun = false;
-        }
+        //if (!PlayerData.playerIsGround)
+        //{
+        //    PlayerData.Attacking = false;
+        //    PlayerData.Ideling = false;
+        //    PlayerData.Amassing = false;
+        //    PlayerData.Casting = false;
+        //    PlayerData.Jumping = true;
+        //    PlayerData.Walking = false;
+        //    PlayerData.Runing = false;
+        //    PlayerData.Attacking = false;
+        //    PlayerData.Attacking2 = false;
+        //}
         #endregion
 
         #region 蓄力 中锁移动
@@ -89,7 +96,6 @@ public class PlayerCtrl : MonoBehaviour
         #region 转向并移动
         if (ETCInput.GetAxis("Horizontal") > 0f)
         {
-            PlayerData.playerWalk = true;
             run = 1f;
         }
         //else if (ETCInput.GetAxis("Horizontal") > 0.5f)
@@ -99,7 +105,6 @@ public class PlayerCtrl : MonoBehaviour
         //}
         if (ETCInput.GetAxis("Horizontal") < 0f)
         {
-            PlayerData.playerWalk = true;
             run = -1f;
         }
         //if (ETCInput.GetAxis("Horizontal") < -0.5f)
@@ -109,6 +114,7 @@ public class PlayerCtrl : MonoBehaviour
         //}
         if (ETCInput.GetAxis("Horizontal") == 0)
         {
+            PlayerData.Walking = false;
             run = 0;
             Data.EasyTouch = false;
         }
@@ -119,7 +125,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 冲刺
-        if (!PlayerData.playerJumping)
+        if (!PlayerData.Jumping)
         {
             if (rightBlink)
             {
@@ -133,7 +139,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 在地上的动作判断
-        if (PlayerData.playerIsGround && !PlayerData.playerJumping&&!PlayerData.Amassing&&!PlayerData.Attacking
+        if (PlayerData.playerIsGround && !PlayerData.Jumping&&!PlayerData.Amassing&&!PlayerData.Attacking
             &&!PlayerData.Casting)
         {
             //Debug.Log(PlayerData.Attacking);
@@ -154,20 +160,11 @@ public class PlayerCtrl : MonoBehaviour
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2)
+            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2
+                &&!PlayerData.Walking)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
-            ////如果在run状态，变换成跑步动作
-            //if (PlayerData.playerRun)
-            //{
-            //    ChangeState((sbyte)Data.AnimationCount.Run);
-            //}
-            ////如果横轴为0，那么变成Idel状态
-            //else if (run == 0 && !PlayerData.Attacking)
-            //{
-            //    ChangeState((sbyte)Data.AnimationCount.Idel);
-            //}
             #endregion
 
         }
@@ -184,7 +181,10 @@ public class PlayerCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        ChangeState((sbyte)Data.AnimationCount.Amass);
+        if (FriendData.Smalling&& !FriendData.Biging&&!FriendData.Attacking&&!FriendData.Casting)
+        {
+            ChangeState((sbyte)Data.AnimationCount.Amass);
+        }
     }
     #endregion
 
@@ -206,7 +206,10 @@ public class PlayerCtrl : MonoBehaviour
     {
         //变化动作   To Do
         PlayerData.Cast = true;
-        ChangeState((sbyte)Data.AnimationCount.Cast);
+        if (!PlayerData.Jumping)
+        {
+            ChangeState((sbyte)Data.AnimationCount.Cast);
+        }
     }
     #endregion
 
@@ -247,7 +250,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void Blink()
     {
-        if (!rightBlink && !leftBlink && !PlayerData.playerJumping)
+        if (!rightBlink && !leftBlink && !PlayerData.Jumping)
         {
             tmp = transform.position;
             if (playerR.localScale.x > 0)
@@ -278,11 +281,11 @@ public class PlayerCtrl : MonoBehaviour
     public void StartJump()
     {
         Debug.Log(PlayerData.playerIsGround);
-        Debug.Log(PlayerData.playerJumping);
+        Debug.Log(PlayerData.Jumping);
         Debug.Log(PlayerData.Amassing);
         Debug.Log(PlayerData.Attacking);
         Debug.Log(PlayerData.Casting);
-        if (PlayerData.playerIsGround && !PlayerData.playerJumping && !PlayerData.Amassing && !PlayerData.Attacking
+        if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
             && !PlayerData.Casting)
         {
             PlayerData.playerStartJump = true;

@@ -13,6 +13,7 @@ public class GameInterfaceCtrl : UIBase
     public void UpdateHP()
     {
         hp.value = PlayerData.hp / PlayerData.hpMax;
+        hp.value = Mathf.Clamp(hp.value, 0, 1);
     }
     public void UpdateMP()
     {
