@@ -208,9 +208,12 @@ public class PlayerCtrl : MonoBehaviour
     #region 普通攻击
     public void Attack()
     {
-        PlayerData.Attack = true;
-        //todo 伤害计算
-        ChangeState((sbyte)Data.AnimationCount.Attack);
+        if (!PlayerData.Jumping)
+        {
+            PlayerData.Attack = true;
+            //todo 伤害计算
+            ChangeState((sbyte)Data.AnimationCount.Attack);
+        }
     }
     public void Attack2()
     {

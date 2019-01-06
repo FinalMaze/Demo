@@ -98,7 +98,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                if (PlayerData.mp!=0)
+                if (PlayerData.mp != 0)
                 {
                     PlayerData.mp = reduceMP;
                     GameInterfaceCtrl.Instance.UpdateMP();
@@ -122,10 +122,10 @@ public class PlayerManager : MonoBehaviour
             {
                 Throw();
             }
-            else
-            {
-                PlayerCtrl.Instance.Attack();
-            }
+            //else
+            //{
+            //    PlayerCtrl.Instance.Attack();
+            //}
         }
 
         tmpBiging = FriendData.Biging;
@@ -135,24 +135,13 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击
     public void SimpleAttack()
     {
-        if (!PlayerData.Jumping)
+        if (PlayerData.Attacking && !PlayerData.Attacking2)
         {
-
-            if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
-            {
-                Throw();
-            }
-            else
-            {
-                if (PlayerData.Attacking && !PlayerData.Attacking2)
-                {
-                    PlayerCtrl.Instance.Attack2();
-                }
-                else if (!PlayerData.Attacking)
-                {
-                    PlayerCtrl.Instance.Attack();
-                }
-            }
+            PlayerCtrl.Instance.Attack2();
+        }
+        else if (!PlayerData.Attacking)
+        {
+            PlayerCtrl.Instance.Attack();
         }
     }
     #endregion
@@ -160,7 +149,7 @@ public class PlayerManager : MonoBehaviour
     #region 蓄力
     private void Amass()
     {
-        if (PlayerData.mp<=0)
+        if (PlayerData.mp <= 0)
         {
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
 
@@ -182,33 +171,40 @@ public class PlayerManager : MonoBehaviour
     #region 投掷动作
     public void Throw()
     {
-        if (PlayerData.mp <= 0) 
+        if (!PlayerData.Jumping)
         {
-            #region mp=0时，调用的攻击方法
-            if (PlayerData.Attacking && !PlayerData.Attacking2)
+            if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
             {
-                PlayerCtrl.Instance.Attack2();
-            }
-            else if (!PlayerData.Attacking)
-            {
-                PlayerCtrl.Instance.Attack();
-            }
-            #endregion
-            return;
-        }
-        PlayerData.mp -= PlayerData.CastMP;
-        GameInterfaceCtrl.Instance.UpdateMP();
+                if (PlayerData.mp <= 0)
+                {
+                    #region mp=0时，调用的攻击方法
+                    if (PlayerData.Attacking && !PlayerData.Attacking2)
+                    {
+                        PlayerCtrl.Instance.Attack2();
+                    }
+                    else if (!PlayerData.Attacking)
+                    {
+                        PlayerCtrl.Instance.Attack();
+                    }
+                    #endregion
+                    return;
+                }
+                PlayerData.mp -= PlayerData.CastMP;
+                GameInterfaceCtrl.Instance.UpdateMP();
 
-        //让玩家进入投掷状态
-        PlayerCtrl.Instance.Throw();
-        //将投掷的目标位置传给宠物
-        if (player.transform.localScale.x > 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x + PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
-        }
-        if (player.transform.localScale.x < 0)
-        {
-            FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x - PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
+                //让玩家进入投掷状态
+                PlayerCtrl.Instance.Throw();
+                //将投掷的目标位置传给宠物
+                if (player.transform.localScale.x > 0)
+                {
+                    FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x + PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
+                }
+                if (player.transform.localScale.x < 0)
+                {
+                    FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x - PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
+                }
+
+            }
         }
     }
     #endregion
@@ -234,8 +230,8 @@ public class PlayerManager : MonoBehaviour
     #region 二段跳的方法
     private void JumpAgain()
     {
-        if (PlayerData.Jumping&&PlayerData.Downing&&FriendData.JumpDistance<1f
-            &&Mathf.Abs(player.transform.position.x-friend.transform.position.x)<2f&&FriendData.Smalling)
+        if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 1f
+            && Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f && FriendData.Smalling)
         {
             if (!PlayerData.Jump2ing)
             {
