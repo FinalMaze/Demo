@@ -83,10 +83,12 @@ public class FriendCtrl : MonoBehaviour
 
         FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, transform.position);
 
+        #region 检测什么时候被踩
         if (FriendData.Jumped)
         {
             StartCoroutine("Jumped");
         }
+        #endregion
 
         #region 巡逻与跟随
         if (!blink)
@@ -265,6 +267,7 @@ public class FriendCtrl : MonoBehaviour
     {
         friendC.size = new Vector2(1.8f, 0.8f);
         friendC.offset = new Vector2(0, -0.3f);
+        friendC.isTrigger = false;
 
         if (tmpRgb == null)
         {
@@ -282,6 +285,8 @@ public class FriendCtrl : MonoBehaviour
     {
         friendC.size = new Vector2(0.47f, 0.2f);
         friendC.offset = new Vector2(0, 0);
+        friendC.isTrigger = true;
+
         Destroy(GetComponent<Rigidbody2D>());
         tmpRgb = null;
     }
@@ -439,6 +444,7 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
+    #region 二段跳被踩
     IEnumerator Jumped()
     {
         transform.position = Vector2.Lerp(transform.position,FriendData.Jump2Target,0.8f);
@@ -448,6 +454,7 @@ public class FriendCtrl : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         FriendData.Jumped = false;
     }
+    #endregion
 
     public void ChangeState(sbyte animationCount)
     {
