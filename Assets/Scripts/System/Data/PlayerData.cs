@@ -51,6 +51,7 @@ public class PlayerData
     public static bool Attack = false;
     //玩家是否正在攻击
     public static bool Attacking = false;
+    public static bool Attacking1 = false;
     //开始二段攻击
     public static bool Attack2Start = false;
     //玩家是否二段攻击
@@ -68,6 +69,12 @@ public class PlayerData
     public static float hpMax = 100f;
     public static float mp = 100f;
     public static float mpMax = 100f;
+
+    //第一段攻击位移距离
+    public static float AttackDistance1 = 1f;
+    //第二段攻击位移距离
+    public static float AttackDistance2 = 1f;
+
 
     //蓄力掉mp的速度
     public static float AmassingMP = 0.1f;

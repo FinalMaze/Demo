@@ -188,6 +188,13 @@ public class PlayerCtrl : MonoBehaviour
         }
         #endregion
 
+        #region 攻击的位移
+        if (PlayerData.Attacking1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, 0.5f);
+        }
+        #endregion
+
     }
     private void FixedUpdate()
     {
@@ -206,6 +213,7 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 普通攻击
+    Vector2 tmpAttackTarget;
     public void Attack()
     {
         if (!PlayerData.Jumping)
@@ -213,6 +221,14 @@ public class PlayerCtrl : MonoBehaviour
             PlayerData.Attack = true;
             //todo 伤害计算
             ChangeState((sbyte)Data.AnimationCount.Attack);
+            if (PlayerData.Dircetion>0)
+            {
+                tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance1, transform.position.y);
+            }
+            if (PlayerData.Dircetion < 0)
+            {
+                tmpAttackTarget = new Vector2(transform.position.x - PlayerData.AttackDistance1, transform.position.y);
+            }
         }
     }
     public void Attack2()

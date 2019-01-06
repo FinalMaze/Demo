@@ -168,6 +168,7 @@ public class PlayerAttack : FsmBase
     {
         PlayerData.Attack = false;
         PlayerData.Attacking = true;
+        PlayerData.Attacking1 = true;
         PlayerData.Ideling = false;
         PlayerData.Amassing = false;
         PlayerData.Casting = false;
@@ -199,7 +200,7 @@ public class PlayerAttack : FsmBase
     }
     public override void OnExit()
     {
-
+        PlayerData.Attacking1 = false;
     }
 }
 public class PlayerAttack2 : FsmBase
