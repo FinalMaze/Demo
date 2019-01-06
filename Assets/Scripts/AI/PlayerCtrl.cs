@@ -127,11 +127,11 @@ public class PlayerCtrl : MonoBehaviour
         #region 冲刺
         if (!PlayerData.Jumping)
         {
-            if (rightBlink)
+            if (rightBlink&&!leftBlink)
             {
                 StartCoroutine("RightBlink");
             }
-            if (leftBlink)
+            if (leftBlink&&!rightBlink)
             {
                 StartCoroutine("LeftBlink");
             }
@@ -250,26 +250,32 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void BlinkR(Gesture gesture)
     {
-        if (rightBlink || leftBlink)
+        if (!PlayerData.Jumping)
         {
-            return;
-        }
-        tmp = transform.position;
-        if (gesture.actionTime<0.3f)
-        {
-            rightBlink = true;
+            if (rightBlink || leftBlink)
+            {
+                return;
+            }
+            tmp = transform.position;
+            if (gesture.actionTime < 0.3f)
+            {
+                rightBlink = true;
+            }
         }
     }
     public void BlinkF(Gesture gesture)
     {
-        if (rightBlink||leftBlink)
+        if (!PlayerData.Jumping)
         {
-            return;
-        }
-        tmp = transform.position;
-        if (gesture.actionTime<0.3f)
-        {
-            leftBlink = true;
+            if (rightBlink || leftBlink)
+            {
+                return;
+            }
+            tmp = transform.position;
+            if (gesture.actionTime < 0.3f)
+            {
+                leftBlink = true;
+            }
         }
     }
     float timeCount;

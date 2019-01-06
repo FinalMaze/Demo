@@ -11,7 +11,6 @@ public class FriendIdel : FsmBase
     }
     public override void OnEnter()
     {
-        Debug.Log("Enter Idel");
         FriendData.DelRigibody = false;
 
         FriendData.Smalling = true;

@@ -7,10 +7,28 @@ public class PlayerManager : MonoBehaviour
 {
     private GameObject player;
     private GameObject friend;
+    private static PlayerManager instance;
+    public static PlayerManager Instance
+    {
+        get { return instance; }
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         player = PlayerCtrl.Instance.gameObject;
         friend = FriendCtrl.Instance.gameObject;
+        allBlink = new QuickSwipe[2];
+        GameObject tmpEasy = GameObject.FindGameObjectWithTag("EasyTouch");
+        allBlink = tmpEasy.GetComponents<QuickSwipe>();
+        for (int i = 0; i < allBlink.Length; i++)
+        {
+            allBlink[i].enabled = false;
+        }
+
     }
     private void Update()
     {
@@ -191,6 +209,25 @@ public class PlayerManager : MonoBehaviour
         if (player.transform.localScale.x < 0)
         {
             FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x - PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
+        }
+    }
+    #endregion
+
+    #region 冲刺相关
+    QuickSwipe[] allBlink;
+    public void BlinkStart()
+    {
+        Debug.Log("Start");
+        for (int i = 0; i < allBlink.Length; i++)
+        {
+            allBlink[i].enabled = true;
+        }
+    }
+    public void BlinkEnd()
+    {
+        for (int i = 0; i < allBlink.Length; i++)
+        {
+            allBlink[i].enabled = false;
         }
     }
     #endregion
