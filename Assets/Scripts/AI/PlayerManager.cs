@@ -165,6 +165,8 @@ public class PlayerManager : MonoBehaviour
         if (PlayerData.mp<=0)
         {
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+
+            FriendData.Amassing = false;
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             return;
         }

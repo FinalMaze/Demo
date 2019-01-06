@@ -92,12 +92,16 @@ public class PlayerData
     #region 玩家与召唤兽互动的数据信息
     //玩家与召唤兽的距离
     public static float distance;
+    //玩家可二段跳，所需的脚的位置与宠物距离
+    public static float CanJump = 1f;
     //可以直接投掷——需要相距手的位置多远
     public static float CanSimpleThrow = 2f;
     //可以召唤并投掷的与宠物相距的距离
     public static float CanThrow = 2f;
     //投掷的距离
     public static float ThrowDistance = 5f;
+    //投掷时每次的位移量（数值越大，移动越快）
+    public static float ThrowSpeed = 0.2f;
     //投掷后的Y轴偏移量
     public static float ThrowEndY = 0.4f;
     #endregion

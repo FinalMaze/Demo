@@ -38,6 +38,7 @@ public class FriendCtrl : MonoBehaviour
     bool canPartol = false;
     //巡逻用的随机数
     float ran;
+    GameObject playerFoot;
     #endregion
 
     private void Awake()
@@ -47,6 +48,7 @@ public class FriendCtrl : MonoBehaviour
         fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
         animator = GetComponent<Animator>();
         friendC = GetComponent<BoxCollider2D>();
+        playerFoot = GameObject.FindGameObjectWithTag("PlayerDown");
         #endregion
 
         #region 注册动画
@@ -76,7 +78,7 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.OnStay();
         player = PlayerCtrl.Instance.transform.position;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
-
+        FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, transform.position);
 
         #region 巡逻与跟随
         if (!blink)
@@ -230,7 +232,7 @@ public class FriendCtrl : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        transform.position = Vector2.MoveTowards(transform.position, target, 0.2f);
+        transform.position = Vector2.MoveTowards(transform.position, target, PlayerData.ThrowSpeed);
         yield return new WaitForSeconds(0.5f);
         blink = false;
     }
@@ -277,7 +279,7 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被召唤到玩家位置
-    public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1)
+    public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1,float x=0.25f,float y=-0.27f)
     {
         if (FriendData.Backing)
         {
@@ -289,7 +291,7 @@ public class FriendCtrl : MonoBehaviour
                 }
                 else
                 {
-                    distanceV = new Vector2(-0.25f, -0.27f);
+                    distanceV = new Vector2(-x, y);
                 }
                 transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
@@ -301,7 +303,7 @@ public class FriendCtrl : MonoBehaviour
                 }
                 else
                 {
-                    distanceV = new Vector2(0.25f, -0.27f);
+                    distanceV = new Vector2(x, y);
                 }
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             }
@@ -427,6 +429,16 @@ public class FriendCtrl : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Jump!!!");
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Debug.Log("Cant Jump!!!");
+    }
 
     public void ChangeState(sbyte animationCount)
     {
