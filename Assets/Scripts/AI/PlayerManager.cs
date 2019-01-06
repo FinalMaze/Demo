@@ -34,9 +34,14 @@ public class PlayerManager : MonoBehaviour
     {
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
-        //if (FriendData.CanBack)
+
+        JumpAgain();
+        //if (PlayerData.Jump2)
         //{
-        //    FriendCtrl.Instance.Back();
+        //    PlayerData.Jump2 = false;
+        //    player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1000));
+        //    FriendData.Jump2Target = new Vector2(friend.transform.position.x, friend.transform.position.y - FriendData.Jump2TargetY);
+        //    FriendData.Jumped = true;
         //}
     }
 
@@ -219,7 +224,6 @@ public class PlayerManager : MonoBehaviour
     QuickSwipe[] allBlink;
     public void BlinkStart()
     {
-        Debug.Log("Start");
         for (int i = 0; i < allBlink.Length; i++)
         {
             allBlink[i].enabled = true;
@@ -234,4 +238,19 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    private void JumpAgain()
+    {
+        if (PlayerData.Jumping&&PlayerData.Downing&&FriendData.JumpDistance<1f
+            &&Mathf.Abs(player.transform.position.x-friend.transform.position.x)<2f)
+        {
+            if (!PlayerData.Jump2ing)
+            {
+                PlayerData.Jump2ing = true;
+                player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1000));
+                FriendData.Jump2Target = new Vector2(friend.transform.position.x, friend.transform.position.y - FriendData.Jump2TargetY);
+                FriendData.Jumped = true;
+            }
+
+        }
+    }
 }

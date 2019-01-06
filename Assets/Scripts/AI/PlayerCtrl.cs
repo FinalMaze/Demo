@@ -13,7 +13,6 @@ public class PlayerCtrl : MonoBehaviour
     FSMManager fsmManager;
     Animator animator;
     CharacterController2D control;
-    Transform playerR;
     Rigidbody2D rgb;
 
     bool leftBlink = false;
@@ -26,7 +25,6 @@ public class PlayerCtrl : MonoBehaviour
         control = GetComponent<CharacterController2D>();
         fsmManager = new FSMManager((int)Data.AnimationCount.Max);
         animator = GetComponent<Animator>();
-        playerR = GetComponent<Transform>();
         rgb = GetComponent<Rigidbody2D>();
         #endregion
         #region 添加玩家动画
@@ -57,11 +55,32 @@ public class PlayerCtrl : MonoBehaviour
     }
     float run;
     float moveSpeed = PlayerData.runSpeed;
+    float lastTestJump;
+    float lastJumpPos;
     private void Update()
     {
         fsmManager.OnStay();
         PlayerData.Dircetion = transform.localScale.x;
 
+
+        #region 检测是否在下落过程中
+        if (PlayerData.Jumping)
+        {
+            if (Time.time - lastTestJump > 0.01f)
+            {
+                lastTestJump = Time.time;
+                if (transform.position.y >= lastJumpPos || PlayerData.playerIsGround)
+                {
+                    PlayerData.Downing = false;
+                }
+                else
+                {
+                    PlayerData.Downing = true;
+                }
+                lastJumpPos = transform.position.y;
+            }
+        }
+        #endregion
 
         #region 判断是否能进行动作的前置条件
         //判断是否在地面上
@@ -144,11 +163,10 @@ public class PlayerCtrl : MonoBehaviour
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
-
+            PlayerData.Jump2ing = false;
             #region 跳跃
             if (PlayerData.playerStartJump)
             {
-                Debug.Log("Jump!!!");
                 ChangeState((sbyte)Data.AnimationCount.Jump);
             }
             #endregion
@@ -173,7 +191,6 @@ public class PlayerCtrl : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
         PlayerData.playerStartJump = false;
     }

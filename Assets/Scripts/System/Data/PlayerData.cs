@@ -24,10 +24,13 @@ public class PlayerData
     #region 玩家的状态信息
     //现在是什么状态
     public static int State;
-
+    //是否在下落中
+    public static bool Downing = false;
+    //是否可以二段跳
+    public static bool Jump2 = false;
+    public static bool Jump2ing = false;
     //玩家面向的方向,大于0为正
     public static float Dircetion;
-
     public static bool Ideling = false;
     //投掷
     public static bool Cast = false;

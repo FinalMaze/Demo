@@ -28,6 +28,8 @@ public class FriendCtrl : MonoBehaviour
     private Vector2 velocity = Vector2.one;
     //计时器
     float timeCount;
+    //跳跃计时器
+    float jumpTimeCount;
     //上次记录的时间
     float lastTime;
     //是否冲刺
@@ -78,7 +80,13 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.OnStay();
         player = PlayerCtrl.Instance.transform.position;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
+
         FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, transform.position);
+
+        if (FriendData.Jumped)
+        {
+            StartCoroutine("Jumped");
+        }
 
         #region 巡逻与跟随
         if (!blink)
@@ -431,14 +439,14 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    IEnumerator Jumped()
     {
-        Debug.Log("Jump!!!");
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        Debug.Log("Cant Jump!!!");
+        transform.position = Vector2.Lerp(transform.position,FriendData.Jump2Target,0.8f);
+        yield return new WaitForSeconds(0.1f);
+        transform.position = Vector2.SmoothDamp(transform.position,
+            new Vector2(FriendData.Jump2Target.x, FriendData.Jump2Target.y + FriendData.Jump2TargetY),ref velocity, 0.2f);
+        yield return new WaitForSeconds(0.2f);
+        FriendData.Jumped = false;
     }
 
     public void ChangeState(sbyte animationCount)

@@ -8,6 +8,9 @@ public class FriendData
     //现在是什么状态
     public static int State;
 
+    //是否二段跳
+    public static bool Jumped = false;
+    public static bool Jumpeding = false;
     //是否在小型状态
     public static bool Smalling = false;
     //是否在大型的状态
@@ -69,5 +72,10 @@ public class FriendData
     public static float BackStayTime = 0.3f;
     //与玩家的脚相距的距离
     public static float JumpDistance;
+
+    //被二段跳时下降到的目标点
+    public static Vector2 Jump2Target;
+    //被跳时的Y轴偏移量
+    public static float Jump2TargetY=0.5f;
     #endregion
 }
