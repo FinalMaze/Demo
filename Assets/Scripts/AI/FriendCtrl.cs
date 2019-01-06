@@ -233,7 +233,7 @@ public class FriendCtrl : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         transform.position = Vector2.MoveTowards(transform.position, target, PlayerData.ThrowSpeed);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(PlayerData.ThrowLongTime);
         blink = false;
     }
     #endregion
@@ -263,6 +263,7 @@ public class FriendCtrl : MonoBehaviour
             gameObject.AddComponent<Rigidbody2D>();
             tmpRgb = GetComponent<Rigidbody2D>();
         }
+        tmpRgb.sharedMaterial = Resources.Load<PhysicsMaterial2D>("Material/Friend");
         tmpRgb.freezeRotation = true;
         tmpRgb.mass = 100;
         tmpRgb.gravityScale = 100;

@@ -10,11 +10,11 @@ public class PlayerData
     //落地动作的总时长
     public static float JumpEndTime = 0.05f;
     //一段攻击动作的总时长
-    public static float AttackTime = 0.5f;
+    public static float AttackTime = 0.4f;
     //一段攻击动作开始后，设置第几秒可以进行二段攻击
     public static float Attack2StartTime = 0f;
     //二段攻击动作的总时长
-    public static float Attack2Time = 0.5f;
+    public static float Attack2Time = 0.3f;
     //投掷动作的总时长
     public static float CastTime = 0.35f;
 
@@ -102,6 +102,9 @@ public class PlayerData
     public static float ThrowDistance = 5f;
     //投掷时每次的位移量（数值越大，移动越快）
     public static float ThrowSpeed = 0.2f;
+    //投掷过程的最大持续时间(尽量和投掷持续时间相等)
+    public static float ThrowLongTime = 0.5f;
+
     //投掷后的Y轴偏移量
     public static float ThrowEndY = 0.4f;
     #endregion
