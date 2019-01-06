@@ -72,8 +72,12 @@ public class PlayerData
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 1f;
+    //第一段攻击位移速度
+    public static float AttackSpeed1 = 0.5f;
     //第二段攻击位移距离
-    public static float AttackDistance2 = 1f;
+    public static float AttackDistance2 = 5f;
+    //第二段攻击位移速度
+    public static float AttackSpeed2 = 0.25f;
 
 
     //蓄力掉mp的速度

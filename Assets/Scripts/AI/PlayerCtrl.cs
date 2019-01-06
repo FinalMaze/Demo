@@ -191,7 +191,11 @@ public class PlayerCtrl : MonoBehaviour
         #region 攻击的位移
         if (PlayerData.Attacking1)
         {
-            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, 0.5f);
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+        }
+        if (PlayerData.Attacking2)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
         }
         #endregion
 
@@ -234,6 +238,15 @@ public class PlayerCtrl : MonoBehaviour
     public void Attack2()
     {
         PlayerData.Attack2 = true;
+        if (PlayerData.Dircetion > 0)
+        {
+            tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance2, transform.position.y);
+        }
+        if (PlayerData.Dircetion < 0)
+        {
+            tmpAttackTarget = new Vector2(transform.position.x - PlayerData.AttackDistance2, transform.position.y);
+        }
+
     }
     #endregion
 

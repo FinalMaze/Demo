@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-C:/Users/Administrator/Desktop/Demo/Demo.apk
+C:/Users/Administrator/Desktop/Demo/第二段攻击有位移.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
