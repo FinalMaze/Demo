@@ -75,7 +75,7 @@ public class PlayerData
     //第一段攻击位移速度
     public static float AttackSpeed1 = 0.5f;
     //第二段攻击位移距离
-    public static float AttackDistance2 = 5f;
+    public static float AttackDistance2 = 0.5f;
     //第二段攻击位移速度
     public static float AttackSpeed2 = 0.25f;
 
@@ -127,5 +127,12 @@ public class PlayerData
     //蓄力多少时间以下进行投掷
     public static float ToCastStayTime = 1f;
 
+    #endregion
+
+    #region 滑动相关的数据
+    //触发冲刺的最小滑动距离
+    public static float SwipeDistance = 80f;
+    //触发冲刺的最少滑动时间
+    public static float SwipeTime = 0.4f;
     #endregion
 }

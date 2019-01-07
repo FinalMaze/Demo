@@ -22,6 +22,7 @@ public class AIManager : MonoBehaviour
             return player;
         }
     }
+    Transform tmpFriend;
     private void Awake()
     {
         instance = this;
@@ -39,12 +40,12 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region 创建召唤兽
-    public void BuildFriend(string path,Transform player)
+    public void BuildFriend(string path,Transform tmpBase)
     {
         Object tmpObj = Resources.Load(path);
-        GameObject tmpPlayer = GameObject.Instantiate(tmpObj) as GameObject;
-        tmpPlayer.AddComponent<PlayerCtrl>();
-        tmpPlayer.transform.SetParent(player, false);
+        GameObject tmpFriend = GameObject.Instantiate(tmpObj) as GameObject;
+        tmpFriend.AddComponent<FriendCtrl>();
+        tmpFriend.transform.SetParent(tmpBase,false);
 
     }
     #endregion

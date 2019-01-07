@@ -37,6 +37,11 @@ public class PlayerManager : MonoBehaviour
 
         //检测什么时候二段跳
         JumpAgain();
+
+        if (FriendData.Smalling&&!FriendData.Biging&&!FriendData.Casting&&!PlayerData.Casting)
+        {
+            CancelInvoke("RandomPos");
+        }
     }
 
     #region 长按开始时调用的方法
@@ -203,7 +208,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     FriendCtrl.Instance.ThrowFriend(new Vector2(player.transform.position.x - PlayerData.ThrowDistance, player.transform.position.y + PlayerData.ThrowEndY));
                 }
-
+                InvokeRepeating("RandomPos", 1, 1.5f);
             }
         }
     }
@@ -245,4 +250,10 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
+    #region 给宠物巡逻随机一个目标点
+    private void RandomPos()
+    {
+        FriendCtrl.Instance.RandomPos();
+    }
+    #endregion
 }

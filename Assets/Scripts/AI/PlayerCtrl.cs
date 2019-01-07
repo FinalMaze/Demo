@@ -51,7 +51,8 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         // todo
-        //AIManager.Instance.BuildFriend("",transform);
+        Transform tmpFriend = GameObject.FindGameObjectWithTag("FriendParent").transform;
+        AIManager.Instance.BuildFriend("Prefabs/Friend", tmpFriend);
     }
     float run;
     float moveSpeed = PlayerData.runSpeed;
@@ -99,7 +100,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 蓄力 中锁移动
-        if (PlayerData.Amassing|| PlayerData.Attacking || PlayerData.Casting)
+        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -146,11 +147,11 @@ public class PlayerCtrl : MonoBehaviour
         #region 冲刺
         if (!PlayerData.Jumping)
         {
-            if (rightBlink&&!leftBlink)
+            if (rightBlink && !leftBlink)
             {
                 StartCoroutine("RightBlink");
             }
-            if (leftBlink&&!rightBlink)
+            if (leftBlink && !rightBlink)
             {
                 StartCoroutine("LeftBlink");
             }
@@ -158,8 +159,8 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 在地上的动作判断
-        if (PlayerData.playerIsGround && !PlayerData.Jumping&&!PlayerData.Amassing&&!PlayerData.Attacking
-            &&!PlayerData.Casting)
+        if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
+            && !PlayerData.Casting)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -179,7 +180,7 @@ public class PlayerCtrl : MonoBehaviour
             }
             //如果横轴为0，那么变成Idel状态
             else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2
-                &&!PlayerData.Walking)
+                && !PlayerData.Walking)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -209,7 +210,7 @@ public class PlayerCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        if (FriendData.Smalling&& !FriendData.Biging&&!FriendData.Attacking&&!FriendData.Casting)
+        if (FriendData.Smalling && !FriendData.Biging && !FriendData.Attacking && !FriendData.Casting)
         {
             ChangeState((sbyte)Data.AnimationCount.Amass);
         }
@@ -225,7 +226,7 @@ public class PlayerCtrl : MonoBehaviour
             PlayerData.Attack = true;
             //todo 伤害计算
             ChangeState((sbyte)Data.AnimationCount.Attack);
-            if (PlayerData.Dircetion>0)
+            if (PlayerData.Dircetion > 0)
             {
                 tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance1, transform.position.y);
             }
@@ -299,31 +300,37 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void BlinkR(Gesture gesture)
     {
-        if (!PlayerData.Jumping)
+        if (gesture.swipeLength>80f)
         {
-            if (rightBlink || leftBlink)
+            if (!PlayerData.Jumping)
             {
-                return;
-            }
-            tmp = transform.position;
-            if (gesture.actionTime < 0.3f)
-            {
-                rightBlink = true;
+                if (rightBlink || leftBlink)
+                {
+                    return;
+                }
+                tmp = transform.position;
+                if (gesture.actionTime < 0.4f)
+                {
+                    rightBlink = true;
+                }
             }
         }
     }
     public void BlinkF(Gesture gesture)
     {
-        if (!PlayerData.Jumping)
+        if (gesture.swipeLength>80f)
         {
-            if (rightBlink || leftBlink)
+            if (!PlayerData.Jumping)
             {
-                return;
-            }
-            tmp = transform.position;
-            if (gesture.actionTime < 0.3f)
-            {
-                leftBlink = true;
+                if (rightBlink || leftBlink)
+                {
+                    return;
+                }
+                tmp = transform.position;
+                if (gesture.actionTime < 0.4f)
+                {
+                    leftBlink = true;
+                }
             }
         }
     }
@@ -331,7 +338,7 @@ public class PlayerCtrl : MonoBehaviour
     IEnumerator RightBlink()
     {
         timeCount += Time.deltaTime;
-        if (timeCount<0.3f)
+        if (timeCount < 0.3f)
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(tmp.x + PlayerData.BlinkDistance, tmp.y), PlayerData.BlinkTempDistance);
         }

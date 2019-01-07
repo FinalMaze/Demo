@@ -30,8 +30,6 @@ public class FriendCtrl : MonoBehaviour
     float timeCount;
     //跳跃计时器
     float jumpTimeCount;
-    //上次记录的时间
-    float lastTime;
     //是否冲刺
     bool blink = false;
     //是否Back
@@ -276,8 +274,8 @@ public class FriendCtrl : MonoBehaviour
         }
         tmpRgb.sharedMaterial = Resources.Load<PhysicsMaterial2D>("Material/Friend");
         tmpRgb.freezeRotation = true;
-        tmpRgb.mass = 100;
-        tmpRgb.gravityScale = 100;
+        //tmpRgb.mass = 100;
+        //tmpRgb.gravityScale = 100;
     }
 
     //销毁刚体
@@ -357,29 +355,31 @@ public class FriendCtrl : MonoBehaviour
     #region 巡逻
     private void Partol()
     {
-        //Debug.Log(FriendData.Biging);
-        if (FriendData.Biging)
+        //大型时的巡逻
+        if (FriendData.Biging&& !FriendData.Backing)
         {
-            if (Time.time - lastTime > FriendData.PartolTime && !FriendData.Attacking)
+            if (ran > 0)
             {
-                lastTime = Time.time;
-                ran = Random.Range(-5, 5);
-                if (ran < 0)
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            if (ran < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            if (canPartol)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
+                if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
                 {
-                    ran = Mathf.Clamp(ran, -5, -3);
-                    tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
+                    ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                }
+                else
+                {
+                    canPartol = false;
+                    ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+                }
+            }
 
-                }
-                if (ran > 0)
-                {
-                    ran = Mathf.Clamp(ran, 3, 5);
-                    tmpVec = new Vector2(transform.position.x + ran, transform.position.y);
-                }
-            }
-            if (!FriendData.Backing)
-            {
-                StartCoroutine("IEPatrol");
-            }
         }
         else
         {
@@ -409,39 +409,52 @@ public class FriendCtrl : MonoBehaviour
 
     }
 
-    IEnumerator IEPatrol()
+    public  void RandomPos()
     {
-        if (ran > 0)
+        if (FriendData.Biging && !FriendData.Backing)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        }
-        if (ran < 0)
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
-        if (canPartol)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.08f);
-            if (Vector2.Distance(transform.position, tmpVec) != 0f)
+            ran = Random.Range(-5, 5);
+            if (ran < 0)
             {
-                //Debug.Log("巡逻中");
-                ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                ran = Mathf.Clamp(ran, -5, -3);
+                tmpVec.x = transform.position.x + ran;
+                tmpVec.y = transform.position.y;
             }
-            else
+            if (ran > 0)
             {
-                ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+                ran = Mathf.Clamp(ran, 3, 5);
+                tmpVec.x = transform.position.x + ran;
+                tmpVec.y = transform.position.y;
             }
-        }
-        yield return new WaitForSeconds(0.4f);
-        if (FriendData.Biging)
-        {
             canPartol = true;
         }
-        else
-        {
-            canPartol = false;
-        }
     }
+
+    //IEnumerator IEPatrol()
+    //{
+    //    if (ran > 0)
+    //    {
+    //        transform.rotation = Quaternion.Euler(0, 0, 0);
+    //    }
+    //    if (ran < 0)
+    //    {
+    //        transform.rotation = Quaternion.Euler(0, 180, 0);
+    //    }
+    //    if (canPartol)
+    //    {
+    //        transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.16f);
+    //        if (Vector2.Distance(transform.position, tmpVec) !=0f)
+    //        {
+    //            ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+    //        }
+    //        else
+    //        {
+    //            ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+    //        }
+    //    }
+    //    yield return new WaitForSeconds(1.5f);
+    //    canPartol = false;
+    //}
     #endregion
 
     #region 二段跳被踩

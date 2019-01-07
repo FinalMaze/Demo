@@ -8,6 +8,7 @@ TagManager:
   - MainCanvas
   - EasyTouch
   - PlayerDown
+  - FriendParent
   layers:
   - Default
   - TransparentFX
