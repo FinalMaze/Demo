@@ -226,6 +226,7 @@ public class PlayerCtrl : MonoBehaviour
             PlayerData.Attack = true;
             //todo 伤害计算
             ChangeState((sbyte)Data.AnimationCount.Attack);
+            Invoke("Damage", PlayerData.AttackTime / 2);
             if (PlayerData.Dircetion > 0)
             {
                 tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance1, transform.position.y);
@@ -239,6 +240,7 @@ public class PlayerCtrl : MonoBehaviour
     public void Attack2()
     {
         PlayerData.Attack2 = true;
+        Invoke("Damage", PlayerData.Attack2Time / 2);
         if (PlayerData.Dircetion > 0)
         {
             tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance2, transform.position.y);
@@ -248,6 +250,28 @@ public class PlayerCtrl : MonoBehaviour
             tmpAttackTarget = new Vector2(transform.position.x - PlayerData.AttackDistance2, transform.position.y);
         }
 
+    }
+    #endregion
+
+    #region 攻击造成伤害
+    public void Damage()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<2f)
+            {
+                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage);
+            }
+        }
+    }
+    #endregion
+
+    #region 被攻击
+    public void Hurt(float reduceHP)
+    {
+        PlayerData.hp -= reduceHP;
+        GameInterfaceCtrl.Instance.UpdateHP();
+        //播放被攻击动画
     }
     #endregion
 

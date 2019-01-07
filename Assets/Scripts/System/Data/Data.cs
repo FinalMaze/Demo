@@ -6,6 +6,8 @@ public class Data
 {
     public static bool EasyTouch = false;
 
+    public static List<GameObject> allEnemy=new List<GameObject>();
+
     public enum Audio
     {
         translate
@@ -38,6 +40,19 @@ public class Data
         Cast,
         Idel2,
         Run2,
+
+
+        Max
+    }
+
+    public enum EnemyAnimationCount
+    {
+        Idel,
+        Walk,
+        Attack,
+        //Attack2,
+        Hurt,
+        Die,
 
 
         Max

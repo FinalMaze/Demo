@@ -408,8 +408,10 @@ public class FriendCtrl : MonoBehaviour
         }
 
     }
+    #endregion
 
-    public  void RandomPos()
+    #region 随机出一个目标点
+    public void RandomPos()
     {
         if (FriendData.Biging && !FriendData.Backing)
         {
@@ -429,32 +431,6 @@ public class FriendCtrl : MonoBehaviour
             canPartol = true;
         }
     }
-
-    //IEnumerator IEPatrol()
-    //{
-    //    if (ran > 0)
-    //    {
-    //        transform.rotation = Quaternion.Euler(0, 0, 0);
-    //    }
-    //    if (ran < 0)
-    //    {
-    //        transform.rotation = Quaternion.Euler(0, 180, 0);
-    //    }
-    //    if (canPartol)
-    //    {
-    //        transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.16f);
-    //        if (Vector2.Distance(transform.position, tmpVec) !=0f)
-    //        {
-    //            ChangeState((sbyte)Data.FriendAnimationCount.Run2);
-    //        }
-    //        else
-    //        {
-    //            ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
-    //        }
-    //    }
-    //    yield return new WaitForSeconds(1.5f);
-    //    canPartol = false;
-    //}
     #endregion
 
     #region 二段跳被踩

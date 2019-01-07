@@ -26,6 +26,8 @@ public class AIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        GameObject tmpEnemy = GameObject.Find("Enemy");
+        BulidEnemy("Prefabs/Enemy", tmpEnemy.transform);
     }
     #endregion
 
@@ -56,6 +58,7 @@ public class AIManager : MonoBehaviour
         Object tmpObj = Resources.Load(path);
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
         tmpEnemy.AddComponent<EnemyCtrl>();
+        Data.allEnemy.Add(tmpEnemy);
         tmpEnemy.transform.SetParent(tmpBase, false);
     }
     #endregion

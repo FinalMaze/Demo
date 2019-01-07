@@ -69,6 +69,8 @@ public class PlayerData
     public static float hpMax = 100f;
     public static float mp = 100f;
     public static float mpMax = 100f;
+    //攻击力
+    public static float Damage = 50f;
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 1f;
@@ -79,6 +81,8 @@ public class PlayerData
     //第二段攻击位移速度
     public static float AttackSpeed2 = 0.25f;
 
+    //攻击可以造成伤害的距离
+    public static float DamageDistance = 2f;
 
     //蓄力掉mp的速度
     public static float AmassingMP = 0.1f;
