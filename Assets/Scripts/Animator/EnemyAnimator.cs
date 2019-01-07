@@ -109,14 +109,14 @@ public class EnemyDie : FsmBase
     Animator animator;
     EnemyData enemyData;
     float timeCount;
-    public EnemyDie(Animator tmpAnimator, EnemyData tmpEnemyData)
+    public EnemyDie(Animator tmpAnimator,ref EnemyData tmpEnemyData)
     {
         animator = tmpAnimator;
-        enemyData = tmpEnemyData;
+        this.enemyData = tmpEnemyData;
     }
     public override void OnEnter()
     {
-        enemyData.Dieing = true;
+        enemyData.Die = true;
         animator.SetInteger("Index", 4);
     }
     public override void OnStay()
@@ -125,7 +125,6 @@ public class EnemyDie : FsmBase
         if (timeCount > 0.64f)
         {
             timeCount = 0;
-            enemyData.Dieing = false;
         }
     }
     public override void OnExit()

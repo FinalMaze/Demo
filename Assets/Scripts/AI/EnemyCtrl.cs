@@ -24,7 +24,7 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyAttack);
         EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData);
         fsmManager.AddState(enemyHurt);
-        EnemyDie enemyDie = new EnemyDie(animator, enemyData);
+        EnemyDie enemyDie = new EnemyDie(animator,ref enemyData);
         fsmManager.AddState(enemyDie);
         #endregion
     }
@@ -37,20 +37,24 @@ public class EnemyCtrl : MonoBehaviour
         direction = PlayerCtrl.Instance.transform.position.x - transform.position.x;
 
         #region 强制进入Idel
-        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Dieing)
+        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Die)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
         }
         #endregion
+
+        if (enemyData.HP == 0 && !enemyData.Die)
+        {
+            ChangeState((sbyte)Data.EnemyAnimationCount.Die);
+        }
 
         //巡逻
         EnemyAI();
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Hurt(2);
+            Hurt(50);
         }
-
 
     }
     public void OnDestroy()
@@ -63,7 +67,7 @@ public class EnemyCtrl : MonoBehaviour
     float attackTimeCount;
     public void Patrol()
     {
-        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Dieing)
+        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Die)
         {
             //如果大于怪物的可跟随距离，进行巡逻
             if (distance > enemyData.FllowDistance)
@@ -148,7 +152,7 @@ public class EnemyCtrl : MonoBehaviour
     #region 怪物行为
     public void EnemyAI()
     {
-        if (!enemyData.Dieing)
+        if (!enemyData.Die)
         {
             Patrol();
         }
@@ -159,15 +163,15 @@ public class EnemyCtrl : MonoBehaviour
     #region 受击
     public void Hurt(float reduceHP)
     {
-        enemyData.HP -= reduceHP;
-        enemyData.HP = Mathf.Clamp(enemyData.HP, 0, enemyData.MaxHP);
-        if (enemyData.HP <= 0)
+        
+        enemyData.HP = Mathf.Clamp(enemyData.HP -= reduceHP, 0, enemyData.MaxHP);
+        if (enemyData.HP != 0)
         {
-            ChangeState((sbyte)Data.EnemyAnimationCount.Die);
+            ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
         }
         else
         {
-            ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
+            ChangeState((sbyte)Data.EnemyAnimationCount.Die);
         }
     }
     #endregion

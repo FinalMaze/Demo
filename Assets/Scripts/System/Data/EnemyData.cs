@@ -10,7 +10,7 @@ public class EnemyData
     //是否在被攻击动作中
     public bool Hurting = false;
     //是否在死亡动作中
-    public bool Dieing = false;
+    public bool Die = false;
     #endregion
 
     #region 怪物动作数据信息
