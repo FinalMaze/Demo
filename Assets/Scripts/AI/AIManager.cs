@@ -58,8 +58,7 @@ public class AIManager : MonoBehaviour
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpFriend = GameObject.Instantiate(tmpObj) as GameObject;
-        tmpFriend.AddComponent<FriendCtrl>();
-        tmpFriend.transform.SetParent(tmpBase,false);
+        tmpFriend.transform.SetParent(tmpBase);
 
     }
     #endregion

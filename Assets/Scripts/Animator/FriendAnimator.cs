@@ -5,6 +5,7 @@ using UnityEngine;
 public class FriendIdel : FsmBase
 {
     Animator animator;
+    float timeCount;
     public FriendIdel(Animator tmpAnimator)
     {
         animator = tmpAnimator;
@@ -25,6 +26,18 @@ public class FriendIdel : FsmBase
 
         FriendData.State = 0;
         animator.SetInteger("Index", 0);
+    }
+    public override void OnStay()
+    {
+        if (FriendData.CanBack&&PlayerData.Blowing)
+        {
+            timeCount += Time.deltaTime;
+            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position);
+            if (timeCount>FriendData.comeTime)
+            {
+                FriendData.CanBack = false;
+            }
+        }
     }
 }
 public class FriendMove : FsmBase
@@ -196,14 +209,12 @@ public class FriendBack : FsmBase
         {
             timeCount = 0;
             //FriendData.CanBack = false;
-            Debug.Log(FriendData.Backing);
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
         }
     }
     public override void OnExit()
     {
         FriendData.Backing = false;
-        FriendData.CanBack = false;
         FriendData.Smalling = true;
     }
 }

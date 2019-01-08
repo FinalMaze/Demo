@@ -38,7 +38,6 @@ public class FriendCtrl : MonoBehaviour
     bool canPartol = false;
     //巡逻用的随机数
     float ran;
-    GameObject playerFoot;
     #endregion
 
     private void Awake()
@@ -48,7 +47,6 @@ public class FriendCtrl : MonoBehaviour
         fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
         animator = GetComponent<Animator>();
         friendC = GetComponent<BoxCollider2D>();
-        playerFoot = GameObject.FindGameObjectWithTag("PlayerDown");
         #endregion
 
         #region 注册动画
@@ -80,7 +78,7 @@ public class FriendCtrl : MonoBehaviour
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
         PlayerData.distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
 
-        FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, transform.position);
+        
 
         #region 检测什么时候被踩
         if (FriendData.Jumped)
@@ -306,7 +304,7 @@ public class FriendCtrl : MonoBehaviour
                 {
                     distanceV = new Vector2(-x, y);
                 }
-                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             if (distance < 0)
             {
@@ -318,7 +316,7 @@ public class FriendCtrl : MonoBehaviour
                 {
                     distanceV = new Vector2(x, y);
                 }
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
 
         }
@@ -334,7 +332,7 @@ public class FriendCtrl : MonoBehaviour
                 {
                     distanceV = new Vector2(-0.25f, -0.27f);
                 }
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
             if (PlayerData.Dircetion < 0)
             {
@@ -346,7 +344,7 @@ public class FriendCtrl : MonoBehaviour
                 {
                     distanceV = new Vector2(0.25f, -0.27f);
                 }
-                transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
         transform.position = Vector2.SmoothDamp(transform.position, playerPostion + distanceV, ref velocity, FriendData.comeTime * timeRatio);

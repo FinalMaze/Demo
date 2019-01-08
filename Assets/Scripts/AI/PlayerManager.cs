@@ -5,6 +5,7 @@ using HedgehogTeam.EasyTouch;
 
 public class PlayerManager : MonoBehaviour
 {
+    #region 单例
     private GameObject player;
     private GameObject friend;
     private static PlayerManager instance;
@@ -17,10 +18,15 @@ public class PlayerManager : MonoBehaviour
     {
         instance = this;
     }
+    #endregion
+
+    #region 初始化
     private void Start()
     {
         player = PlayerCtrl.Instance.gameObject;
         friend = FriendCtrl.Instance.gameObject;
+        playerFoot = GameObject.FindGameObjectWithTag("PlayerDown");
+
         allBlink = new QuickSwipe[2];
         GameObject tmpEasy = GameObject.FindGameObjectWithTag("EasyTouch");
         allBlink = tmpEasy.GetComponents<QuickSwipe>();
@@ -30,17 +36,64 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
+    #endregion
+
+    GameObject playerFoot;
     private void Update()
     {
+
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
+        FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, FriendCtrl.Instance.transform.position);
 
         //检测什么时候二段跳
         JumpAgain();
 
-        if (FriendData.Smalling&&!FriendData.Biging&&!FriendData.Casting&&!PlayerData.Casting)
+        if (FriendData.Smalling && !FriendData.Biging && !FriendData.Casting && !PlayerData.Casting)
         {
             CancelInvoke("RandomPos");
+        }
+
+    }
+
+
+    #region 宠物按键相关
+
+    public void SimpleFriend()
+    {
+        if (up)
+        {
+
+        }
+        else if (down)
+        {
+            if (FriendData.Biging && !FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back)
+            {
+                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                {
+                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+                    FriendCtrl.Instance.Back();
+
+                    PlayerData.mp -= PlayerData.BackMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
+                }
+            }
+            else
+            {
+                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                {
+                    PlayerData.mp -= PlayerData.BackMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
+
+                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+                    FriendData.CanBack = true;
+                }
+            }
+
+        }
+        else if (!up && !down)
+        {
+            Throw();
         }
     }
 
@@ -72,20 +125,20 @@ public class PlayerManager : MonoBehaviour
     public void StayAttack(Gesture gesture)
     {
         //大型时，长按触发的方法
-        if (tmpBiging || FriendData.Biging)
-        {
-            if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
-            {
-                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-                {
-                    FriendCtrl.Instance.Back();
-                    PlayerData.mp -= PlayerData.BackMP;
-                    GameInterfaceCtrl.Instance.UpdateMP();
-                }
-            }
-        }
+        //if (tmpBiging || FriendData.Biging)
+        //{
+        //    if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
+        //    {
+        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+        //        {
+        //            FriendCtrl.Instance.Back();
+        //            PlayerData.mp -= PlayerData.BackMP;
+        //            GameInterfaceCtrl.Instance.UpdateMP();
+        //        }
+        //    }
+        //}
         //小型时，长按触发的方法
-        else if (!tmpBiging && FriendData.Smalling)
+        if (!tmpBiging && FriendData.Smalling)
         {
             if (tmpDis < PlayerData.CanThrow)
             {
@@ -98,15 +151,15 @@ public class PlayerManager : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                if (PlayerData.mp != 0)
-                {
-                    PlayerData.mp = reduceMP;
-                    GameInterfaceCtrl.Instance.UpdateMP();
-                    FriendCtrl.Instance.GoToPlayer(tmpPlayer);
-                }
-            }
+            //else
+            //{
+            //    if (PlayerData.mp != 0)
+            //    {
+            //        PlayerData.mp = reduceMP;
+            //        GameInterfaceCtrl.Instance.UpdateMP();
+            //        FriendCtrl.Instance.GoToPlayer(tmpPlayer);
+            //    }
+            //}
         }
     }
     #endregion
@@ -130,7 +183,9 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    #region 普通攻击
+    #endregion
+
+    #region 普通攻击按键相关
     public void SimpleAttack()
     {
         if (PlayerData.Attacking && !PlayerData.Attacking2)
@@ -228,9 +283,15 @@ public class PlayerManager : MonoBehaviour
     #region 二段跳的方法
     private void JumpAgain()
     {
+        //Debug.Log(PlayerData.Jumping);
+       // Debug.Log(PlayerData.Downing);
+       // Debug.Log(FriendData.JumpDistance );
+        //Debug.Log(Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f);
+        //Debug.Log(FriendData.Smalling);
         if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 1f
             && Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f && FriendData.Smalling)
         {
+            Debug.Log("JUMP2");
             if (!PlayerData.Jump2ing)
             {
                 PlayerData.Jump2ing = true;
@@ -249,4 +310,48 @@ public class PlayerManager : MonoBehaviour
         FriendCtrl.Instance.RandomPos();
     }
     #endregion
+
+
+
+
+    #region 方向键下触发中
+    bool down = false;
+    public void Down(Vector2 vector2)
+    {
+        if (vector2.y > 0.4f)
+        {
+            down = true;
+        }
+        else
+        {
+            down = false;
+        }
+    }
+    #endregion
+
+    #region 方向键上触发中
+    bool up = false;
+    public void UP(Vector2 vector2)
+    {
+        if (vector2.y < -0.4f)
+        {
+            up = true;
+        }
+        else
+        {
+            up = false;
+        }
+
+    }
+    #endregion
+
+    #region 按键归位
+    public void PressUP()
+    {
+        down = false;
+        up = false;
+    }
+    #endregion
+
+
 }

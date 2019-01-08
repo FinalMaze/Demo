@@ -18,7 +18,7 @@ public class PlayerData
     //投掷动作的总时长
     public static float CastTime = 0.35f;
     //召回动作的总时长
-    public static float BlowTime = 0.4f;
+    public static float BlowTime = 0.32f;
     //受击动作的总时长
     public static float HurtTime = 0.17f;
 

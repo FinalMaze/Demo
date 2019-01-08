@@ -48,11 +48,15 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(playerCast);
         PlayerJumpEnd playerJumpEnd = new PlayerJumpEnd(animator);
         fsmManager.AddState(playerJumpEnd);
+        PlayerBlow PlayerBlow = new PlayerBlow(animator);
+        fsmManager.AddState(PlayerBlow);
+        PlayerHurt PlayerHurt = new PlayerHurt(animator);
+        fsmManager.AddState(PlayerHurt);
         #endregion
 
         // todo
-        Transform tmpFriend = GameObject.FindGameObjectWithTag("FriendParent").transform;
-        AIManager.Instance.BuildFriend("Prefabs/Friend", tmpFriend);
+        //Transform tmpFriend = GameObject.FindGameObjectWithTag("FriendParent").transform;
+        //AIManager.Instance.BuildFriend("Prefabs/Friend", tmpFriend);
     }
     float run;
     float moveSpeed = PlayerData.runSpeed;
@@ -180,7 +184,7 @@ public class PlayerCtrl : MonoBehaviour
             }
             //如果横轴为0，那么变成Idel状态
             else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2
-                && !PlayerData.Walking)
+                && !PlayerData.Walking&&!PlayerData.Hurting&&!PlayerData.Blowing)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -190,8 +194,8 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 攻击的位移
-        if (canAttackBlink)
-        {
+        //if (canAttackBlink)
+        //{
             if (PlayerData.Attacking1)
             {
                 transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
@@ -201,7 +205,7 @@ public class PlayerCtrl : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
             }
 
-        }
+        //}
         #endregion
 
     }
