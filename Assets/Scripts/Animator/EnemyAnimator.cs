@@ -125,6 +125,7 @@ public class EnemyDie : FsmBase
         if (timeCount > 0.64f)
         {
             timeCount = 0;
+
         }
     }
     public override void OnExit()

@@ -23,13 +23,25 @@ public class AIManager : MonoBehaviour
         }
     }
     Transform tmpFriend;
+    GameObject tmpBase;
+    GameObject tmpEnemy;
     private void Awake()
     {
         instance = this;
-        GameObject tmpEnemy = GameObject.Find("Enemy");
-        BulidEnemy("Prefabs/Enemy", tmpEnemy.transform);
+
+        tmpBase = GameObject.Find("Enemy");
+        tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
     }
     #endregion
+
+    private void Update()
+    {
+        if (tmpEnemy==null)
+        {
+            tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
+        }
+    }
+
 
     #region 创建玩家角色
     public void BulidPlayer(string path,Transform tmpBase)
@@ -53,13 +65,35 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region 创建敌人
-    public void BulidEnemy(string path,Transform tmpBase)
+    public GameObject BulidEnemy(string path,Transform tmpBase)
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
         //tmpEnemy.AddComponent<EnemyCtrl>();
         Data.allEnemy.Add(tmpEnemy);
         tmpEnemy.transform.SetParent(tmpBase, false);
+        return tmpEnemy;
+    }
+    #endregion
+
+    #region 销毁敌人
+    public void DelEnemy(GameObject gameObject)
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Data.allEnemy[i]==gameObject)
+            {
+                //Data.allEnemy.Remove(Data.allEnemy[i]);
+                //Destroy(Data.allEnemy[i]);
+                Del(Data.allEnemy[i]);
+                //Destroy(gameObject);
+            }
+        }
+    }
+    public void Del(GameObject tmpObj)
+    {
+        Data.allEnemy.Remove(tmpObj);
+        Destroy(tmpObj);
     }
     #endregion
 }

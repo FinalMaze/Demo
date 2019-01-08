@@ -7,11 +7,16 @@ public class EnemyCtrl : MonoBehaviour
     FSMManager fsmManager;
     Animator animator;
     EnemyData enemyData;
+
+    Transform tmpBase;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         enemyData = new EnemyData();
         fsmManager = new FSMManager((int)Data.EnemyAnimationCount.Max);
+
+        tmpBase = transform.GetComponentInParent<Transform>();
+
 
         InvokeRepeating("RandomPos", 2, 2);
 
@@ -43,10 +48,11 @@ public class EnemyCtrl : MonoBehaviour
         }
         #endregion
 
-        if (enemyData.HP == 0 && !enemyData.Die)
-        {
-            ChangeState((sbyte)Data.EnemyAnimationCount.Die);
-        }
+        //if (enemyData.HP == 0 && !enemyData.Die)
+        //{
+        //    ChangeState((sbyte)Data.EnemyAnimationCount.Die);
+            
+        //}
 
         //巡逻
         EnemyAI();
@@ -55,11 +61,6 @@ public class EnemyCtrl : MonoBehaviour
         {
             Hurt(50);
         }
-
-    }
-    public void OnDestroy()
-    {
-        Debug.Log("死亡");
     }
 
     #region 巡逻
@@ -107,7 +108,7 @@ public class EnemyCtrl : MonoBehaviour
                     {
                         transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
-                    transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, 0.10f);
+                    transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, 0.08f);
                     ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
                 }
                 else
@@ -116,7 +117,7 @@ public class EnemyCtrl : MonoBehaviour
                     if (attackTimeCount > 1f)
                     {
                         attackTimeCount = 0;
-                        ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
+                        Attack();
                     }
                 }
             }
@@ -160,19 +161,52 @@ public class EnemyCtrl : MonoBehaviour
     }
     #endregion
 
+    #region 攻击
+    public void Attack()
+    {
+        ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
+        Invoke("Damage", EnemyData.AttackTime / 2);
+    }
+    private void Damage()
+    {
+        if (distance<3f)
+        {
+            PlayerData.hp -= enemyData.Damage;
+            GameInterfaceCtrl.Instance.UpdateHP();
+            if (!PlayerData.Attacking)
+            {
+                //播放玩家受击动画
+            }
+        }
+    }
+    #endregion
+
     #region 受击
     public void Hurt(float reduceHP)
     {
-        
+        Debug.Log("被攻击前血量" + enemyData.HP);
         enemyData.HP = Mathf.Clamp(enemyData.HP -= reduceHP, 0, enemyData.MaxHP);
+        Debug.Log("被攻击后血量" + enemyData.HP);
         if (enemyData.HP != 0)
         {
-            ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
+            if (!enemyData.Attacking && !enemyData.Die)
+            {
+                ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
+            }
         }
         else
         {
+            Debug.Log("死亡");
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
+            Invoke("Destory", 0.64f);
         }
+    }
+    #endregion
+
+    #region 重生
+    public void Destory()
+    {
+        AIManager.Instance.DelEnemy(gameObject);
     }
     #endregion
 
