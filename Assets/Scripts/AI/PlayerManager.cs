@@ -83,9 +83,6 @@ public class PlayerManager : MonoBehaviour
                     GameInterfaceCtrl.Instance.UpdateMP();
                 }
             }
-            else
-            {
-            }
         }
         //小型时，长按触发的方法
         else if (!tmpBiging && FriendData.Smalling)
@@ -127,10 +124,6 @@ public class PlayerManager : MonoBehaviour
             {
                 Throw();
             }
-            //else
-            //{
-            //    PlayerCtrl.Instance.Attack();
-            //}
         }
 
         tmpBiging = FriendData.Biging;

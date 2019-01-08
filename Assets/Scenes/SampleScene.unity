@@ -113,6 +113,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &131260121 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4824520659314818, guid: 2188ef934f0a0a34a916ba44fe53de7f,
+    type: 2}
+  m_PrefabInternal: {fileID: 753696565}
 --- !u!1 &156076384
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,6 +214,165 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &369057523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 369057524}
+  - component: {fileID: 369057528}
+  - component: {fileID: 369057527}
+  - component: {fileID: 369057526}
+  - component: {fileID: 369057525}
+  m_Layer: 0
+  m_Name: Jump
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &369057524
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369057523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268868899}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -81.1, y: 200}
+  m_SizeDelta: {x: 80, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &369057525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369057523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b7affbfb3c1534484689f270420489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quickActionName: QuickEnterOverExit2991cd6
+  isMultiTouch: 0
+  is2Finger: 0
+  isOnTouch: 0
+  enablePickOverUI: 0
+  resetPhysic: 0
+  directAction: 0
+  axesAction: 0
+  sensibility: 1
+  directCharacterController: {fileID: 0}
+  inverseAxisValue: 0
+  onTouchEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 549357756}
+        m_MethodName: StartJump
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchEnter, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onTouchOver:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchOver, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onTouchExit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchExit, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &369057526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369057523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 369057527}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &369057527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369057523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: cbe4808a8489a70479e552ac5073bcce, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &369057528
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369057523}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,6 +564,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 549357755}
+  - component: {fileID: 549357756}
+  - component: {fileID: 549357759}
+  - component: {fileID: 549357758}
+  - component: {fileID: 549357757}
   m_Layer: 8
   m_Name: PlayerParent
   m_TagString: PlayerParent
@@ -421,6 +589,83 @@ Transform:
   m_Father: {fileID: 598475641}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &549357756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 549357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90d2ebd9ca2dfb4d919026cdf988ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!70 &549357757
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 549357754}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.44, y: 3.36}
+  m_Direction: 0
+--- !u!50 &549357758
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 549357754}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 6.5
+  m_Material: {fileID: 6200000, guid: 5304bdf694d3a094a96e0457d7ac08b8, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &549357759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 549357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59473cb3a3709bc429257abd729f0616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_JumpForce: 1000
+  m_CrouchSpeed: 0.36
+  m_MovementSmoothing: 0.05
+  m_AirControl: 0
+  m_WhatIsGround:
+    serializedVersion: 2
+    m_Bits: 4294965503
+  m_GroundCheck: {fileID: 131260121}
+  m_CeilingCheck: {fileID: 1501479022}
+  m_CrouchDisableCollider: {fileID: 0}
+  OnLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnCrouchEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: CharacterController2D+BoolEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &580317907
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,12 +989,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4021323977190596, guid: 2188ef934f0a0a34a916ba44fe53de7f,
     type: 2}
   m_PrefabInternal: {fileID: 753696565}
---- !u!114 &616463362 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114657957359138666, guid: 2188ef934f0a0a34a916ba44fe53de7f,
-    type: 2}
-  m_PrefabInternal: {fileID: 753696565}
-  m_Script: {fileID: 11500000, guid: c90d2ebd9ca2dfb4d919026cdf988ee6, type: 3}
 --- !u!1 &689570770
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +1086,21 @@ Prefab:
       propertyPath: m_WhatIsGround.m_Bits
       value: 4294965503
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 70583142469361832, guid: 2188ef934f0a0a34a916ba44fe53de7f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651595182268250, guid: 2188ef934f0a0a34a916ba44fe53de7f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114657957359138666, guid: 2188ef934f0a0a34a916ba44fe53de7f, type: 2}
+    - {fileID: 50448370095975306, guid: 2188ef934f0a0a34a916ba44fe53de7f, type: 2}
+    - {fileID: 114651595182268250, guid: 2188ef934f0a0a34a916ba44fe53de7f, type: 2}
+    - {fileID: 70583142469361832, guid: 2188ef934f0a0a34a916ba44fe53de7f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2188ef934f0a0a34a916ba44fe53de7f, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &767192140
@@ -1400,7 +1653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -151, y: 203}
+  m_AnchoredPosition: {x: -186, y: 155}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1184698991
@@ -1799,6 +2052,7 @@ RectTransform:
   - {fileID: 595080241}
   - {fileID: 580317908}
   - {fileID: 1543234546}
+  - {fileID: 369057524}
   m_Father: {fileID: 689570771}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1908,6 +2162,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1359362408}
+--- !u!4 &1501479022 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4978239015562276, guid: 2188ef934f0a0a34a916ba44fe53de7f,
+    type: 2}
+  m_PrefabInternal: {fileID: 753696565}
 --- !u!1 &1543234545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,7 +2177,6 @@ GameObject:
   - component: {fileID: 1543234546}
   - component: {fileID: 1543234548}
   - component: {fileID: 1543234547}
-  - component: {fileID: 1543234550}
   - component: {fileID: 1543234549}
   m_Layer: 0
   m_Name: PalyerAttack
@@ -1986,10 +2244,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1543234545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9c933eb8b407754a8f98425dfaa784f, type: 3}
+  m_Script: {fileID: 11500000, guid: e9b7affbfb3c1534484689f270420489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickActionName: QuickTape268e2d
+  quickActionName: QuickEnterOverExitcae659c
   isMultiTouch: 0
   is2Finger: 0
   isOnTouch: 0
@@ -2000,7 +2258,7 @@ MonoBehaviour:
   sensibility: 1
   directCharacterController: {fileID: 0}
   inverseAxisValue: 0
-  onTap:
+  onTouchEnter:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 598475642}
@@ -2014,48 +2272,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: HedgehogTeam.EasyTouch.QuickTap+OnTap, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  actionTriggering: 1
---- !u!114 &1543234550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1543234545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9c933eb8b407754a8f98425dfaa784f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quickActionName: QuickTap0027dae
-  isMultiTouch: 0
-  is2Finger: 0
-  isOnTouch: 0
-  enablePickOverUI: 0
-  resetPhysic: 0
-  directAction: 0
-  axesAction: 0
-  sensibility: 1
-  directCharacterController: {fileID: 0}
-  inverseAxisValue: 0
-  onTap:
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchEnter, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onTouchOver:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 598475642}
-        m_MethodName: SimpleAttack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: HedgehogTeam.EasyTouch.QuickTap+OnTap, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  actionTriggering: 0
+      m_Calls: []
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchOver, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  onTouchExit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: HedgehogTeam.EasyTouch.QuickEnterOverExist+OnTouchExit, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1565055484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2810,7 +3038,7 @@ MonoBehaviour:
   showAxesInspector: 0
   showTouchEventInspector: 0
   showDownEventInspector: 0
-  showPressEventInspector: 0
+  showPressEventInspector: 1
   showCameraInspector: 0
   onMoveStart:
     m_PersistentCalls:
@@ -2864,23 +3092,23 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   OnPressUp:
     m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ETCJoystick+OnDownUpHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnPressDown:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616463362}
-        m_MethodName: StartJump
+      - m_Target: {fileID: 0}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: ETCJoystick+OnDownUpHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnPressDown:
-    m_PersistentCalls:
-      m_Calls: []
     m_TypeName: ETCJoystick+OnDownDownHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnPressLeft:
@@ -3085,7 +3313,7 @@ MonoBehaviour:
   onSwipeAction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616463362}
+      - m_Target: {fileID: 0}
         m_MethodName: BlinkF
         m_Mode: 0
         m_Arguments:
@@ -3171,7 +3399,7 @@ MonoBehaviour:
   onSwipeAction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 616463362}
+      - m_Target: {fileID: 0}
         m_MethodName: BlinkR
         m_Mode: 0
         m_Arguments:

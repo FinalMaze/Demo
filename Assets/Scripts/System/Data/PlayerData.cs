@@ -17,7 +17,10 @@ public class PlayerData
     public static float Attack2Time = 0.3f;
     //投掷动作的总时长
     public static float CastTime = 0.35f;
-
+    //召回动作的总时长
+    public static float BlowTime = 0.4f;
+    //受击动作的总时长
+    public static float HurtTime = 0.17f;
 
     #endregion
 
@@ -26,6 +29,11 @@ public class PlayerData
     public static int State;
     //是否在下落中
     public static bool Downing = false;
+    //是否在召回动作中
+    public static bool Blowing = false;
+    //是否在受击动作中
+    public static bool Hurting = false;
+    
     //是否可以二段跳
     public static bool Jump2 = false;
     public static bool Jump2ing = false;

@@ -25,6 +25,8 @@ public class Data
         Amass,
         Cast,
         JumpEnd,
+        Blow,
+        Hurt,
 
         Max
     }

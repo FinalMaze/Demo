@@ -175,8 +175,6 @@ public class FriendBack : FsmBase
         FriendData.DelRigibody = true;
         FriendCtrl.Instance.RigibodyCtrl();
 
-        Debug.Log("Enter Back!");
-
         FriendData.Biging = false;
         FriendData.Backing = true;
         FriendData.Back = false;

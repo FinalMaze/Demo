@@ -78,6 +78,7 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.OnStay();
         player = PlayerCtrl.Instance.transform.position;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
+        PlayerData.distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
 
         FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, transform.position);
 
@@ -103,7 +104,7 @@ public class FriendCtrl : MonoBehaviour
         if (FriendData.Biging)
         {
             if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing
-                &&!FriendData.Amassing&&!FriendData.Smalling)
+                && !FriendData.Amassing && !FriendData.Smalling)
             {
                 //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -148,7 +149,7 @@ public class FriendCtrl : MonoBehaviour
     #region 蓄力
     public void Amass()
     {
-        GoToPlayer(player,0);
+        GoToPlayer(player, 0);
         if (!FriendData.Amassing)
         {
             FriendData.Amass = true;
@@ -291,7 +292,7 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 被召唤到玩家位置
-    public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1,float x=0.25f,float y=-0.27f)
+    public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1, float x = 0.25f, float y = -0.27f)
     {
         if (FriendData.Backing)
         {
@@ -356,7 +357,7 @@ public class FriendCtrl : MonoBehaviour
     private void Partol()
     {
         //大型时的巡逻
-        if (FriendData.Biging&& !FriendData.Backing)
+        if (FriendData.Biging && !FriendData.Backing)
         {
             if (ran > 0)
             {
@@ -402,7 +403,7 @@ public class FriendCtrl : MonoBehaviour
                     //Debug.Log("跟随中");
                     transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
                 }
-                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y-0.3f),PlayerData.distance*0.001f);
+                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y - 0.3f), PlayerData.distance * 0.001f);
                 #endregion
             }
         }
@@ -436,10 +437,10 @@ public class FriendCtrl : MonoBehaviour
     #region 二段跳被踩
     IEnumerator Jumped()
     {
-        transform.position = Vector2.Lerp(transform.position,FriendData.Jump2Target,0.8f);
+        transform.position = Vector2.Lerp(transform.position, FriendData.Jump2Target, 0.8f);
         yield return new WaitForSeconds(0.1f);
         transform.position = Vector2.SmoothDamp(transform.position,
-            new Vector2(FriendData.Jump2Target.x, FriendData.Jump2Target.y + FriendData.Jump2TargetY),ref velocity, 0.2f);
+            new Vector2(FriendData.Jump2Target.x, FriendData.Jump2Target.y + FriendData.Jump2TargetY), ref velocity, 0.2f);
         yield return new WaitForSeconds(0.2f);
         FriendData.Jumped = false;
     }

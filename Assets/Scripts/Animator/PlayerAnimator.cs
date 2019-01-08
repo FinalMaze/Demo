@@ -300,3 +300,63 @@ public class PlayerCast : FsmBase
         PlayerData.Casting = false;
     }
 }
+
+public class PlayerBlow : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public PlayerBlow(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        PlayerData.Blowing = true;
+
+        PlayerData.State = 10;
+        animator.SetInteger("Index", 10);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > PlayerData.BlowTime)
+        {
+            timeCount = 0;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        }
+    }
+    public override void OnExit()
+    {
+        PlayerData.Blowing = false;
+    }
+}
+
+public class PlayerHurt : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public PlayerHurt(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        PlayerData.Hurting = true;
+
+        PlayerData.State = 11;
+        animator.SetInteger("Index", 11);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > PlayerData.HurtTime)
+        {
+            timeCount = 0;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        }
+    }
+    public override void OnExit()
+    {
+        PlayerData.Hurting = false;
+    }
+}

@@ -59,7 +59,7 @@ public class FriendData
     //巡逻的时间间隔
     public static float PartolTime = 1.5f;
     //进行跟随的距离
-    public static float followDistance = 3f;
+    public static float followDistance = 1.5f;
     //普通多长时间跟随到玩家
     public static float smoothTime = 2f;
     //被召唤或者Back时，移动到玩家位置的时间

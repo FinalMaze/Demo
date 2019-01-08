@@ -24,7 +24,7 @@ public class PlayerCtrl : MonoBehaviour
         instance = this;
         control = GetComponent<CharacterController2D>();
         fsmManager = new FSMManager((int)Data.AnimationCount.Max);
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         rgb = GetComponent<Rigidbody2D>();
         #endregion
         #region 添加玩家动画
@@ -190,13 +190,17 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 攻击的位移
-        if (PlayerData.Attacking1)
+        if (canAttackBlink)
         {
-            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
-        }
-        if (PlayerData.Attacking2)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
+            if (PlayerData.Attacking1)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+            }
+            if (PlayerData.Attacking2)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
+            }
+
         }
         #endregion
 
@@ -254,13 +258,19 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 攻击造成伤害
+    bool canAttackBlink = true;
     public void Damage()
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
             if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<2f)
             {
+                canAttackBlink = false;
                 Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage);
+            }
+            else
+            {
+                canAttackBlink = true;
             }
         }
     }
