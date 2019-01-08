@@ -86,7 +86,7 @@ public class PlayerManager : MonoBehaviour
                     GameInterfaceCtrl.Instance.UpdateMP();
 
                     PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-                    FriendData.CanBack = true;
+                    FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
                 }
             }
 
@@ -96,93 +96,6 @@ public class PlayerManager : MonoBehaviour
             Throw();
         }
     }
-
-    #region 长按开始时调用的方法
-    float tmpDis;
-    bool tmpBiging;
-    bool canThrow;
-    Vector2 tmpPlayer;
-    float reduceMP;
-    public void GetDistance()
-    {
-        tmpDis = PlayerData.distance;
-        tmpBiging = FriendData.Biging;
-        tmpPlayer = player.transform.position;
-        reduceMP = PlayerData.mp - PlayerData.GoToPlayerMP;
-        if (PlayerData.distance <= PlayerData.CanThrow)
-        {
-            canThrow = true;
-        }
-        else
-        {
-            canThrow = false;
-        }
-    }
-
-    #endregion
-
-    #region 长按时的攻击变化
-    public void StayAttack(Gesture gesture)
-    {
-        //大型时，长按触发的方法
-        //if (tmpBiging || FriendData.Biging)
-        //{
-        //    if (!FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back && FriendData.Biging)
-        //    {
-        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-        //        {
-        //            FriendCtrl.Instance.Back();
-        //            PlayerData.mp -= PlayerData.BackMP;
-        //            GameInterfaceCtrl.Instance.UpdateMP();
-        //        }
-        //    }
-        //}
-        //小型时，长按触发的方法
-        if (!tmpBiging && FriendData.Smalling)
-        {
-            if (tmpDis < PlayerData.CanThrow)
-            {
-                //需要长按的时间
-                if (gesture.actionTime > FriendData.ComeStayTime)
-                {
-                    if (PlayerData.playerIsGround && !PlayerData.Jumping)
-                    {
-                        Amass();
-                    }
-                }
-            }
-            //else
-            //{
-            //    if (PlayerData.mp != 0)
-            //    {
-            //        PlayerData.mp = reduceMP;
-            //        GameInterfaceCtrl.Instance.UpdateMP();
-            //        FriendCtrl.Instance.GoToPlayer(tmpPlayer);
-            //    }
-            //}
-        }
-    }
-    #endregion
-
-    #region 松开时的攻击方法
-    public void AttackAI(Gesture gesture)
-    {
-        if (tmpBiging)
-        {
-
-        }
-        else
-        {
-            if (canThrow)
-            {
-                Throw();
-            }
-        }
-
-        tmpBiging = FriendData.Biging;
-    }
-    #endregion
-
     #endregion
 
     #region 普通攻击按键相关
@@ -210,7 +123,7 @@ public class PlayerManager : MonoBehaviour
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
             return;
         }
-        if (!FriendData.Biging && !tmpBiging && !FriendData.Backing)
+        if (!FriendData.Biging && !FriendData.Backing)
         {
             PlayerData.mp -= PlayerData.AmassingMP;
             GameInterfaceCtrl.Instance.UpdateMP();

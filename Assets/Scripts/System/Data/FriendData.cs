@@ -47,7 +47,8 @@ public class FriendData
     public static float BackTime = 0.3f;
     //投掷动作的总时长
     public static float CastTime = 0.5f;
-
+    //移动动作的总时长
+    public static float MoveTime = 0.4f;
     #endregion
 
     #region 组件增减条件

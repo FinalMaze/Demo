@@ -27,22 +27,11 @@ public class FriendIdel : FsmBase
         FriendData.State = 0;
         animator.SetInteger("Index", 0);
     }
-    public override void OnStay()
-    {
-        if (FriendData.CanBack&&PlayerData.Blowing)
-        {
-            timeCount += Time.deltaTime;
-            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position);
-            if (timeCount>FriendData.comeTime)
-            {
-                FriendData.CanBack = false;
-            }
-        }
-    }
 }
 public class FriendMove : FsmBase
 {
     Animator animator;
+    float timeCount;
     public FriendMove(Animator tmpAnimator)
     {
         animator = tmpAnimator;
@@ -61,7 +50,15 @@ public class FriendMove : FsmBase
     }
     public override void OnStay()
     {
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.MoveTime)
+        {
+            timeCount = 0;
+            //FriendData.CanBack = false;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+        }
 
+        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position,3f);
     }
     public override void OnExit()
     {

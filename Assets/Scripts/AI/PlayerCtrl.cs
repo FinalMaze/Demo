@@ -178,7 +178,8 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Attacking2 && !PlayerData.Amassing && !PlayerData.Casting)
+            if (Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Attacking2 && !PlayerData.Amassing && !PlayerData.Casting
+                &&!PlayerData.Blowing)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
@@ -232,49 +233,76 @@ public class PlayerCtrl : MonoBehaviour
         if (!PlayerData.Jumping)
         {
             PlayerData.Attack = true;
-            //todo 伤害计算
             ChangeState((sbyte)Data.AnimationCount.Attack);
-            Invoke("Damage", PlayerData.AttackTime / 2);
-            if (PlayerData.Dircetion > 0)
+            //如果攻击距离内有敌人，取消攻击位移
+            if (CheckEnemy())
             {
-                tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance1, transform.position.y);
+                Invoke("Damage", PlayerData.AttackTime / 2);
+                tmpAttackTarget.x = transform.position.x;
+                tmpAttackTarget.y = transform.position.y;
             }
-            if (PlayerData.Dircetion < 0)
+            else
             {
-                tmpAttackTarget = new Vector2(transform.position.x - PlayerData.AttackDistance1, transform.position.y);
+                if (PlayerData.Dircetion > 0)
+                {
+                    tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1;
+                    tmpAttackTarget.y = transform.position.y;
+                }
+                if (PlayerData.Dircetion < 0)
+                {
+                    tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
+                    tmpAttackTarget.y = transform.position.y;
+                }
             }
         }
     }
     public void Attack2()
     {
         PlayerData.Attack2 = true;
-        Invoke("Damage", PlayerData.Attack2Time / 2);
-        if (PlayerData.Dircetion > 0)
+        //如果攻击距离内有敌人，取消攻击位移
+        if (CheckEnemy())
         {
-            tmpAttackTarget = new Vector2(transform.position.x + PlayerData.AttackDistance2, transform.position.y);
+            Invoke("Damage", PlayerData.AttackTime / 2);
+            tmpAttackTarget.x = transform.position.x;
+            tmpAttackTarget.y = transform.position.y;
         }
-        if (PlayerData.Dircetion < 0)
+        else
         {
-            tmpAttackTarget = new Vector2(transform.position.x - PlayerData.AttackDistance2, transform.position.y);
+            if (PlayerData.Dircetion > 0)
+            {
+                tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1;
+                tmpAttackTarget.y = transform.position.y;
+            }
+            if (PlayerData.Dircetion < 0)
+            {
+                tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
+                tmpAttackTarget.y = transform.position.y;
+            }
         }
 
     }
     #endregion
 
     #region 攻击造成伤害
-    bool canAttackBlink = true;
+    public bool CheckEnemy()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < PlayerData.AttackDistance)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void Damage()
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<2f)
+            if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<PlayerData.AttackDistance)
             {
-                canAttackBlink = false;
                 Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage);
-            }
-            else
-            {
-                canAttackBlink = true;
             }
         }
     }

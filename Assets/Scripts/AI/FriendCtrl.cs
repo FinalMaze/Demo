@@ -110,7 +110,7 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting && !FriendData.Biging)
+            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting && !FriendData.Biging&&!FriendData.Moving)
             {
                 //Debug.Log("强制Idel1");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
@@ -322,28 +322,14 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (PlayerData.Dircetion > 0)
+            if (distance > 0)
             {
-                if (back)
-                {
-                    distanceV = Vector2.zero;
-                }
-                else
-                {
-                    distanceV = new Vector2(-0.25f, -0.27f);
-                }
+                distanceV = Vector2.zero;
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            if (PlayerData.Dircetion < 0)
+            if (distance < 0)
             {
-                if (back)
-                {
-                    distanceV = Vector2.zero;
-                }
-                else
-                {
-                    distanceV = new Vector2(0.25f, -0.27f);
-                }
+                distanceV = Vector2.zero;
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }

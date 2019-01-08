@@ -79,6 +79,8 @@ public class PlayerData
     public static float mpMax = 100f;
     //攻击力
     public static float Damage = 20f;
+    //攻击距离
+    public static float AttackDistance = 3.5f;
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 1f;

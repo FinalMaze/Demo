@@ -34,11 +34,17 @@ public class AIManager : MonoBehaviour
     }
     #endregion
 
+    float timeCount;
     private void Update()
     {
         if (tmpEnemy==null)
         {
-            tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
+            timeCount += Time.deltaTime;
+            if (timeCount>2f)
+            {
+                timeCount = 0;
+                tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
+            }
         }
     }
 

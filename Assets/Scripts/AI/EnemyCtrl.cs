@@ -8,14 +8,12 @@ public class EnemyCtrl : MonoBehaviour
     Animator animator;
     EnemyData enemyData;
 
-    Transform tmpBase;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         enemyData = new EnemyData();
         fsmManager = new FSMManager((int)Data.EnemyAnimationCount.Max);
 
-        tmpBase = transform.GetComponentInParent<Transform>();
 
 
         InvokeRepeating("RandomPos", 2, 2);
@@ -184,9 +182,7 @@ public class EnemyCtrl : MonoBehaviour
     #region 受击
     public void Hurt(float reduceHP)
     {
-        Debug.Log("被攻击前血量" + enemyData.HP);
         enemyData.HP = Mathf.Clamp(enemyData.HP -= reduceHP, 0, enemyData.MaxHP);
-        Debug.Log("被攻击后血量" + enemyData.HP);
         if (enemyData.HP != 0)
         {
             if (!enemyData.Attacking && !enemyData.Die)
@@ -196,7 +192,6 @@ public class EnemyCtrl : MonoBehaviour
         }
         else
         {
-            Debug.Log("死亡");
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
             Invoke("Destory", 0.64f);
         }
