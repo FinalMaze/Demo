@@ -57,6 +57,14 @@ public class FriendData
     #endregion
 
     #region 基础数据
+    //攻击力
+    public static float Damage = 40;
+    //攻击距离
+    public static float AttackDistance = 5f;
+    //检测攻击的距离
+    public static float FllowDistance = 10f;
+
+
     //巡逻的时间间隔
     public static float PartolTime = 1.5f;
     //进行跟随的距离

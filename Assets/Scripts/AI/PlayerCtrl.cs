@@ -303,6 +303,8 @@ public class PlayerCtrl : MonoBehaviour
             if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<PlayerData.AttackDistance)
             {
                 Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage);
+                PlayerData.mp = Mathf.Clamp(PlayerData.mp += 10, 0, PlayerData.mpMax);
+                GameInterfaceCtrl.Instance.UpdateMP();
             }
         }
     }

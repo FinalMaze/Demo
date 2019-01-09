@@ -45,7 +45,7 @@ public class FriendCtrl : MonoBehaviour
         #region 初始化
         Instance = this;
         fsmManager = new FSMManager((int)Data.FriendAnimationCount.Max);
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         friendC = GetComponent<BoxCollider2D>();
         #endregion
 
@@ -174,6 +174,37 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
+    #endregion
+
+    #region 攻击
+    public void Attack()
+    {
+        ChangeState((sbyte)Data.FriendAnimationCount.Attack);
+        Invoke("Damage", FriendData.AttackTime / 2);
+    }
+    public void Damage()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < distance)
+            {
+                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage);
+            }
+        }
+    }
+
+    //检测攻击距离内是否有敌人
+    public Transform CheckEnemy(float distance)
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < distance)
+            {
+                return Data.allEnemy[i].transform;
+            }
+        }
+        return null;
+    }
     #endregion
 
     #region 合体
@@ -338,34 +369,71 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 巡逻
+    float attackTimeCount;
     private void Partol()
     {
-        //大型时的巡逻
+        //大型时的巡逻并攻击敌人
         if (FriendData.Biging && !FriendData.Backing)
         {
-            if (ran > 0)
+            if (CheckEnemy(FriendData.FllowDistance)!=null)
             {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-            if (ran < 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            if (canPartol)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
-                if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
+                if (Mathf.Abs(CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x) < FriendData.AttackDistance)
                 {
-                    ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                    FriendData.Runing = false;
+                    if (CheckEnemy(FriendData.AttackDistance).position.x-transform.position.x>0)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    attackTimeCount += Time.deltaTime;
+                    if (attackTimeCount > 0.8f)
+                    {
+                        attackTimeCount = 0;
+                        Attack();
+                    }
                 }
                 else
                 {
-                    canPartol = false;
-                    ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+                    if (!FriendData.Attacking)
+                    {
+                        transform.position = Vector2.MoveTowards(transform.position, CheckEnemy(FriendData.FllowDistance).position, 0.10f);
+                        if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
+                        {
+                            ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (ran > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                if (ran < 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+                if (canPartol)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
+                    if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
+                    {
+                        ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                    }
+                    else
+                    {
+                        canPartol = false;
+                        ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+                    }
                 }
             }
 
         }
+        //小型时跟随玩家
         else
         {
             //Debug.Log(!FriendData.Amassing);
@@ -393,6 +461,8 @@ public class FriendCtrl : MonoBehaviour
         }
 
     }
+
+
     #endregion
 
     #region 随机出一个目标点
