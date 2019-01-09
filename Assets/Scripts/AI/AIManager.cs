@@ -76,7 +76,7 @@ public class AIManager : MonoBehaviour
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
         //tmpEnemy.AddComponent<EnemyCtrl>();
         Data.allEnemy.Add(tmpEnemy);
-        tmpEnemy.transform.SetParent(tmpBase, false);
+        //tmpEnemy.transform.SetParent(tmpBase, false);
         return tmpEnemy;
     }
     #endregion

@@ -78,11 +78,13 @@ public class EnemyHurt : FsmBase
 {
     Animator animator;
     EnemyData enemyData;
+    EnemyCtrl enemyCtrl;
     float timeCount;
-    public EnemyHurt(Animator tmpAnimator, EnemyData tmpEnemyData)
+    public EnemyHurt(Animator tmpAnimator, EnemyData tmpEnemyData,EnemyCtrl tmpCtrl)
     {
         animator = tmpAnimator;
         enemyData = tmpEnemyData;
+        enemyCtrl = tmpCtrl;
     }
     public override void OnEnter()
     {
@@ -91,6 +93,7 @@ public class EnemyHurt : FsmBase
     }
     public override void OnStay()
     {
+        enemyCtrl.Blink(enemyData.HurtDistance,enemyData.HurtSpeed);
         timeCount += Time.deltaTime;
         if (timeCount> EnemyData.HurtTime)
         {

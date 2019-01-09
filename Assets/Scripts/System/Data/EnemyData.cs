@@ -30,6 +30,10 @@ public class EnemyData
 
     //攻击后第几秒调用玩家受击动作
     public float PlayerHurtTime = 0.6f;
+    //怪物被攻击的位移距离
+    public float HurtDistance = 0.2f;
+    //怪物被攻击的位移速度
+    public float HurtSpeed = 0.1f;
 
     //检测到玩家的距离（追）
     public float FllowDistance = 10f;

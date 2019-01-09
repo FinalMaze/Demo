@@ -174,7 +174,14 @@ public class FriendCtrl : MonoBehaviour
         {
             if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < FriendData.AttackDistance)
             {
-                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage);
+                if (Data.allEnemy[i].transform.position.x > transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                }
+                if (Data.allEnemy[i].transform.position.x < transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                }
             }
         }
     }

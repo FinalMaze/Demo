@@ -96,6 +96,12 @@ public class PlayerData
     //攻击可以造成伤害的距离
     public static float DamageDistance = 2f;
 
+    //玩家被攻击的位移距离
+    public static float HurtDistance = 0.2f;
+    //玩家被攻击的位移速度
+    public static float HurtSpeed = 0.1f;
+
+
     //蓄力掉mp的速度
     public static float AmassingMP = 0.1f;
     //投掷的mp消耗量

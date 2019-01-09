@@ -7,13 +7,14 @@ public class EnemyCtrl : MonoBehaviour
     FSMManager fsmManager;
     Animator animator;
     EnemyData enemyData;
+    SpriteRenderer sprite;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         enemyData = new EnemyData();
         fsmManager = new FSMManager((int)Data.EnemyAnimationCount.Max);
-
+        sprite = GetComponentInChildren<SpriteRenderer>();
 
 
         InvokeRepeating("RandomPos", 2, 2);
@@ -25,7 +26,7 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyWalk);
         EnemyAttack enemyAttack = new EnemyAttack(animator, enemyData);
         fsmManager.AddState(enemyAttack);
-        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData);
+        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData,this);
         fsmManager.AddState(enemyHurt);
         EnemyDie enemyDie = new EnemyDie(animator,ref enemyData);
         fsmManager.AddState(enemyDie);
@@ -48,10 +49,6 @@ public class EnemyCtrl : MonoBehaviour
 
         EnemyAI();
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Hurt(50);
-        }
     }
 
     #region 巡逻
@@ -170,17 +167,28 @@ public class EnemyCtrl : MonoBehaviour
     {
         if (distance<3f)
         {
-            PlayerCtrl.Instance.Hurt(enemyData.Damage);
+            if (PlayerCtrl.Instance.transform.position.x>transform.position.x)
+            {
+                PlayerCtrl.Instance.Hurt(enemyData.Damage,1);
+            }
+            if (PlayerCtrl.Instance.transform.position.x < transform.position.x)
+            {
+                PlayerCtrl.Instance.Hurt(enemyData.Damage, -1);
+            }
+
         }
     }
     #endregion
 
     #region 受击
-    public void Hurt(float reduceHP)
+    float dir;
+    public void Hurt(float reduceHP,float tmpDir)
     {
+        dir = tmpDir;
         enemyData.HP = Mathf.Clamp(enemyData.HP -= reduceHP, 0, enemyData.MaxHP);
         if (enemyData.HP != 0)
         {
+            StartCoroutine("Red");
             if (!enemyData.Attacking && !enemyData.Die)
             {
                 ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
@@ -190,6 +198,26 @@ public class EnemyCtrl : MonoBehaviour
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
             Invoke("Destory", 0.64f);
+        }
+    }
+    IEnumerator Red()
+    {
+        sprite.color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+        yield return new WaitForSeconds(0.1f);
+        sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+    }
+    #endregion
+
+    #region 冲刺的方法
+    public void Blink(float distance, float speed)
+    {
+        if (dir > 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
+        }
+        if (dir < 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);
         }
     }
     #endregion

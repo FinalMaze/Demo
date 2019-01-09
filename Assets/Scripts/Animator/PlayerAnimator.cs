@@ -348,6 +348,7 @@ public class PlayerHurt : FsmBase
     }
     public override void OnStay()
     {
+        PlayerCtrl.Instance.Blink(PlayerData.HurtDistance, PlayerData.HurtSpeed);
         timeCount += Time.deltaTime;
         if (timeCount > PlayerData.HurtTime)
         {

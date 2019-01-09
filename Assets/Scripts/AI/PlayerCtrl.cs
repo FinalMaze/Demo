@@ -14,6 +14,7 @@ public class PlayerCtrl : MonoBehaviour
     Animator animator;
     CharacterController2D control;
     Rigidbody2D rgb;
+    SpriteRenderer sprite;
 
     bool leftBlink = false;
     bool rightBlink = false;
@@ -54,9 +55,7 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(PlayerHurt);
         #endregion
 
-        // todo
-        //Transform tmpFriend = GameObject.FindGameObjectWithTag("FriendParent").transform;
-        //AIManager.Instance.BuildFriend("Prefabs/Friend", tmpFriend);
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
     float run;
     float moveSpeed = PlayerData.runSpeed;
@@ -300,7 +299,14 @@ public class PlayerCtrl : MonoBehaviour
         {
             if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<PlayerData.AttackDistance)
             {
-                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage);
+                if (Data.allEnemy[i].transform.position.x> transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, 1);
+                }
+                if (Data.allEnemy[i].transform.position.x < transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, -1);
+                }
                 PlayerData.mp = Mathf.Clamp(PlayerData.mp += 10, 0, PlayerData.mpMax);
                 GameInterfaceCtrl.Instance.UpdateMP();
             }
@@ -309,15 +315,23 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 被攻击
-    public void Hurt(float reduceHP)
+    float  dir;
+    public void Hurt(float reduceHP,float tmpDir)
     {
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
+        StartCoroutine("Red");
         if (!PlayerData.Attacking&&!PlayerData.Jumping)
         {
-            Debug.Log("被攻击");
+            dir = tmpDir;
             ChangeState((sbyte)Data.AnimationCount.Hurt);
         }
+    }
+    IEnumerator Red()
+    {
+        sprite.color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
+        yield return new WaitForSeconds(0.1f);
+        sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
     }
     #endregion
 
@@ -367,6 +381,19 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 冲刺的方法
+    public void Blink(float distance,float speed)
+    {
+        if (dir>0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
+        }
+        if (dir < 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);
+        }
+    }
+
+
     Vector2 tmp;
     public void BlinkR(Gesture gesture)
     {
