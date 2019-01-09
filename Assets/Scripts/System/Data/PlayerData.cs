@@ -81,6 +81,8 @@ public class PlayerData
     public static float Damage = 20f;
     //攻击距离
     public static float AttackDistance = 3.5f;
+    //攻击后第几秒调用怪物被 攻击动画
+    public static float EnemyHurtTime = 0.2f;
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 1f;

@@ -164,7 +164,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting)
+            && !PlayerData.Casting&&!PlayerData.Blowing&&!PlayerData.Hurting)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -237,7 +237,7 @@ public class PlayerCtrl : MonoBehaviour
             //如果攻击距离内有敌人，取消攻击位移
             if (CheckEnemy())
             {
-                Invoke("Damage", PlayerData.AttackTime / 2);
+                Invoke("Damage", PlayerData.EnemyHurtTime);
                 tmpAttackTarget.x = transform.position.x;
                 tmpAttackTarget.y = transform.position.y;
             }
@@ -315,7 +315,11 @@ public class PlayerCtrl : MonoBehaviour
     {
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
-        //播放被攻击动画
+        if (!PlayerData.Attacking)
+        {
+            Debug.Log("被攻击");
+            ChangeState((sbyte)Data.AnimationCount.Hurt);
+        }
     }
     #endregion
 

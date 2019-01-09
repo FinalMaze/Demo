@@ -28,6 +28,9 @@ public class EnemyData
 
     public float Damage = 10f;
 
+    //攻击后第几秒调用玩家受击动作
+    public float PlayerHurtTime = 0.6f;
+
     //检测到玩家的距离（追）
     public float FllowDistance = 10f;
     //攻击距离

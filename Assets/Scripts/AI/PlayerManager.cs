@@ -70,8 +70,8 @@ public class PlayerManager : MonoBehaviour
                     PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
                     FriendCtrl.Instance.Back();
 
-                    //PlayerData.mp -= PlayerData.BackMP;
-                    //GameInterfaceCtrl.Instance.UpdateMP();
+                    PlayerData.mp -= PlayerData.BackMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
                 }
             }
         }
@@ -87,8 +87,8 @@ public class PlayerManager : MonoBehaviour
                 {
                     if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
                     {
-                        //PlayerData.mp -= PlayerData.BackMP;
-                        //GameInterfaceCtrl.Instance.UpdateMP();
+                        PlayerData.mp -= PlayerData.BackMP;
+                        GameInterfaceCtrl.Instance.UpdateMP();
 
                         PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
                         FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
@@ -192,8 +192,8 @@ public class PlayerManager : MonoBehaviour
                     #endregion
                     return;
                 }
-                //PlayerData.mp -= PlayerData.CastMP;
-                //GameInterfaceCtrl.Instance.UpdateMP();
+                PlayerData.mp -= PlayerData.CastMP;
+                GameInterfaceCtrl.Instance.UpdateMP();
 
                 //让玩家进入投掷状态
                 PlayerCtrl.Instance.Throw();

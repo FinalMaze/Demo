@@ -63,6 +63,8 @@ public class FriendData
     public static float AttackDistance = 3f;
     //检测攻击的距离
     public static float FllowDistance = 10f;
+    //攻击后第几秒调用怪物被 攻击动画
+    public static float EnemyHurtTime = 0.3f;
 
     //冲刺的目标点
     public static Vector2 Target;

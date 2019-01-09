@@ -166,7 +166,7 @@ public class FriendCtrl : MonoBehaviour
     public void Attack()
     {
         ChangeState((sbyte)Data.FriendAnimationCount.Attack);
-        Invoke("Damage", FriendData.AttackTime / 2);
+        Invoke("Damage", FriendData.EnemyHurtTime);
     }
     public void Damage()
     {

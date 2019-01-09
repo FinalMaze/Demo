@@ -46,13 +46,6 @@ public class EnemyCtrl : MonoBehaviour
         }
         #endregion
 
-        //if (enemyData.HP == 0 && !enemyData.Die)
-        //{
-        //    ChangeState((sbyte)Data.EnemyAnimationCount.Die);
-            
-        //}
-
-        //巡逻
         EnemyAI();
 
         if (Input.GetKeyDown(KeyCode.J))
@@ -64,6 +57,7 @@ public class EnemyCtrl : MonoBehaviour
     #region 巡逻
     bool canPartol;
     float attackTimeCount;
+    bool canAttack=true;
     public void Patrol()
     {
         if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Die)
@@ -98,6 +92,7 @@ public class EnemyCtrl : MonoBehaviour
             {
                 if (distance > enemyData.AttackDistance)
                 {
+                    canAttack = true;
                     if (direction > 0)
                     {
                         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -111,6 +106,11 @@ public class EnemyCtrl : MonoBehaviour
                 }
                 else
                 {
+                    if (canAttack)
+                    {
+                        canAttack = false;
+                        Attack();
+                    }
                     attackTimeCount += Time.deltaTime;
                     if (attackTimeCount > 1f)
                     {
@@ -163,18 +163,13 @@ public class EnemyCtrl : MonoBehaviour
     public void Attack()
     {
         ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
-        Invoke("Damage", EnemyData.AttackTime / 2);
+        Invoke("Damage", EnemyData.AttackTime *0.8f);
     }
     private void Damage()
     {
         if (distance<3f)
         {
-            PlayerData.hp -= enemyData.Damage;
-            GameInterfaceCtrl.Instance.UpdateHP();
-            if (!PlayerData.Attacking)
-            {
-                //播放玩家受击动画
-            }
+            PlayerCtrl.Instance.Hurt(enemyData.Damage);
         }
     }
     #endregion
