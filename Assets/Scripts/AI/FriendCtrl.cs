@@ -186,7 +186,7 @@ public class FriendCtrl : MonoBehaviour
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < distance)
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < FriendData.AttackDistance)
             {
                 Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage);
             }
@@ -377,6 +377,14 @@ public class FriendCtrl : MonoBehaviour
         {
             if (CheckEnemy(FriendData.FllowDistance)!=null)
             {
+                if (CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
                 if (Mathf.Abs(CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x) < FriendData.AttackDistance)
                 {
                     FriendData.Runing = false;
