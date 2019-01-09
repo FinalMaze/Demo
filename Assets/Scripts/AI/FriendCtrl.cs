@@ -20,8 +20,6 @@ public class FriendCtrl : MonoBehaviour
     Vector2 player;
     //玩家手的位置
     public Vector2 distanceV = Vector2.zero;
-    //将要被扔到的位置
-    private Vector2 target;
     //与玩家x相距的距离
     float distance;
     //跟随的速度
@@ -30,8 +28,6 @@ public class FriendCtrl : MonoBehaviour
     float timeCount;
     //跳跃计时器
     float jumpTimeCount;
-    //是否冲刺
-    bool blink = false;
     //是否Back
     bool back = false;
     //是否可以巡逻
@@ -88,10 +84,7 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
         #region 巡逻与跟随
-        if (!blink)
-        {
             Partol();
-        }
         #endregion
 
         #region 回到Idel的方法
@@ -120,10 +113,6 @@ public class FriendCtrl : MonoBehaviour
 
 
         #region 被投掷的位移
-        if (blink)
-        {
-            StartCoroutine("Blink");
-        }
         #endregion
 
         #region 判断什么时候变小
@@ -218,7 +207,7 @@ public class FriendCtrl : MonoBehaviour
     public void ThrowFriend(Vector2 target)
     {
         FriendData.Cast = true;
-        this.target = target;
+        FriendData.Target = target;
         if (animator.GetInteger("Index") != 4)
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
@@ -255,25 +244,8 @@ public class FriendCtrl : MonoBehaviour
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
-        blink = true;
     }
 
-
-
-    IEnumerator Blink()
-    {
-        if (target.x < transform.position.x)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        if (target.x > transform.position.x)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-        transform.position = Vector2.MoveTowards(transform.position, target, PlayerData.ThrowSpeed);
-        yield return new WaitForSeconds(PlayerData.ThrowLongTime);
-        blink = false;
-    }
     #endregion
 
     #region 添加和销毁刚体
@@ -327,7 +299,7 @@ public class FriendCtrl : MonoBehaviour
     {
         if (FriendData.Backing)
         {
-            if (distance > 0)
+            if (playerPostion.x-transform.position.x > 0)
             {
                 if (back)
                 {
@@ -339,7 +311,7 @@ public class FriendCtrl : MonoBehaviour
                 }
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
-            if (distance < 0)
+            if (playerPostion.x - transform.position.x < 0)
             {
                 if (back)
                 {
@@ -355,12 +327,12 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (distance > 0)
+            if (playerPostion.x - transform.position.x > 0)
             {
                 distanceV = Vector2.zero;
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            if (distance < 0)
+            if (playerPostion.x - transform.position.x < 0)
             {
                 distanceV = Vector2.zero;
                 transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -375,22 +347,13 @@ public class FriendCtrl : MonoBehaviour
     private void Partol()
     {
         //大型时的巡逻并攻击敌人
-        if (FriendData.Biging && !FriendData.Backing)
+        if (FriendData.Biging)
         {
-            if (CheckEnemy(FriendData.FllowDistance)!=null)
+            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
             {
-                if (CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x > 0)
+                if (CheckEnemy(FriendData.FllowDistance) != null)
                 {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                }
-                if (Mathf.Abs(CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x) < FriendData.AttackDistance)
-                {
-                    FriendData.Runing = false;
-                    if (CheckEnemy(FriendData.AttackDistance).position.x-transform.position.x>0)
+                    if (CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x > 0)
                     {
                         transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
@@ -398,50 +361,61 @@ public class FriendCtrl : MonoBehaviour
                     {
                         transform.rotation = Quaternion.Euler(0, 180, 0);
                     }
-                    attackTimeCount += Time.deltaTime;
-                    if (attackTimeCount > 0.8f)
+                    if (Mathf.Abs(CheckEnemy(FriendData.FllowDistance).position.x - transform.position.x) < FriendData.AttackDistance)
                     {
-                        attackTimeCount = 0;
-                        Attack();
+                        FriendData.Runing = false;
+                        if (CheckEnemy(FriendData.AttackDistance).position.x - transform.position.x > 0)
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        attackTimeCount += Time.deltaTime;
+                        if (attackTimeCount > 0.8f)
+                        {
+                            attackTimeCount = 0;
+                            Attack();
+                        }
+                    }
+                    else
+                    {
+                        if (!FriendData.Attacking)
+                        {
+                            transform.position = Vector2.MoveTowards(transform.position, CheckEnemy(FriendData.FllowDistance).position, 0.10f);
+                            if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
+                            {
+                                ChangeState((sbyte)Data.FriendAnimationCount.Run2);
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    if (!FriendData.Attacking)
+                    if (ran > 0)
                     {
-                        transform.position = Vector2.MoveTowards(transform.position, CheckEnemy(FriendData.FllowDistance).position, 0.10f);
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    if (ran < 0)
+                    {
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    if (canPartol)
+                    {
+                        transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
                         if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
                         {
                             ChangeState((sbyte)Data.FriendAnimationCount.Run2);
                         }
+                        else
+                        {
+                            canPartol = false;
+                            ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+                        }
                     }
                 }
             }
-            else
-            {
-                if (ran > 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                }
-                if (ran < 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                }
-                if (canPartol)
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
-                    if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
-                    {
-                        ChangeState((sbyte)Data.FriendAnimationCount.Run2);
-                    }
-                    else
-                    {
-                        canPartol = false;
-                        ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
-                    }
-                }
-            }
-
         }
         //小型时跟随玩家
         else
