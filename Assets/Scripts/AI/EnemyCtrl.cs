@@ -90,17 +90,18 @@ public class EnemyCtrl : MonoBehaviour
             //跟随并攻击
             else
             {
+                if (direction > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                if (direction < 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+
                 if (distance > enemyData.AttackDistance)
                 {
                     canAttack = true;
-                    if (direction > 0)
-                    {
-                        transform.rotation = Quaternion.Euler(0, 0, 0);
-                    }
-                    if (direction < 0)
-                    {
-                        transform.rotation = Quaternion.Euler(0, 180, 0);
-                    }
                     transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, 0.08f);
                     ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
                 }
