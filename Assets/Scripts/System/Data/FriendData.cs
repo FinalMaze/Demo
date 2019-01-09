@@ -64,6 +64,8 @@ public class FriendData
     //检测攻击的距离
     public static float FllowDistance = 10f;
 
+    //冲刺的目标点
+    public static Vector2 Target;
 
     //巡逻的时间间隔
     public static float PartolTime = 1.5f;

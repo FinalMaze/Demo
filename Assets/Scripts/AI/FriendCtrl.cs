@@ -282,10 +282,12 @@ public class FriendCtrl : MonoBehaviour
     {
         if (FriendData.AddRigibody)
         {
+            FriendData.AddRigibody = false;
             AddRigibody();
         }
         if (FriendData.DelRigibody)
         {
+            FriendData.DelRigibody = false;
             DelRigibody();
         }
     }

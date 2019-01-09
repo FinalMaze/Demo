@@ -61,40 +61,77 @@ public class PlayerManager : MonoBehaviour
 
     public void SimpleFriend()
     {
-        if (up)
+        if (FriendData.Biging)
         {
-
-        }
-        else if (down)
-        {
-            if (FriendData.Biging && !FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back)
+            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
             {
                 if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
                 {
                     PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
                     FriendCtrl.Instance.Back();
 
-                    PlayerData.mp -= PlayerData.BackMP;
-                    GameInterfaceCtrl.Instance.UpdateMP();
+                    //PlayerData.mp -= PlayerData.BackMP;
+                    //GameInterfaceCtrl.Instance.UpdateMP();
                 }
             }
-            else
-            {
-                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-                {
-                    PlayerData.mp -= PlayerData.BackMP;
-                    GameInterfaceCtrl.Instance.UpdateMP();
-
-                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-                    FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
-                }
-            }
-
         }
-        else if (!up && !down)
+        if (FriendData.Smalling)
         {
-            Throw();
+            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Blowing)
+            {
+                if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                {
+                    Throw();
+                }
+                else
+                {
+                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                    {
+                        //PlayerData.mp -= PlayerData.BackMP;
+                        //GameInterfaceCtrl.Instance.UpdateMP();
+
+                        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+                        FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                    }
+                }
+            }
         }
+
+
+        //if (up)
+        //{
+
+        //}
+        //else if (down)
+        //{
+        //    if (FriendData.Biging && !FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back)
+        //    {
+        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+        //        {
+        //            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+        //            FriendCtrl.Instance.Back();
+
+        //            //PlayerData.mp -= PlayerData.BackMP;
+        //            //GameInterfaceCtrl.Instance.UpdateMP();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+        //        {
+        //            //PlayerData.mp -= PlayerData.BackMP;
+        //            //GameInterfaceCtrl.Instance.UpdateMP();
+
+        //            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+        //            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+        //        }
+        //    }
+
+        //}
+        //else if (!up && !down)
+        //{
+        //    Throw();
+        //}
     }
     #endregion
 
@@ -137,7 +174,7 @@ public class PlayerManager : MonoBehaviour
     #region 投掷动作
     public void Throw()
     {
-        if (!PlayerData.Jumping)
+        if (!PlayerData.Jumping&&!PlayerData.Blowing&&!PlayerData.Attacking&&!FriendData.Backing&&FriendData.Smalling)
         {
             if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
             {
@@ -155,8 +192,8 @@ public class PlayerManager : MonoBehaviour
                     #endregion
                     return;
                 }
-                PlayerData.mp -= PlayerData.CastMP;
-                GameInterfaceCtrl.Instance.UpdateMP();
+                //PlayerData.mp -= PlayerData.CastMP;
+                //GameInterfaceCtrl.Instance.UpdateMP();
 
                 //让玩家进入投掷状态
                 PlayerCtrl.Instance.Throw();
