@@ -63,7 +63,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (FriendData.Biging)
         {
-            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
+            if (!PlayerData.Attacking&&!PlayerData.Jumping&&!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
             {
                 if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
                 {
@@ -77,7 +77,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (FriendData.Smalling)
         {
-            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Blowing)
+            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Blowing&& !PlayerData.Attacking && !PlayerData.Jumping)
             {
                 if (PlayerData.distance < PlayerData.CanSimpleThrow)
                 {

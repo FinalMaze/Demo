@@ -103,8 +103,8 @@ public class PlayerCtrl : MonoBehaviour
         //}
         #endregion
 
-        #region 蓄力 中锁移动
-        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting)
+        #region 锁移动
+        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting||PlayerData.Blowing)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -230,7 +230,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmpAttackTarget;
     public void Attack()
     {
-        if (!PlayerData.Jumping)
+        if (!PlayerData.Jumping&&!PlayerData.Casting&&!PlayerData.Blowing&&!PlayerData.Hurting)
         {
             PlayerData.Attack = true;
             ChangeState((sbyte)Data.AnimationCount.Attack);

@@ -60,7 +60,7 @@ public class FriendData
     //攻击力
     public static float Damage = 40;
     //攻击距离
-    public static float AttackDistance = 5f;
+    public static float AttackDistance = 3f;
     //检测攻击的距离
     public static float FllowDistance = 10f;
 

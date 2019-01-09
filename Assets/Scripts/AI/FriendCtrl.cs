@@ -112,9 +112,6 @@ public class FriendCtrl : MonoBehaviour
         #endregion
 
 
-        #region 被投掷的位移
-        #endregion
-
         #region 判断什么时候变小
         if (FriendData.Biging)
         {
@@ -344,6 +341,7 @@ public class FriendCtrl : MonoBehaviour
 
     #region 巡逻
     float attackTimeCount;
+    bool canAttack = true;
     private void Partol()
     {
         //大型时的巡逻并攻击敌人
@@ -372,6 +370,11 @@ public class FriendCtrl : MonoBehaviour
                         {
                             transform.rotation = Quaternion.Euler(0, 180, 0);
                         }
+                        if (canAttack)
+                        {
+                            canAttack = false;
+                            Attack();
+                        }
                         attackTimeCount += Time.deltaTime;
                         if (attackTimeCount > 0.8f)
                         {
@@ -383,6 +386,7 @@ public class FriendCtrl : MonoBehaviour
                     {
                         if (!FriendData.Attacking)
                         {
+                            canAttack = true;
                             transform.position = Vector2.MoveTowards(transform.position, CheckEnemy(FriendData.FllowDistance).position, 0.10f);
                             if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
                             {
