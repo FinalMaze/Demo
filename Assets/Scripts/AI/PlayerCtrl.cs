@@ -315,7 +315,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
-        if (!PlayerData.Attacking)
+        if (!PlayerData.Attacking&&!PlayerData.Jumping)
         {
             Debug.Log("被攻击");
             ChangeState((sbyte)Data.AnimationCount.Hurt);
