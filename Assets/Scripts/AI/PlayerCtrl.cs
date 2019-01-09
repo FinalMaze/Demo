@@ -104,7 +104,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 锁移动
-        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting||PlayerData.Blowing)
+        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting||PlayerData.Blowing||PlayerData.Hurting)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -178,14 +178,12 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Attacking2 && !PlayerData.Amassing && !PlayerData.Casting
-                &&!PlayerData.Blowing)
+            if (Data.EasyTouch)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Amassing && !PlayerData.Attacking2
-                && !PlayerData.Walking&&!PlayerData.Hurting&&!PlayerData.Blowing)
+            else if (!Data.EasyTouch  &&!PlayerData.Walking)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
