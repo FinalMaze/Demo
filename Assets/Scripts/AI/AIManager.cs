@@ -23,29 +23,44 @@ public class AIManager : MonoBehaviour
         }
     }
     Transform tmpFriend;
-    GameObject tmpBase;
-    GameObject tmpEnemy;
+    GameObject tmpBase1;
+    GameObject tmpBase2;
+    GameObject tmpEnemy1;
+    GameObject tmpEnemy2;
     private void Awake()
     {
         instance = this;
 
-        tmpBase = GameObject.Find("Enemy");
-        tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
+        tmpBase1 = GameObject.Find("Enemy1");
+        tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
+        tmpBase2 = GameObject.Find("Enemy2");
+        tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
     }
     #endregion
 
-    float timeCount;
+    float timeCount1;
+    float timeCount2;
     private void Update()
     {
-        if (tmpEnemy==null)
+        if (tmpEnemy1==null)
         {
-            timeCount += Time.deltaTime;
-            if (timeCount>2f)
+            timeCount1 += Time.deltaTime;
+            if (timeCount1>2f)
             {
-                timeCount = 0;
-                tmpEnemy = BulidEnemy("Prefabs/Enemy", tmpBase.transform);
+                timeCount1 = 0;
+                tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
             }
         }
+        if (tmpEnemy2 == null)
+        {
+            timeCount2 += Time.deltaTime;
+            if (timeCount2 > 2f)
+            {
+                timeCount2 = 0;
+                tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
+            }
+        }
+
     }
 
 
@@ -76,7 +91,7 @@ public class AIManager : MonoBehaviour
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
         //tmpEnemy.AddComponent<EnemyCtrl>();
         Data.allEnemy.Add(tmpEnemy);
-        //tmpEnemy.transform.SetParent(tmpBase, false);
+        tmpEnemy.transform.SetParent(tmpBase, false);
         return tmpEnemy;
     }
     #endregion

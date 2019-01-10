@@ -161,7 +161,10 @@ public class EnemyCtrl : MonoBehaviour
     public void Attack()
     {
         ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
-        Invoke("Damage", EnemyData.AttackTime *0.8f);
+        if (enemyData.Attacking&&enemyData.HP!=0)
+        {
+            Invoke("Damage", EnemyData.AttackTime * 0.8f);
+        }
     }
     private void Damage()
     {

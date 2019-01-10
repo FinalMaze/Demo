@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour
 
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
-        FriendData.JumpDistance = Vector2.Distance(playerFoot.transform.position, FriendCtrl.Instance.transform.position);
+        FriendData.JumpDistance = playerFoot.transform.position.y- FriendCtrl.Instance.transform.position.y;
 
         //检测什么时候二段跳
         JumpAgain();
@@ -238,14 +238,13 @@ public class PlayerManager : MonoBehaviour
        // Debug.Log(FriendData.JumpDistance );
         //Debug.Log(Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f);
         //Debug.Log(FriendData.Smalling);
-        if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 1f
+        if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 0.2f&& FriendData.JumpDistance>0
             && Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f && FriendData.Smalling)
         {
-            Debug.Log("JUMP2");
             if (!PlayerData.Jump2ing)
             {
                 PlayerData.Jump2ing = true;
-                player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1000));
+                player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1300));
                 FriendData.Jump2Target = new Vector2(friend.transform.position.x, friend.transform.position.y - FriendData.Jump2TargetY);
                 FriendData.Jumped = true;
             }

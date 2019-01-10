@@ -103,7 +103,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 锁移动
-        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting||PlayerData.Blowing||PlayerData.Hurting)
+        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting || PlayerData.Blowing || PlayerData.Hurting)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -163,7 +163,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting&&!PlayerData.Blowing&&!PlayerData.Hurting)
+            && !PlayerData.Casting && !PlayerData.Blowing && !PlayerData.Hurting)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -182,7 +182,7 @@ public class PlayerCtrl : MonoBehaviour
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch  &&!PlayerData.Walking)
+            else if (!Data.EasyTouch && !PlayerData.Walking)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -194,14 +194,14 @@ public class PlayerCtrl : MonoBehaviour
         #region 攻击的位移
         //if (canAttackBlink)
         //{
-            if (PlayerData.Attacking1)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
-            }
-            if (PlayerData.Attacking2)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
-            }
+        if (PlayerData.Attacking1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+        }
+        if (PlayerData.Attacking2)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
+        }
 
         //}
         #endregion
@@ -227,7 +227,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmpAttackTarget;
     public void Attack()
     {
-        if (!PlayerData.Jumping&&!PlayerData.Casting&&!PlayerData.Blowing&&!PlayerData.Hurting)
+        if (!PlayerData.Jumping && !PlayerData.Casting && !PlayerData.Blowing && !PlayerData.Hurting)
         {
             PlayerData.Attack = true;
             ChangeState((sbyte)Data.AnimationCount.Attack);
@@ -287,7 +287,14 @@ public class PlayerCtrl : MonoBehaviour
         {
             if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < PlayerData.AttackDistance)
             {
-                return true;
+                if (PlayerData.Dircetion>0&&Data.allEnemy[i].transform.position.x > transform.position.x)
+                {
+                    return true;
+                }
+                if (PlayerData.Dircetion < 0 && Data.allEnemy[i].transform.position.x < transform.position.x)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -297,13 +304,13 @@ public class PlayerCtrl : MonoBehaviour
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Mathf.Abs( Data.allEnemy[i].transform.position.x-transform.position.x)<PlayerData.AttackDistance)
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < PlayerData.AttackDistance)
             {
-                if (Data.allEnemy[i].transform.position.x> transform.position.x)
+                if (PlayerData.Dircetion > 0 && Data.allEnemy[i].transform.position.x > transform.position.x)
                 {
                     Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, 1);
                 }
-                if (Data.allEnemy[i].transform.position.x < transform.position.x)
+                if (PlayerData.Dircetion < 0 && Data.allEnemy[i].transform.position.x < transform.position.x)
                 {
                     Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, -1);
                 }
@@ -315,13 +322,13 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 被攻击
-    float  dir;
-    public void Hurt(float reduceHP,float tmpDir)
+    float dir;
+    public void Hurt(float reduceHP, float tmpDir)
     {
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
         StartCoroutine("Red");
-        if (!PlayerData.Attacking&&!PlayerData.Jumping)
+        if (!PlayerData.Attacking && !PlayerData.Jumping)
         {
             dir = tmpDir;
             ChangeState((sbyte)Data.AnimationCount.Hurt);
@@ -381,9 +388,9 @@ public class PlayerCtrl : MonoBehaviour
     #endregion
 
     #region 冲刺的方法
-    public void Blink(float distance,float speed)
+    public void Blink(float distance, float speed)
     {
-        if (dir>0)
+        if (dir > 0)
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
         }
@@ -397,7 +404,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmp;
     public void BlinkR(Gesture gesture)
     {
-        if (gesture.swipeLength>80f)
+        if (gesture.swipeLength > 80f)
         {
             if (!PlayerData.Jumping)
             {
@@ -415,7 +422,7 @@ public class PlayerCtrl : MonoBehaviour
     }
     public void BlinkF(Gesture gesture)
     {
-        if (gesture.swipeLength>80f)
+        if (gesture.swipeLength > 80f)
         {
             if (!PlayerData.Jumping)
             {
