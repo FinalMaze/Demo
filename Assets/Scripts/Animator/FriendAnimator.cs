@@ -199,7 +199,7 @@ public class FriendBack : FsmBase
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position);
+        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position,PlayerData.BackSpeed);
 
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.BackTime)
@@ -242,7 +242,7 @@ public class FriendCast : FsmBase
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.GoToPlayer(FriendData.Target);
+        FriendCtrl.Instance.GoToPlayer(FriendData.Target,PlayerData.ThrowSpeed);
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.CastTime)
         {

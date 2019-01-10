@@ -298,7 +298,7 @@ public class FriendCtrl : MonoBehaviour
     }
     #endregion
 
-    #region 被召唤到玩家位置
+    #region 冲刺
     public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1, float x = 0.25f, float y = -0.27f)
     {
         if (FriendData.Backing)

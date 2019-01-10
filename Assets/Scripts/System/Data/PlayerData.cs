@@ -136,13 +136,17 @@ public class PlayerData
     public static float CanThrow = 2f;
     //投掷的距离
     public static float ThrowDistance = 5f;
-    //投掷时每次的位移量（数值越大，移动越快）
-    public static float ThrowSpeed = 0.2f;
+    //投掷到目标点所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
+    public static float ThrowSpeed = 1.5f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)
     public static float ThrowLongTime = 0.5f;
 
-    //投掷后的Y轴偏移量
+    //投掷后的Y轴偏移量(根据玩家的Y轴，向下的偏移量)
     public static float ThrowEndY = 0.4f;
+
+
+    //召回时所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
+    public static float BackSpeed = 1.5f;
     #endregion
 
     #region 蓄力时间相关的数据
