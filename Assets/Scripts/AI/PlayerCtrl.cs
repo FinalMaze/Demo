@@ -336,8 +336,8 @@ public class PlayerCtrl : MonoBehaviour
     }
     IEnumerator Red()
     {
-        sprite.color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-        yield return new WaitForSeconds(0.1f);
+        sprite.color = new Color(Data.R / 255f, Data.G / 255f, Data.B / 255f, Data.A / 255f);
+        yield return new WaitForSeconds(Data.IdelRGB);
         sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
     }
     #endregion

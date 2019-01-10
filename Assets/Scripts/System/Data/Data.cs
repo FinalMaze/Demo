@@ -6,6 +6,14 @@ public class Data
 {
     public static bool EasyTouch = false;
 
+    //受击的颜色
+    public static byte R = 255;
+    public static byte G = 0;
+    public static byte B = 0;
+    public static byte A = 255;
+    //受击多少秒后返回正常
+    public static float IdelRGB = 0.1f;
+
     public static List<GameObject> allEnemy=new List<GameObject>();
 
     public enum Audio
@@ -55,6 +63,7 @@ public class Data
         //Attack2,
         Hurt,
         Die,
+        Attack2,
 
 
         Max

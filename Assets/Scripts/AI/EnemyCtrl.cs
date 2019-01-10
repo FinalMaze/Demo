@@ -30,6 +30,8 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyHurt);
         EnemyDie enemyDie = new EnemyDie(animator,ref enemyData);
         fsmManager.AddState(enemyDie);
+        EnemyAttack2 enemyAttack2 = new EnemyAttack2(animator, enemyData);
+        fsmManager.AddState(enemyAttack2);
         #endregion
     }
     float distance;
@@ -37,11 +39,11 @@ public class EnemyCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
-        distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
+        distance = Mathf.Abs( PlayerCtrl.Instance.transform.position.x- transform.position.x);
         direction = PlayerCtrl.Instance.transform.position.x - transform.position.x;
 
         #region 强制进入Idel
-        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
         }
@@ -54,10 +56,11 @@ public class EnemyCtrl : MonoBehaviour
     #region 巡逻
     bool canPartol;
     float attackTimeCount;
+    float attack2TimeCount;
     bool canAttack=true;
     public void Patrol()
     {
-        if (!enemyData.Attacking && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
         {
             //如果大于怪物的可跟随距离，进行巡逻
             if (distance > enemyData.FllowDistance)
@@ -72,7 +75,7 @@ public class EnemyCtrl : MonoBehaviour
                 }
                 if (canPartol)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, tmpVec, 0.10f);
+                    transform.position = Vector2.MoveTowards(transform.position, tmpVec, enemyData.MoveSpeed);
                     if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
                     {
                         ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
@@ -98,11 +101,21 @@ public class EnemyCtrl : MonoBehaviour
 
                 if (distance > enemyData.AttackDistance)
                 {
-                    canAttack = true;
-                    transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, 0.08f);
+                    transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, enemyData.MoveSpeed);
                     ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
                 }
-                else
+                if (distance > enemyData.AttackDistance*2)
+                {
+                    canAttack = true;
+                    attack2TimeCount += Time.deltaTime;
+                    if (attack2TimeCount > enemyData.AttackCD)
+                    {
+                        attack2TimeCount = 0;
+                        Attack2();
+                    }
+
+                }
+                else if (distance <= enemyData.AttackDistance)
                 {
                     if (canAttack)
                     {
@@ -110,7 +123,7 @@ public class EnemyCtrl : MonoBehaviour
                         Attack();
                     }
                     attackTimeCount += Time.deltaTime;
-                    if (attackTimeCount > 1f)
+                    if (attackTimeCount > enemyData.AttackCD)
                     {
                         attackTimeCount = 0;
                         Attack();
@@ -163,8 +176,13 @@ public class EnemyCtrl : MonoBehaviour
         ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
         if (enemyData.Attacking&&enemyData.HP!=0)
         {
-            Invoke("Damage", EnemyData.AttackTime * 0.8f);
+            Invoke("Damage", enemyData.PlayerHurtTime);
         }
+    }
+    public void Attack2()
+    {
+        ChangeState((sbyte)Data.EnemyAnimationCount.Attack2);
+        Debug.Log("二段攻击!!! ");
     }
     private void Damage()
     {
@@ -205,8 +223,8 @@ public class EnemyCtrl : MonoBehaviour
     }
     IEnumerator Red()
     {
-        sprite.color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 255f / 255f);
-        yield return new WaitForSeconds(0.1f);
+        sprite.color = new Color(Data.R / 255f, Data.G / 255f, Data.B / 255f, Data.A / 255f);
+        yield return new WaitForSeconds(Data.IdelRGB);
         sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
     }
     #endregion

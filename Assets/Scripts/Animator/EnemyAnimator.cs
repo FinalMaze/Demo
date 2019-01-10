@@ -136,3 +136,32 @@ public class EnemyDie : FsmBase
 
     }
 }
+public class EnemyAttack2 : FsmBase
+{
+    Animator animator;
+    EnemyData enemyData;
+    float timeCount;
+    public EnemyAttack2(Animator tmpAnimator, EnemyData tmpEnemyData)
+    {
+        animator = tmpAnimator;
+        enemyData = tmpEnemyData;
+    }
+    public override void OnEnter()
+    {
+        enemyData.Attacking2 = true;
+        animator.SetInteger("Index", 5);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > EnemyData.AttackTime2)
+        {
+            enemyData.Attacking2 = false;
+            timeCount = 0;
+        }
+    }
+    public override void OnExit()
+    {
+        enemyData.Attacking = false;
+    }
+}
