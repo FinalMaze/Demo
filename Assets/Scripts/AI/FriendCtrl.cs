@@ -304,7 +304,6 @@ public class FriendCtrl : MonoBehaviour
     #region 冲刺
     public void Blink(float distance, float speed)
     {
-        Debug.Log(transform.rotation.y);
         if (transform.rotation.y <0)
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);

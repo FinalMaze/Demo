@@ -383,7 +383,7 @@ public class FriendCast : FsmBase
                     canDamage = false;
                     if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x)<1f)
                     {
-                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1,FriendData.CastDistance);
                     }
                 }
 
@@ -401,7 +401,7 @@ public class FriendCast : FsmBase
                     canDamage = false;
                     if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x) < 1f)
                     {
-                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1, FriendData.CastDistance);
                     }
                 }
             }
