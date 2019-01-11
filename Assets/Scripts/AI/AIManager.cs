@@ -97,12 +97,18 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region 销毁敌人
-    public void DelEnemy(GameObject gameObject)
+    public void DelEnemy(GameObject tmpObject)
     {
+        Debug.Log(tmpObject);
+
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Data.allEnemy[i]==gameObject)
+            Debug.Log(Data.allEnemy.Count);
+
+            if (Data.allEnemy[i]== tmpObject)
             {
+                Debug.Log(tmpObject);
+
                 //Data.allEnemy.Remove(Data.allEnemy[i]);
                 //Destroy(Data.allEnemy[i]);
                 Del(Data.allEnemy[i]);

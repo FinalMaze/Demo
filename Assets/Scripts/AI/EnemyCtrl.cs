@@ -43,12 +43,15 @@ public class EnemyCtrl : MonoBehaviour
         direction = PlayerCtrl.Instance.transform.position.x - transform.position.x;
 
         #region 强制进入Idel
+        //Debug.Log(enemyData.Hurting);
+        //Debug.Log(enemyData.Attacking);
+        //Debug.Log(enemyData.Attacking2);
+        //Debug.Log(enemyData.Die);
         if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
         }
         #endregion
-
         EnemyAI();
 
     }
@@ -104,7 +107,7 @@ public class EnemyCtrl : MonoBehaviour
                     transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, enemyData.MoveSpeed);
                     ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
                 }
-                if (distance > enemyData.AttackDistance*2)
+                if (distance > enemyData.AttackDistance*1.5f)
                 {
                     canAttack = true;
                     attack2TimeCount += Time.deltaTime;
@@ -173,7 +176,10 @@ public class EnemyCtrl : MonoBehaviour
     #region 攻击
     public void Attack()
     {
-        ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
+        if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die)
+        {
+            ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
+        }
         if (enemyData.Attacking&&enemyData.HP!=0)
         {
             Invoke("Damage", enemyData.PlayerHurtTime);
@@ -181,8 +187,11 @@ public class EnemyCtrl : MonoBehaviour
     }
     public void Attack2()
     {
-        ChangeState((sbyte)Data.EnemyAnimationCount.Attack2);
-        Debug.Log("二段攻击!!! ");
+        if (!enemyData.Attacking && !enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
+        {
+
+            ChangeState((sbyte)Data.EnemyAnimationCount.Attack2);
+        }
     }
     private void Damage()
     {
@@ -207,10 +216,10 @@ public class EnemyCtrl : MonoBehaviour
     {
         dir = tmpDir;
         enemyData.HP = Mathf.Clamp(enemyData.HP -= reduceHP, 0, enemyData.MaxHP);
-        if (enemyData.HP != 0)
+        if (enemyData.HP > 0)
         {
             StartCoroutine("Red");
-            if (!enemyData.Attacking && !enemyData.Die)
+            if (!enemyData.Attacking )
             {
                 ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
             }
@@ -218,6 +227,7 @@ public class EnemyCtrl : MonoBehaviour
         else
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
+            Debug.Log("死亡");
             Invoke("Destory", 0.64f);
         }
     }
@@ -246,6 +256,7 @@ public class EnemyCtrl : MonoBehaviour
     #region 重生
     public void Destory()
     {
+        Debug.Log("调用销毁");
         AIManager.Instance.DelEnemy(gameObject);
     }
     #endregion

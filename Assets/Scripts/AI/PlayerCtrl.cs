@@ -472,7 +472,7 @@ public class PlayerCtrl : MonoBehaviour
         //Debug.Log(PlayerData.Attacking);
         //Debug.Log(PlayerData.Casting);
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting)
+            && !PlayerData.Casting&&!PlayerData.Hurting&&!PlayerData.Blowing)
         {
             PlayerData.playerStartJump = true;
             ChangeState((sbyte)Data.AnimationCount.Jump);

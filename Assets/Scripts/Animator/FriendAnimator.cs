@@ -32,12 +32,17 @@ public class FriendMove : FsmBase
 {
     Animator animator;
     float timeCount;
+    bool canDamage;
+    bool canLoop;
+    int tmpI=-1;
     public FriendMove(Animator tmpAnimator)
     {
         animator = tmpAnimator;
     }
     public override void OnEnter()
     {
+        canDamage = true;
+        canLoop = true;
         FriendData.Moving = true;
         FriendData.Attacking = false;
         FriendData.Amassing = false;
@@ -50,6 +55,11 @@ public class FriendMove : FsmBase
     }
     public override void OnStay()
     {
+        if (canLoop)
+        {
+            Loop();
+        }
+
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.MoveTime)
         {
@@ -63,6 +73,43 @@ public class FriendMove : FsmBase
     public override void OnExit()
     {
         FriendData.Moving = false;
+    }
+
+    private bool Loop()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x
+                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
+            {
+                if (tmpI != i)
+                {
+                    canDamage = true;
+                    tmpI = i;
+                    if (canDamage)
+                    {
+                        canDamage = false;
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                    }
+                }
+
+            }
+            else if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x
+                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
+            {
+                if (tmpI != i)
+                {
+                    canDamage = true;
+                    tmpI = i;
+                    if (canDamage)
+                    {
+                        canDamage = false;
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                    }
+                }
+            }
+        }
+        return canLoop = false;
     }
 }
 public class FriendAttack : FsmBase
@@ -176,6 +223,7 @@ public class FriendBack : FsmBase
 {
     Animator animator;
     float timeCount;
+    bool canDamage;
     public FriendBack(Animator tmpAnimator)
     {
         animator = tmpAnimator;
@@ -200,6 +248,31 @@ public class FriendBack : FsmBase
     public override void OnStay()
     {
         FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position,PlayerData.BackSpeed);
+
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            canDamage = true;
+            if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x
+                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
+            {
+                if (canDamage)
+                {
+                    canDamage = false;
+                    Debug.Log("造成伤害");
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                }
+            }
+            if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x
+                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
+            {
+                if (canDamage)
+                {
+                    Debug.Log("造成伤害");
+                    canDamage = false;
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                }
+            }
+        }
 
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.BackTime)

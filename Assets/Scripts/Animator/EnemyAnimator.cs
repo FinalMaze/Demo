@@ -128,7 +128,6 @@ public class EnemyDie : FsmBase
         if (timeCount > 0.64f)
         {
             timeCount = 0;
-
         }
     }
     public override void OnExit()
@@ -156,12 +155,12 @@ public class EnemyAttack2 : FsmBase
         timeCount += Time.deltaTime;
         if (timeCount > EnemyData.AttackTime2)
         {
-            enemyData.Attacking2 = false;
             timeCount = 0;
+            enemyData.Attacking2 = false;
         }
     }
     public override void OnExit()
     {
-        enemyData.Attacking = false;
+        enemyData.Attacking2 = false;
     }
 }
