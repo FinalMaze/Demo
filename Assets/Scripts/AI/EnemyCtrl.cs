@@ -15,8 +15,8 @@ public class EnemyCtrl : MonoBehaviour
         enemyData = new EnemyData();
         fsmManager = new FSMManager((int)Data.EnemyAnimationCount.Max);
         sprite = GetComponentInChildren<SpriteRenderer>();
-
-
+        ball = transform.Find("FirePostion");
+        tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
 
         #region 注册动画
@@ -90,7 +90,10 @@ public class EnemyCtrl : MonoBehaviour
                         ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
                     }
                 }
-                canLongAttack = true;
+                if (distance > enemyData.FllowDistance*1.3f)
+                {
+                    canLongAttack = true;
+                }
             }
             //跟随并攻击
             else
@@ -181,6 +184,7 @@ public class EnemyCtrl : MonoBehaviour
     #endregion
 
     #region 攻击
+    //近战攻击 
     public void Attack()
     {
         if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die)
@@ -192,13 +196,20 @@ public class EnemyCtrl : MonoBehaviour
             Invoke("Damage", enemyData.PlayerHurtTime);
         }
     }
+    //远程攻击
+    Transform ball;
+    GameObject tmpBall;
     public void Attack2()
     {
         if (!enemyData.Attacking && !enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
         {
-
             ChangeState((sbyte)Data.EnemyAnimationCount.Attack2);
+            Invoke("BuildBall", EnemyData.BallStartTime);
         }
+    }
+    private void BuildBall()
+    {
+        Instantiate(tmpBall, ball.position, ball.rotation);
     }
     private void Damage()
     {

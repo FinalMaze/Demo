@@ -190,10 +190,12 @@
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCTouchPad.cs" />
     <Compile Include="Assets\enemyHP.cs" />
     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyBallCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Animator\BallAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\EnemyAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\FriendAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />

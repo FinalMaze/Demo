@@ -69,4 +69,12 @@ public class Data
         Max
     }
 
+    public enum BallAnimationCount
+    {
+        BallStart,
+        Balling,
+        BallEnd,
+
+        Max
+    }
 }
