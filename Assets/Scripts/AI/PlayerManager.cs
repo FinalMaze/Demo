@@ -65,7 +65,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (!PlayerData.Attacking&&!PlayerData.Jumping&&!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
             {
-                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                if (PlayerData.mp != 0 && PlayerData.mp  >= PlayerData.BackMP)
                 {
                     PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
                     FriendCtrl.Instance.Back();

@@ -363,11 +363,19 @@ public class FriendCtrl : MonoBehaviour
     #region 巡逻
     float attackTimeCount;
     bool canAttack = true;
+    float bigMPTimeCount;
     private void Partol()
     {
         //大型时的巡逻并攻击敌人
         if (FriendData.Biging)
         {
+            bigMPTimeCount += Time.deltaTime;
+            if (bigMPTimeCount>0.6f)
+            {
+                bigMPTimeCount = 0;
+                PlayerData.mp -= FriendData.BigMP;
+                GameInterfaceCtrl.Instance.UpdateMP();
+            }
             if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing&&!FriendData.Attacking)
             {
                 if (CheckEnemy(FriendData.FllowDistance) != null)

@@ -88,6 +88,8 @@ public class FriendData
     public static float ComeStayTime = 0.5f;
     //变大的持续时间
     public static float BigTime = 4f;
+    //变大时的持续耗蓝量
+    public static float BigMP = 2f;
     //变大时召回需要按住攻击键的时长
     public static float BackStayTime = 0.3f;
     //与玩家的脚相距的距离
