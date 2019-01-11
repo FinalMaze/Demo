@@ -17,7 +17,7 @@ public class EnemyData
 
     #region 怪物动作数据信息
     //攻击动作总时长
-    public static float AttackTime = 0.86f;
+    public static float AttackTime = 1f;
     //受击动作总时长
     public static float HurtTime = 0.20f;
     //死亡动作总时长
@@ -34,15 +34,15 @@ public class EnemyData
     
 
     //攻击后第几秒调用玩家受击（造成伤害）动作
-    public float PlayerHurtTime = 0.6f;
+    public float PlayerHurtTime = 0.8f;
     //怪物被攻击的位移距离
-    public float HurtDistance = 0.2f;
+    public float HurtDistance = 0.07f;
     //怪物被攻击的位移速度
-    public float HurtSpeed = 0.1f;
+    public float HurtSpeed = 0.25f;
     //怪物移动速度
-    public float MoveSpeed = 0.1f;
+    public float MoveSpeed = 0.05f;
     //攻击频率
-    public float AttackCD = 1f;
+    public float AttackCD = 2.5f;
 
     //检测到玩家的距离（追）
     public float FllowDistance = 10f;

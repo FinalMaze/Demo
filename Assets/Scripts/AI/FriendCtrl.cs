@@ -22,6 +22,8 @@ public class FriendCtrl : MonoBehaviour
     public Vector2 distanceV = Vector2.zero;
     //与玩家x相距的距离
     float distance;
+    //宠物的朝向
+    float direction;
     //跟随的速度
     private Vector2 velocity = Vector2.one;
     //计时器
@@ -71,6 +73,7 @@ public class FriendCtrl : MonoBehaviour
     {
         fsmManager.OnStay();
         player = PlayerCtrl.Instance.transform.position;
+        direction = transform.rotation.y;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
         PlayerData.distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
 
@@ -299,6 +302,18 @@ public class FriendCtrl : MonoBehaviour
     #endregion
 
     #region 冲刺
+    public void Blink(float distance, float speed)
+    {
+        Debug.Log(transform.rotation.y);
+        if (transform.rotation.y <0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);
+        }
+        if (transform.rotation.y == 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
+        }
+    }
     public void GoToPlayer(Vector2 playerPostion, float timeRatio = 1, float x = 0.25f, float y = -0.27f)
     {
         if (FriendData.Backing)
@@ -354,7 +369,7 @@ public class FriendCtrl : MonoBehaviour
         //大型时的巡逻并攻击敌人
         if (FriendData.Biging)
         {
-            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
+            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing&&!FriendData.Attacking)
             {
                 if (CheckEnemy(FriendData.FllowDistance) != null)
                 {

@@ -8,8 +8,8 @@ public class Data
 
     //受击的颜色
     public static byte R = 255;
-    public static byte G = 0;
-    public static byte B = 0;
+    public static byte G = 150;
+    public static byte B = 150;
     public static byte A = 255;
     //受击多少秒后返回正常
     public static float IdelRGB = 0.1f;

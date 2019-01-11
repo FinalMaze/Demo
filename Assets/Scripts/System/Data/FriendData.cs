@@ -46,7 +46,7 @@ public class FriendData
     //Back动作的总时长
     public static float BackTime = 0.3f;
     //投掷动作的总时长
-    public static float CastTime = 0.5f;
+    public static float CastTime = 0.6f;
     //移动动作的总时长
     public static float MoveTime = 0.4f;
     #endregion
@@ -58,10 +58,15 @@ public class FriendData
 
     #region 基础数据
     //攻击力
-    public static float Damage = 40;
+    public static float Damage = 20;
     //攻击距离
-    public static float AttackDistance = 3f;
-    //检测攻击的距离
+    public static float AttackDistance = 4f;
+    //攻击的位移距离 
+    public static float AttackBlinkDistance = 0.1f;
+    //攻击位移的速度（也会影响距离）
+    public static float AttackBlinkSpeed = 0.05f;
+
+    //寻找到怪物的距离
     public static float FllowDistance = 10f;
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
     public static float EnemyHurtTime = 0.3f;
@@ -72,9 +77,9 @@ public class FriendData
     //巡逻的时间间隔
     public static float PartolTime = 1.5f;
     //进行跟随的距离
-    public static float followDistance = 1.5f;
+    public static float followDistance = 1.2f;
     //普通多长时间跟随到玩家
-    public static float smoothTime = 2f;
+    public static float smoothTime = 1f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长

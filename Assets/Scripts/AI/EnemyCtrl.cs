@@ -61,6 +61,7 @@ public class EnemyCtrl : MonoBehaviour
     float attackTimeCount;
     float attack2TimeCount;
     bool canAttack=true;
+    bool canLongAttack = true;
     public void Patrol()
     {
         if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
@@ -89,6 +90,7 @@ public class EnemyCtrl : MonoBehaviour
                         ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
                     }
                 }
+                canLongAttack = true;
             }
             //跟随并攻击
             else
@@ -110,6 +112,11 @@ public class EnemyCtrl : MonoBehaviour
                 if (distance > enemyData.AttackDistance*1.5f)
                 {
                     canAttack = true;
+                    if (canLongAttack)
+                    {
+                        canLongAttack = false;
+                        Attack2();
+                    }
                     attack2TimeCount += Time.deltaTime;
                     if (attack2TimeCount > enemyData.AttackCD)
                     {
@@ -227,7 +234,6 @@ public class EnemyCtrl : MonoBehaviour
         else
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
-            Debug.Log("死亡");
             Invoke("Destory", 0.64f);
         }
     }
@@ -256,7 +262,6 @@ public class EnemyCtrl : MonoBehaviour
     #region 重生
     public void Destory()
     {
-        Debug.Log("调用销毁");
         AIManager.Instance.DelEnemy(gameObject);
     }
     #endregion

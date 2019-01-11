@@ -78,7 +78,7 @@ public class PlayerData
     public static float mp = 100f;
     public static float mpMax = 100f;
     //攻击力
-    public static float Damage = 20f;
+    public static float Damage = 10f;
     //攻击距离
     public static float AttackDistance = 3.5f;
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
@@ -97,19 +97,19 @@ public class PlayerData
     public static float DamageDistance = 2f;
 
     //玩家被攻击的位移距离
-    public static float HurtDistance = 0.2f;
+    public static float HurtDistance = 0.1f;
     //玩家被攻击的位移速度
-    public static float HurtSpeed = 0.1f;
+    public static float HurtSpeed = 0.2f;
 
 
     //蓄力掉mp的速度
     public static float AmassingMP = 0.1f;
     //投掷的mp消耗量
-    public static float CastMP = 10f;
+    public static float CastMP = 5f;
     //小型时召回的mp消耗量
-    public static float GoToPlayerMP = 10f;
+    public static float GoToPlayerMP = 5f;
     //大型时召回的mp消耗量
-    public static float BackMP = 10f;
+    public static float BackMP = 5f;
 
     //移动速度
     public static float runSpeed = 50f;
@@ -131,13 +131,13 @@ public class PlayerData
     //玩家可二段跳，所需的脚的位置与宠物距离
     public static float CanJump = 1f;
     //可以直接投掷——需要相距手的位置多远
-    public static float CanSimpleThrow = 2f;
+    public static float CanSimpleThrow = 2.5f;
     //可以召唤并投掷的与宠物相距的距离
-    public static float CanThrow = 2f;
+    public static float CanThrow = 2.5f;
     //投掷的距离
-    public static float ThrowDistance = 5f;
+    public static float ThrowDistance = 8f;
     //投掷到目标点所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
-    public static float ThrowSpeed = 1.5f;
+    public static float ThrowSpeed = 2f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)
     public static float ThrowLongTime = 0.5f;
 
