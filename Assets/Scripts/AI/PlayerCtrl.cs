@@ -259,7 +259,7 @@ public class PlayerCtrl : MonoBehaviour
         //如果攻击距离内有敌人，取消攻击位移
         if (CheckEnemy())
         {
-            Invoke("Damage", PlayerData.AttackTime / 2);
+            Invoke("Damage", PlayerData.EnemyHurtTime);
             tmpAttackTarget.x = transform.position.x;
             tmpAttackTarget.y = transform.position.y;
         }
@@ -314,7 +314,7 @@ public class PlayerCtrl : MonoBehaviour
                 {
                     Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, -1);
                 }
-                PlayerData.mp = Mathf.Clamp(PlayerData.mp += 10, 0, PlayerData.mpMax);
+                PlayerData.mp = Mathf.Clamp(PlayerData.mp += PlayerData.AddMP, 0, PlayerData.mpMax);
                 GameInterfaceCtrl.Instance.UpdateMP();
             }
         }
