@@ -63,20 +63,62 @@ public class PlayerManager : MonoBehaviour
     {
         if (up)
         {
+            if (FriendData.Biging)
+            {
+                if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
+                {
+                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                    {
+                        if (!PlayerData.Jumping)
+                        {
+                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                        }
+                        FriendCtrl.Instance.Back();
 
+                        PlayerData.mp -= PlayerData.BackMP;
+                        GameInterfaceCtrl.Instance.UpdateMP();
+                    }
+                }
+            }
+            if (FriendData.Smalling)
+            {
+                if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
+                {
+                    if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                    {
+                        
+                    }
+                    else
+                    {
+                        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                        {
+                            PlayerData.mp -= PlayerData.BackMP;
+                            GameInterfaceCtrl.Instance.UpdateMP();
+                            if (!PlayerData.Jumping)
+                            {
+                                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                            }
+                            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                        }
+                    }
+                }
+            }
         }
         //下加宠物键的技能
         else if (down)
         {
-            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.Blowing)
+            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking&& !PlayerData.Blowing)
             {
                 if (FriendData.Biging)
                 {
-                    if (!PlayerData.Attacking && !PlayerData.Jumping && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
+                    if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
                     {
                         if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
                         {
-                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                            if (!PlayerData.Jumping)
+                            {
+                                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                            }
                             FriendCtrl.Instance.Back();
 
                             PlayerData.mp -= PlayerData.BackMP;
@@ -84,9 +126,10 @@ public class PlayerManager : MonoBehaviour
                         }
                     }
                 }
+                
                 if (FriendData.Smalling)
                 {
-                    if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.Blowing)
+                    if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking&& !PlayerData.Blowing)
                     {
                         if (PlayerData.distance < PlayerData.CanSimpleThrow)
                         {
@@ -98,8 +141,10 @@ public class PlayerManager : MonoBehaviour
                             {
                                 PlayerData.mp -= PlayerData.BackMP;
                                 GameInterfaceCtrl.Instance.UpdateMP();
-
-                                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                if (!PlayerData.Jumping)
+                                {
+                                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                }
                                 FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
                             }
                         }
