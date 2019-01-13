@@ -371,12 +371,17 @@ public class FriendCtrl : MonoBehaviour
         //大型时的巡逻并攻击敌人
         if (FriendData.Biging)
         {
+            //大型时持续耗蓝
             bigMPTimeCount += Time.deltaTime;
             if (bigMPTimeCount>0.6f)
             {
                 bigMPTimeCount = 0;
                 PlayerData.mp -= FriendData.BigMP;
                 GameInterfaceCtrl.Instance.UpdateMP();
+                if (PlayerData.mp<=0)
+                {
+                    Small();
+                }
             }
             if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Backing&&!FriendData.Attacking && !FriendData.Blowing)
             {
@@ -419,7 +424,7 @@ public class FriendCtrl : MonoBehaviour
                         {
                             canAttack = true;
                             transform.position = Vector2.MoveTowards(transform.position, CheckEnemy(FriendData.FllowDistance).position, 0.10f);
-                            if (Vector2.Distance(transform.position, tmpVec) >= 0.01f)
+                            if (Vector2.Distance(transform.position, tmpVec) != 0f)
                             {
                                 ChangeState((sbyte)Data.FriendAnimationCount.Run2);
                             }
