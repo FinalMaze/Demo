@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour
 
         //玩家与宠物的距离
         PlayerData.distance = Vector2.Distance(player.transform.position, friend.transform.position);
-        FriendData.JumpDistance = playerFoot.transform.position.y- FriendCtrl.Instance.transform.position.y;
+        FriendData.JumpDistance = PlayerCtrl.Instance.transform.position.y-0.538f- FriendCtrl.Instance.transform.position.y;
 
         //检测什么时候二段跳
         JumpAgain();
@@ -61,77 +61,92 @@ public class PlayerManager : MonoBehaviour
 
     public void SimpleFriend()
     {
-        if (FriendData.Biging)
+        if (up)
         {
-            if (!PlayerData.Attacking&&!PlayerData.Jumping&&!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing)
-            {
-                if (PlayerData.mp != 0 && PlayerData.mp  >= PlayerData.BackMP)
-                {
-                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-                    FriendCtrl.Instance.Back();
 
-                    PlayerData.mp -= PlayerData.BackMP;
-                    GameInterfaceCtrl.Instance.UpdateMP();
-                }
-            }
         }
-        if (FriendData.Smalling)
+        //下加宠物键的技能
+        else if (down)
         {
-            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Blowing&& !PlayerData.Attacking && !PlayerData.Jumping)
+            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.Blowing)
             {
-                if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                if (FriendData.Biging)
                 {
-                    Throw();
-                }
-                else
-                {
-                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                    if (!PlayerData.Attacking && !PlayerData.Jumping && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
                     {
-                        PlayerData.mp -= PlayerData.BackMP;
-                        GameInterfaceCtrl.Instance.UpdateMP();
+                        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                        {
+                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                            FriendCtrl.Instance.Back();
 
-                        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-                        FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                            PlayerData.mp -= PlayerData.BackMP;
+                            GameInterfaceCtrl.Instance.UpdateMP();
+                        }
+                    }
+                }
+                if (FriendData.Smalling)
+                {
+                    if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.Blowing)
+                    {
+                        if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                        {
+                            Blow();
+                        }
+                        else
+                        {
+                            if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                            {
+                                PlayerData.mp -= PlayerData.BackMP;
+                                GameInterfaceCtrl.Instance.UpdateMP();
+
+                                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                            }
+                        }
                     }
                 }
             }
         }
+        //不按上下时的宠物键
+        else if (!up && !down)
+        {
+            if (FriendData.Biging)
+            {
+                if (!PlayerData.Attacking && !PlayerData.Jumping && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
+                {
+                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                    {
+                        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                        FriendCtrl.Instance.Back();
 
+                        PlayerData.mp -= PlayerData.BackMP;
+                        GameInterfaceCtrl.Instance.UpdateMP();
+                    }
+                }
+            }
+            if (FriendData.Smalling)
+            {
+                if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.Blowing)
+                {
+                    if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                    {
+                        Throw();
+                    }
+                    else
+                    {
+                        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                        {
+                            PlayerData.mp -= PlayerData.BackMP;
+                            GameInterfaceCtrl.Instance.UpdateMP();
 
-        //if (up)
-        //{
+                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                        }
+                    }
+                }
+            }
 
-        //}
-        //else if (down)
-        //{
-        //    if (FriendData.Biging && !FriendData.Backing && FriendData.State != (int)Data.FriendAnimationCount.Back)
-        //    {
-        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-        //        {
-        //            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-        //            FriendCtrl.Instance.Back();
-
-        //            //PlayerData.mp -= PlayerData.BackMP;
-        //            //GameInterfaceCtrl.Instance.UpdateMP();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-        //        {
-        //            //PlayerData.mp -= PlayerData.BackMP;
-        //            //GameInterfaceCtrl.Instance.UpdateMP();
-
-        //            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
-        //            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Move);
-        //        }
-        //    }
-
-        //}
-        //else if (!up && !down)
-        //{
-        //    Throw();
-        //}
+        }
     }
     #endregion
 
@@ -149,32 +164,32 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    #region 蓄力
-    private void Amass()
-    {
-        if (PlayerData.mp <= 0)
-        {
-            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+    //#region 蓄力
+    //private void Amass()
+    //{
+    //    if (PlayerData.mp <= 0)
+    //    {
+    //        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
 
-            FriendData.Amassing = false;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
-            return;
-        }
-        if (!FriendData.Biging && !FriendData.Backing)
-        {
-            PlayerData.mp -= PlayerData.AmassingMP;
-            GameInterfaceCtrl.Instance.UpdateMP();
+    //        FriendData.Amassing = false;
+    //        FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+    //        return;
+    //    }
+    //    if (!FriendData.Biging && !FriendData.Backing)
+    //    {
+    //        PlayerData.mp -= PlayerData.AmassingMP;
+    //        GameInterfaceCtrl.Instance.UpdateMP();
 
-            PlayerCtrl.Instance.Amass();
-            FriendCtrl.Instance.Amass();
-        }
-    }
-    #endregion
+    //        PlayerCtrl.Instance.Amass();
+    //        FriendCtrl.Instance.Amass();
+    //    }
+    //}
+    //#endregion
 
     #region 投掷动作
     public void Throw()
     {
-        if (!PlayerData.Jumping&&!PlayerData.Blowing&&!PlayerData.Attacking&&!FriendData.Backing&&FriendData.Smalling)
+        if (!PlayerData.Jumping&&!PlayerData.Backing&&!PlayerData.Blowing&&!PlayerData.Attacking&&!FriendData.Backing&&FriendData.Smalling)
         {
             if (PlayerData.distance < PlayerData.CanSimpleThrow && !FriendData.Biging)
             {
@@ -234,16 +249,18 @@ public class PlayerManager : MonoBehaviour
     private void JumpAgain()
     {
         //Debug.Log(PlayerData.Jumping);
-       // Debug.Log(PlayerData.Downing);
-       // Debug.Log(FriendData.JumpDistance );
+        //Debug.Log(PlayerData.Downing);
+        //Debug.Log(FriendData.JumpDistance<0.2f && FriendData.JumpDistance > 0);
         //Debug.Log(Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f);
         //Debug.Log(FriendData.Smalling);
-        if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 0.2f&& FriendData.JumpDistance>0
+        if (PlayerData.Jumping && PlayerData.Downing && FriendData.JumpDistance < 1.5f&& FriendData.JumpDistance>0f
             && Mathf.Abs(player.transform.position.x - friend.transform.position.x) < 2f && FriendData.Smalling)
         {
             if (!PlayerData.Jump2ing)
             {
+
                 PlayerData.Jump2ing = true;
+                player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1300));
                 FriendData.Jump2Target = new Vector2(friend.transform.position.x, friend.transform.position.y - FriendData.Jump2TargetY);
                 FriendData.Jumped = true;
@@ -260,7 +277,19 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-
+    private void Blow()
+    {
+        if (!PlayerData.Jumping && !PlayerData.Backing && !PlayerData.Blowing && !PlayerData.Attacking && !FriendData.Backing && FriendData.Smalling)
+        {
+            FriendCtrl.Instance.transform.position = PlayerCtrl.Instance.transform.position;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Blow);
+            Invoke("FriendBlow", PlayerData.FriendBlowStartTime);
+        }
+    }
+    private void FriendBlow()
+    {
+        FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Blow);
+    }
 
 
     #region 方向键下触发中

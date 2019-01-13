@@ -16,6 +16,7 @@ public class FriendData
     //是否在大型的状态
     public static bool Biging = false;
 
+    public static bool Blowing = false;
     //是否在移动中
     public static bool Moving = false;
     //是否在攻击中
@@ -49,6 +50,7 @@ public class FriendData
     public static float CastTime = 0.6f;
     //移动动作的总时长
     public static float MoveTime = 0.4f;
+    public static float BlowTime = 0.48f;
     #endregion
 
     #region 组件增减条件
@@ -65,6 +67,15 @@ public class FriendData
     public static float AttackBlinkDistance = 0.1f;
     //攻击位移的速度（也会影响距离）
     public static float AttackBlinkSpeed = 0.05f;
+
+    //爆破动画几秒后，可以造成伤害
+    public static float BlowDamageTime = 0.05f;
+    //爆破的范围半径
+    public static float BlowRadius = 4f;
+    //爆破的击退距离
+    public static float BlowDistance = 4f;
+    //爆破的伤害
+    public static float BlowDamage = 10f;
 
     //寻找到怪物的距离
     public static float FllowDistance = 10f;

@@ -301,17 +301,17 @@ public class PlayerCast : FsmBase
     }
 }
 
-public class PlayerBlow : FsmBase
+public class PlayerBack : FsmBase
 {
     Animator animator;
     float timeCount;
-    public PlayerBlow(Animator tmpAnimator)
+    public PlayerBack(Animator tmpAnimator)
     {
         animator = tmpAnimator;
     }
     public override void OnEnter()
     {
-        PlayerData.Blowing = true;
+        PlayerData.Backing = true;
 
         PlayerData.State = 10;
         animator.SetInteger("Index", 10);
@@ -319,7 +319,7 @@ public class PlayerBlow : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount > PlayerData.BlowTime)
+        if (timeCount > PlayerData.BackTime)
         {
             timeCount = 0;
             PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
@@ -327,7 +327,7 @@ public class PlayerBlow : FsmBase
     }
     public override void OnExit()
     {
-        PlayerData.Blowing = false;
+        PlayerData.Backing = false;
     }
 }
 
@@ -359,5 +359,35 @@ public class PlayerHurt : FsmBase
     public override void OnExit()
     {
         PlayerData.Hurting = false;
+    }
+}
+
+public class PlayerBlow : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public PlayerBlow(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        PlayerData.Blowing = true;
+
+        PlayerData.State = 12;
+        animator.SetInteger("Index", 12);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > PlayerData.BlowTime)
+        {
+            timeCount = 0;
+            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        }
+    }
+    public override void OnExit()
+    {
+        PlayerData.Blowing = false;
     }
 }

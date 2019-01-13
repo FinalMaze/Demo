@@ -49,10 +49,12 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(playerCast);
         PlayerJumpEnd playerJumpEnd = new PlayerJumpEnd(animator);
         fsmManager.AddState(playerJumpEnd);
-        PlayerBlow PlayerBlow = new PlayerBlow(animator);
-        fsmManager.AddState(PlayerBlow);
+        PlayerBack PlayerBack = new PlayerBack(animator);
+        fsmManager.AddState(PlayerBack);
         PlayerHurt PlayerHurt = new PlayerHurt(animator);
         fsmManager.AddState(PlayerHurt);
+        PlayerBlow PlayerBlow = new PlayerBlow(animator);
+        fsmManager.AddState(PlayerBlow);
         #endregion
 
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -103,7 +105,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 锁移动
-        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting || PlayerData.Blowing || PlayerData.Hurting)
+        if (PlayerData.Amassing || PlayerData.Attacking || PlayerData.Casting || PlayerData.Backing ||PlayerData.Blowing|| PlayerData.Hurting)
         {
             rgb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
@@ -163,7 +165,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting && !PlayerData.Blowing && !PlayerData.Hurting)
+            && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting&&!PlayerData.Blowing)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -227,7 +229,7 @@ public class PlayerCtrl : MonoBehaviour
     Vector2 tmpAttackTarget;
     public void Attack()
     {
-        if (!PlayerData.Jumping && !PlayerData.Casting && !PlayerData.Blowing && !PlayerData.Hurting)
+        if (!PlayerData.Jumping && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting&&!PlayerData.Blowing)
         {
             PlayerData.Attack = true;
             ChangeState((sbyte)Data.AnimationCount.Attack);
@@ -472,7 +474,7 @@ public class PlayerCtrl : MonoBehaviour
         //Debug.Log(PlayerData.Attacking);
         //Debug.Log(PlayerData.Casting);
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting&&!PlayerData.Hurting&&!PlayerData.Blowing)
+            && !PlayerData.Casting&&!PlayerData.Hurting&&!PlayerData.Backing&&!PlayerData.Blowing)
         {
             PlayerData.playerStartJump = true;
             ChangeState((sbyte)Data.AnimationCount.Jump);

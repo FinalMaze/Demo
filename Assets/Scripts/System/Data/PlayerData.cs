@@ -18,7 +18,9 @@ public class PlayerData
     //投掷动作的总时长
     public static float CastTime = 0.35f;
     //召回动作的总时长
-    public static float BlowTime = 0.32f;
+    public static float BackTime = 0.24f;
+    //爆破动作的总时长
+    public static float BlowTime = 0.48f;
     //受击动作的总时长
     public static float HurtTime = 0.17f;
 
@@ -30,10 +32,11 @@ public class PlayerData
     //是否在下落中
     public static bool Downing = false;
     //是否在召回动作中
-    public static bool Blowing = false;
+    public static bool Backing = false;
     //是否在受击动作中
     public static bool Hurting = false;
-    
+
+    public static bool Blowing = false;
     //是否可以二段跳
     public static bool Jump2 = false;
     public static bool Jump2ing = false;
@@ -142,6 +145,9 @@ public class PlayerData
     public static float ThrowSpeed = 2f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)
     public static float ThrowLongTime = 0.5f;
+
+    //玩家爆破动作几秒后，播放宠物爆破动作
+    public static float FriendBlowStartTime = 0.1f;
 
     //投掷后的Y轴偏移量(根据玩家的Y轴，向下的偏移量)
     public static float ThrowEndY = 0.4f;

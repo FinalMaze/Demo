@@ -34,7 +34,7 @@ public class FriendMove : FsmBase
     float timeCount;
     bool canDamage;
     bool canLoop;
-    int tmpI=-1;
+    int tmpI = -1;
     public FriendMove(Animator tmpAnimator)
     {
         animator = tmpAnimator;
@@ -68,7 +68,7 @@ public class FriendMove : FsmBase
             FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
         }
 
-        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position,3f);
+        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
     }
     public override void OnExit()
     {
@@ -254,7 +254,7 @@ public class FriendBack : FsmBase
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position,PlayerData.BackSpeed);
+        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, PlayerData.BackSpeed);
 
         if (canLoop)
         {
@@ -348,7 +348,7 @@ public class FriendCast : FsmBase
     {
         Loop();
 
-        FriendCtrl.Instance.GoToPlayer(FriendData.Target,PlayerData.ThrowSpeed);
+        FriendCtrl.Instance.GoToPlayer(FriendData.Target, PlayerData.ThrowSpeed);
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.CastTime)
         {
@@ -381,9 +381,9 @@ public class FriendCast : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x)<1f)
+                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x) < 1f)
                     {
-                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1,FriendData.CastDistance);
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1, FriendData.CastDistance);
                     }
                 }
 
@@ -472,3 +472,61 @@ public class FriendRun2 : FsmBase
         FriendData.Runing = false;
     }
 }
+public class FriendBlow : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    bool canDamage;
+    public FriendBlow(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        FriendData.Blowing = true;
+        canDamage = true;
+
+        FriendData.State = 9;
+        animator.SetInteger("Index", 9);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.BlowDamageTime && canDamage)
+        {
+            Loop();
+        }
+
+        if (timeCount > FriendData.BlowTime)
+        {
+            timeCount = 0;
+            canDamage = true;
+            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+        }
+    }
+    public override void OnExit()
+    {
+        FriendData.Blowing = false;
+    }
+
+    private bool Loop()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Vector2.Distance(Data.allEnemy[i].transform.position, FriendCtrl.Instance.transform.position) < FriendData.BlowRadius)
+            {
+                if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.BlowDamage, 1, FriendData.BlowDistance);
+                }
+                if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
+                {
+                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.BlowDamage, -1, FriendData.BlowDistance);
+                }
+            }
+        }
+        return canDamage = false;
+    }
+
+}
+

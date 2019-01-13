@@ -33,8 +33,9 @@ public class Data
         Amass,
         Cast,
         JumpEnd,
-        Blow,
+        Back,
         Hurt,
+        Blow,
 
         Max
     }
@@ -50,6 +51,7 @@ public class Data
         Cast,
         Idel2,
         Run2,
+        Blow,
 
 
         Max

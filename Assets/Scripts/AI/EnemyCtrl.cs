@@ -239,7 +239,7 @@ public class EnemyCtrl : MonoBehaviour
         if (enemyData.HP > 0)
         {
             StartCoroutine("Red");
-            if (!enemyData.Attacking ||tmpAdd!=0)
+            if (!enemyData.Attacking || addDistance != 0)
             {
                 ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
             }
@@ -261,15 +261,12 @@ public class EnemyCtrl : MonoBehaviour
     #region 冲刺的方法
     public void Blink(float distance, float speed)
     {
-        Debug.Log(dir);
         if (dir > 0)
         {
-            Debug.Log("向右冲");
             transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance+ tmpAdd), transform.position.y), speed);
         }
         if (dir < 0)
         {
-            Debug.Log("向左冲 ");
             transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance- tmpAdd), transform.position.y), speed);
         }
     }

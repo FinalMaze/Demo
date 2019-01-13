@@ -66,6 +66,8 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.AddState(friendIdel2);
         FriendRun2 friendRun2 = new FriendRun2(animator);
         fsmManager.AddState(friendRun2);
+        FriendBlow FriendBlow = new FriendBlow(animator);
+        fsmManager.AddState(FriendBlow);
         #endregion
 
     }
@@ -77,7 +79,7 @@ public class FriendCtrl : MonoBehaviour
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
         PlayerData.distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
 
-        
+
 
         #region 检测什么时候被踩
         if (FriendData.Jumped)
@@ -98,7 +100,7 @@ public class FriendCtrl : MonoBehaviour
         if (FriendData.Biging)
         {
             if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing
-                && !FriendData.Amassing && !FriendData.Smalling)
+                && !FriendData.Amassing && !FriendData.Smalling&&!FriendData.Blowing)
             {
                 //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -106,7 +108,7 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            if (!FriendData.Attacking && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting && !FriendData.Biging&&!FriendData.Moving)
+            if (!FriendData.Attacking && !FriendData.Blowing && !FriendData.Amassing && !FriendData.Backing && !FriendData.Casting && !FriendData.Biging&&!FriendData.Moving)
             {
                 //Debug.Log("强制Idel1");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel);
@@ -376,7 +378,7 @@ public class FriendCtrl : MonoBehaviour
                 PlayerData.mp -= FriendData.BigMP;
                 GameInterfaceCtrl.Instance.UpdateMP();
             }
-            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Blowing&&!FriendData.Attacking)
+            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Backing&&!FriendData.Attacking && !FriendData.Blowing)
             {
                 if (CheckEnemy(FriendData.FllowDistance) != null)
                 {
@@ -472,7 +474,7 @@ public class FriendCtrl : MonoBehaviour
                     //Debug.Log("跟随中");
                     transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime);
                 }
-                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y - 0.3f), PlayerData.distance * 0.001f);
+                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y + 0.3f), PlayerData.distance * 0.001f);
                 #endregion
             }
         }

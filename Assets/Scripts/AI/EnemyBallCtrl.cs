@@ -39,7 +39,6 @@ public class EnemyBallCtrl : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.name);
         if (collision.tag=="PlayerParent")
         {
             ball.velocity = Vector2.zero;
