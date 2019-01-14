@@ -181,11 +181,26 @@ public class FriendCtrl : MonoBehaviour
             {
                 if (Data.allEnemy[i].transform.position.x > transform.position.x)
                 {
-                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                    EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                    if (tmp!=null)
+                    {
+                        tmp.Hurt(FriendData.Damage, 1);
+                    }else
+                    {
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                    }
                 }
                 if (Data.allEnemy[i].transform.position.x < transform.position.x)
                 {
-                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                    EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                    if (tmp != null)
+                    {
+                        tmp.Hurt(FriendData.Damage, -1);
+                    }
+                    else
+                    {
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                    }
                 }
             }
         }

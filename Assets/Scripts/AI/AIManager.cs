@@ -25,8 +25,10 @@ public class AIManager : MonoBehaviour
     Transform tmpFriend;
     GameObject tmpBase1;
     GameObject tmpBase2;
+    GameObject tmpBase3;
     GameObject tmpEnemy1;
     GameObject tmpEnemy2;
+    GameObject tmpEnemy3;
     private void Awake()
     {
         instance = this;
@@ -35,11 +37,14 @@ public class AIManager : MonoBehaviour
         tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
         tmpBase2 = GameObject.Find("Enemy2");
         tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
+        tmpBase3 = GameObject.Find("Enemy3");
+        tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
     }
     #endregion
 
     float timeCount1;
     float timeCount2;
+    float timeCount3;
     private void Update()
     {
         if (tmpEnemy1 == null)
@@ -60,7 +65,15 @@ public class AIManager : MonoBehaviour
                 tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
             }
         }
-
+        if (tmpEnemy3 == null)
+        {
+            timeCount3 += Time.deltaTime;
+            if (timeCount3 > 2f)
+            {
+                timeCount3 = 0;
+                tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
+            }
+        }
     }
 
 

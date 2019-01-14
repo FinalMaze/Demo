@@ -192,6 +192,7 @@
     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyBallCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyTest.cs" />
     <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />

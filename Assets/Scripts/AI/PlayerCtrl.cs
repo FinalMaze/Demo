@@ -310,11 +310,36 @@ public class PlayerCtrl : MonoBehaviour
             {
                 if (PlayerData.Dircetion > 0 && Data.allEnemy[i].transform.position.x > transform.position.x)
                 {
-                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, 1);
+                    if (Data.allEnemy[i].transform.position.x > transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        Debug.Log(tmp);
+                        if (tmp != null)
+                        {
+                            tmp.Hurt(FriendData.Damage, 1);
+                        }
+                        else
+                        {
+                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                        }
+                    }
+
                 }
                 if (PlayerData.Dircetion < 0 && Data.allEnemy[i].transform.position.x < transform.position.x)
                 {
-                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(PlayerData.Damage, -1);
+                    if (Data.allEnemy[i].transform.position.x < transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        if (tmp != null)
+                        {
+                            tmp.Hurt(FriendData.Damage, -1);
+                        }
+                        else
+                        {
+                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                        }
+                    }
+
                 }
                 PlayerData.mp = Mathf.Clamp(PlayerData.mp += PlayerData.AddMP, 0, PlayerData.mpMax);
                 GameInterfaceCtrl.Instance.UpdateMP();
