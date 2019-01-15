@@ -381,6 +381,7 @@ public class FriendCtrl : MonoBehaviour
     float attackTimeCount;
     bool canAttack = true;
     float bigMPTimeCount;
+    float smallMPTimeCount;
     private void Partol()
     {
         //大型时的巡逻并攻击敌人
@@ -388,7 +389,7 @@ public class FriendCtrl : MonoBehaviour
         {
             //大型时持续耗蓝
             bigMPTimeCount += Time.deltaTime;
-            if (bigMPTimeCount>0.6f)
+            if (bigMPTimeCount>FriendData.UpdataTime*1.6f)
             {
                 bigMPTimeCount = 0;
                 PlayerData.mp -= FriendData.BigMP;
@@ -475,6 +476,14 @@ public class FriendCtrl : MonoBehaviour
         //小型时跟随玩家
         else
         {
+            smallMPTimeCount += Time.deltaTime;
+            if (smallMPTimeCount > FriendData.UpdataTime*1.6f)
+            {
+                smallMPTimeCount = 0;
+                PlayerData.mp += FriendData.SmallMP;
+                GameInterfaceCtrl.Instance.UpdateMP();
+            }
+
             //Debug.Log(!FriendData.Amassing);
             //Debug.Log(!back);
             if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing)

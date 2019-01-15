@@ -97,6 +97,13 @@ public class FriendData
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长
     public static float ComeStayTime = 0.5f;
+
+
+    //持续回蓝的判定是多少秒（单位是秒不是f）
+    public static float UpdataTime = 0.2f;
+    //变小时持续回蓝量
+    public static float SmallMP = 1f;
+
     //变大的持续时间
     public static float BigTime = 4f;
     //变大时的持续耗蓝量
