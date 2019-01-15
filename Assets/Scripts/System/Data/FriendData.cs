@@ -73,7 +73,7 @@ public class FriendData
     //爆破的范围半径
     public static float BlowRadius = 4f;
     //爆破的击退距离
-    public static float BlowDistance = 4f;
+    public static float BlowDistance = 5f;
     //爆破的伤害
     public static float BlowDamage = 10f;
 
@@ -92,7 +92,7 @@ public class FriendData
     //进行跟随的距离
     public static float followDistance = 1.2f;
     //普通多长时间跟随到玩家
-    public static float smoothTime = 1f;
+    public static float smoothTime = 0.8f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长

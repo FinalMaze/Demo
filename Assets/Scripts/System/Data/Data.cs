@@ -6,11 +6,27 @@ public class Data
 {
     public static bool EasyTouch = false;
 
+    //正常的颜色
+    public static byte Rb = 255;
+    public static byte Gb = 255;
+    public static byte Bb = 255;
+    public static byte Ab = 255;
     //受击的颜色
     public static byte R = 255;
     public static byte G = 150;
     public static byte B = 150;
     public static byte A = 255;
+    //小怪受击的颜色
+    public static byte mR = 255;
+    public static byte mG = 150;
+    public static byte mB = 150;
+    public static byte mA = 255;
+    //小怪正常的颜色
+    public static byte Rm = 255;
+    public static byte Gm = 150;
+    public static byte Bm = 150;
+    public static byte Am = 255;
+
     //受击多少秒后返回正常
     public static float IdelRGB = 0.1f;
 

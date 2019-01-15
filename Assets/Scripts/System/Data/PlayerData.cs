@@ -10,11 +10,11 @@ public class PlayerData
     //落地动作的总时长
     public static float JumpEndTime = 0.05f;
     //一段攻击动作的总时长
-    public static float AttackTime = 0.4f;
+    public static float AttackTime = 0.6f;
     //一段攻击动作开始后，设置第几秒可以进行二段攻击
-    public static float Attack2StartTime = 0f;
+    public static float Attack2StartTime = 0.2f;
     //二段攻击动作的总时长
-    public static float Attack2Time = 0.3f;
+    public static float Attack2Time = 0.4f;
     //投掷动作的总时长
     public static float CastTime = 0.35f;
     //召回动作的总时长
@@ -83,20 +83,20 @@ public class PlayerData
     //攻击力
     public static float Damage = 10f;
     //攻击距离
-    public static float AttackDistance = 3.5f;
+    public static float AttackDistance = 4f;
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
-    public static float EnemyHurtTime = 0.2f;
+    public static float EnemyHurtTime = 0.3f;
     //攻击回蓝量
     public static float AddMP = 5f;
 
     //第一段攻击位移距离
-    public static float AttackDistance1 = 1f;
+    public static float AttackDistance1 = 0.7f;
     //第一段攻击位移速度
     public static float AttackSpeed1 = 0.5f;
     //第二段攻击位移距离
-    public static float AttackDistance2 = 0.5f;
+    public static float AttackDistance2 = 0.7f;
     //第二段攻击位移速度
-    public static float AttackSpeed2 = 0.25f;
+    public static float AttackSpeed2 = 0.5f;
 
     //攻击可以造成伤害的距离
     public static float DamageDistance = 2f;
@@ -134,7 +134,7 @@ public class PlayerData
     //玩家与召唤兽的距离
     public static float distance;
     //玩家可二段跳，所需的脚的位置与宠物距离
-    public static float CanJump = 1f;
+    public static float CanJump = 0.6f;
     //可以直接投掷——需要相距手的位置多远
     public static float CanSimpleThrow = 2.5f;
     //可以召唤并投掷的与宠物相距的距离

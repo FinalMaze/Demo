@@ -42,7 +42,7 @@ public class EnemyData
     public float HP = 100f;
     public float MaxHP = 100f;
 
-    public float Damage = 10f;
+    public float Damage = 5f;
     
 
     //攻击后第几秒调用玩家受击（造成伤害）动作
@@ -64,7 +64,7 @@ public class EnemyData
     //远程攻击动作开始后，多少秒创建子弹
     public static float BallStartTime = 0.3f;
     //子弹的飞行速度
-    public static  float BallSpeed = 20f;
+    public static  float BallSpeed = 7f;
     //子弹的伤害
     public static float BallDamage = 10f;
 

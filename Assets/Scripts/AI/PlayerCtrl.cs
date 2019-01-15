@@ -28,6 +28,7 @@ public class PlayerCtrl : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rgb = GetComponent<Rigidbody2D>();
         #endregion
+
         #region 添加玩家动画
         PlayerIdel playerIdel = new PlayerIdel(animator);
         fsmManager.AddState(playerIdel);
@@ -313,7 +314,6 @@ public class PlayerCtrl : MonoBehaviour
                     if (Data.allEnemy[i].transform.position.x > transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
-                        Debug.Log(tmp);
                         if (tmp != null)
                         {
                             tmp.Hurt(FriendData.Damage, 1);

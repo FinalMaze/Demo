@@ -15,6 +15,9 @@ public class EnemyCtrl : MonoBehaviour
         enemyData = new EnemyData();
         fsmManager = new FSMManager((int)Data.EnemyAnimationCount.Max);
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        sprite.color = new Color(Data.Rb / 255f, Data.Gb / 255f, Data.Bb / 255f, Data.Ab / 255f);
+
         ball = transform.Find("FirePostion");
         tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
@@ -28,7 +31,7 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyAttack);
         EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData,this);
         fsmManager.AddState(enemyHurt);
-        EnemyDie enemyDie = new EnemyDie(animator,ref enemyData);
+        EnemyDie enemyDie = new EnemyDie(animator,ref enemyData,this);
         fsmManager.AddState(enemyDie);
         EnemyAttack2 enemyAttack2 = new EnemyAttack2(animator, enemyData);
         fsmManager.AddState(enemyAttack2);
@@ -246,6 +249,7 @@ public class EnemyCtrl : MonoBehaviour
         }
         else
         {
+            StartCoroutine("Red");
             ChangeState((sbyte)Data.EnemyAnimationCount.Die);
             Invoke("Destory", 0.64f);
         }
@@ -254,7 +258,7 @@ public class EnemyCtrl : MonoBehaviour
     {
         sprite.color = new Color(Data.R / 255f, Data.G / 255f, Data.B / 255f, Data.A / 255f);
         yield return new WaitForSeconds(Data.IdelRGB);
-        sprite.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+        sprite.color = new Color(Data.Rb / 255f, Data.Gb / 255f, Data.Bb / 255f, Data.Ab / 255f);
     }
     #endregion
 

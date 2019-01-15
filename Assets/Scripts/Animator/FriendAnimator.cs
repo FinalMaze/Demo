@@ -117,7 +117,7 @@ public class FriendMove : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance .transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance .transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -338,7 +338,7 @@ public class FriendBack : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -456,7 +456,7 @@ public class FriendCast : FsmBase
                     canDamage = false;
                     if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x) < 1f)
                     {
-                        if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                        if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
                         {
                             EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                             if (tmp != null)
