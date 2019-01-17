@@ -295,20 +295,21 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 	
 	#region UI Callback
 	public void OnPointerEnter(PointerEventData eventData){
+        if (joystickType == JoystickType.Dynamic && !isDynamicActif && _activated && pointId == -1)
+        {
+            eventData.pointerDrag = gameObject;
+            eventData.pointerPress = gameObject;
 
-		if (joystickType == JoystickType.Dynamic && !isDynamicActif && _activated &&  pointId==-1){
-			eventData.pointerDrag = gameObject;
-			eventData.pointerPress = gameObject;
+            isDynamicActif = true;
+            pointId = eventData.pointerId;
+        }
 
-			isDynamicActif = true;
-			pointId = eventData.pointerId;
-		}
+        if (joystickType == JoystickType.Dynamic && !eventData.eligibleForClick)
+        {
+            OnPointerUp(eventData);
+        }
 
-		if (joystickType == JoystickType.Dynamic &&  !eventData.eligibleForClick){
-			OnPointerUp( eventData );
-		}
-
-	}
+    }
 
 	public void OnPointerDown(PointerEventData eventData){
 		onTouchStart.Invoke();
@@ -320,11 +321,10 @@ public class ETCJoystick : ETCBase,IPointerEnterHandler,IDragHandler, IBeginDrag
 
 	public void OnBeginDrag(PointerEventData eventData){
 
-
+        
 	}
 	
 	public void OnDrag(PointerEventData eventData){
-
 		if (pointId == eventData.pointerId){
 			isOnDrag = true;
 			isOnTouch = true;

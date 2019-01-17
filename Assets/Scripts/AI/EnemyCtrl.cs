@@ -57,6 +57,11 @@ public class EnemyCtrl : MonoBehaviour
         #endregion
         EnemyAI();
 
+        if (enemyData.Hurting)
+        {
+            Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        }
+
     }
 
     #region 巡逻

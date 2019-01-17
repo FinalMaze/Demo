@@ -93,7 +93,6 @@ public class EnemyHurt : FsmBase
     }
     public override void OnStay()
     {
-        enemyCtrl.Blink(enemyData.HurtDistance,enemyData.HurtSpeed);
         timeCount += Time.deltaTime;
         if (timeCount> EnemyData.HurtTime)
         {

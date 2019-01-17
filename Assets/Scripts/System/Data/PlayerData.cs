@@ -87,7 +87,7 @@ public class PlayerData
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
     public static float EnemyHurtTime = 0.3f;
     //攻击回蓝量
-    public static float AddMP = 5f;
+    public static float AddMP = 2f;
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 0.7f;
@@ -112,9 +112,9 @@ public class PlayerData
     //投掷的mp消耗量
     public static float CastMP = 5f;
     //小型时召回的mp消耗量
-    public static float GoToPlayerMP = 5f;
+    public static float GoToPlayerMP = 3f;
     //大型时召回的mp消耗量
-    public static float BackMP = 5f;
+    public static float BackMP = 3f;
 
     //移动速度
     public static float runSpeed = 50f;
@@ -134,23 +134,23 @@ public class PlayerData
     //玩家与召唤兽的距离
     public static float distance;
     //玩家可二段跳，所需的脚的位置与宠物距离
-    public static float CanJump = 0.6f;
+    public static float CanJump = 0.5f;
     //可以直接投掷——需要相距手的位置多远
-    public static float CanSimpleThrow = 2.5f;
+    public static float CanSimpleThrow = 3.5f;
     //可以召唤并投掷的与宠物相距的距离
-    public static float CanThrow = 2.5f;
+    public static float CanThrow = 3.5f;
     //投掷的距离
-    public static float ThrowDistance = 8f;
+    public static float ThrowDistance = 10f;
     //投掷到目标点所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
-    public static float ThrowSpeed = 2f;
+    public static float ThrowSpeed = 2.3f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)
-    public static float ThrowLongTime = 0.5f;
+    public static float ThrowLongTime = 0.6f;
 
     //玩家爆破动作几秒后，播放宠物爆破动作
     public static float FriendBlowStartTime = 0.1f;
 
     //投掷后的Y轴偏移量(根据玩家的Y轴，向下的偏移量)
-    public static float ThrowEndY = 0.4f;
+    public static float ThrowEndY = 0.6f;
 
 
     //召回时所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>

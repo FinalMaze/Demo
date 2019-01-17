@@ -60,13 +60,13 @@ public class FriendData
 
     #region 基础数据
     //攻击力
-    public static float Damage = 20;
+    public static float Damage = 15;
     //攻击距离
     public static float AttackDistance = 4f;
     //攻击的位移距离 
-    public static float AttackBlinkDistance = 0.1f;
+    public static float AttackBlinkDistance = 0.3f;
     //攻击位移的速度（也会影响距离）
-    public static float AttackBlinkSpeed = 0.05f;
+    public static float AttackBlinkSpeed = 0.1f;
 
     //爆破动画几秒后，可以造成伤害
     public static float BlowDamageTime = 0.05f;
@@ -92,7 +92,7 @@ public class FriendData
     //进行跟随的距离
     public static float followDistance = 1.2f;
     //普通多长时间跟随到玩家
-    public static float smoothTime = 0.8f;
+    public static float smoothTime = 0.35f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长
@@ -100,14 +100,14 @@ public class FriendData
 
 
     //持续回蓝的判定是多少秒（单位是秒不是f）
-    public static float UpdataTime = 0.2f;
+    public static float UpdataTime = 0.1f;
     //变小时持续回蓝量
     public static float SmallMP = 1f;
 
     //变大的持续时间
     public static float BigTime = 4f;
     //变大时的持续耗蓝量
-    public static float BigMP = 2f;
+    public static float BigMP = 1f;
     //变大时召回需要按住攻击键的时长
     public static float BackStayTime = 0.3f;
     //与玩家的脚相距的距离
