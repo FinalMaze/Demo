@@ -59,16 +59,31 @@ public class FriendMove : FsmBase
         {
             Loop();
         }
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
+        }
+
 
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.MoveTime)
         {
             timeCount = 0;
             //FriendData.CanBack = false;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
         }
 
-        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
     }
     public override void OnExit()
     {
@@ -80,7 +95,7 @@ public class FriendMove : FsmBase
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x
+            if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -91,7 +106,7 @@ public class FriendMove : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -106,7 +121,7 @@ public class FriendMove : FsmBase
                 }
 
             }
-            else if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x
+            else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -153,18 +168,31 @@ public class FriendAttack : FsmBase
         FriendData.Backing = false;
         FriendData.Runing = false;
         FriendData.Moving = false;
-
         FriendData.State = 2;
         animator.SetInteger("Index", 2);
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
+        }
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.AttackTime)
         {
             timeCount = 0;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
         }
     }
     public override void OnExit()
@@ -199,7 +227,14 @@ public class FriendAmass : FsmBase
         if (timeCount > FriendData.AmassTime)
         {
             timeCount = 0;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
+            }
         }
     }
     public override void OnExit()
@@ -231,7 +266,14 @@ public class FriendAmassing : FsmBase
     {
         if (FriendData.Cast)
         {
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+            }
         }
         else
         {
@@ -260,7 +302,14 @@ public class FriendBack : FsmBase
         canLoop = true;
 
         FriendData.DelRigibody = true;
-        FriendCtrl.Instance.RigibodyCtrl();
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.RigibodyCtrl();
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.RigibodyCtrl();
+        }
 
         FriendData.Biging = false;
         FriendData.Backing = true;
@@ -276,7 +325,15 @@ public class FriendBack : FsmBase
     }
     public override void OnStay()
     {
-        FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, PlayerData.BackSpeed);
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, PlayerData.BackSpeed);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, PlayerData.BackSpeed);
+
+        }
 
         if (canLoop)
         {
@@ -288,7 +345,14 @@ public class FriendBack : FsmBase
         {
             timeCount = 0;
             //FriendData.CanBack = false;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
         }
     }
     public override void OnExit()
@@ -301,7 +365,7 @@ public class FriendBack : FsmBase
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x
+            if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -312,7 +376,7 @@ public class FriendBack : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -327,7 +391,7 @@ public class FriendBack : FsmBase
                 }
 
             }
-            else if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x
+            else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -338,7 +402,7 @@ public class FriendBack : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -391,14 +455,27 @@ public class FriendCast : FsmBase
     public override void OnStay()
     {
         Loop();
-
-        FriendCtrl.Instance.GoToPlayer(FriendData.Target, PlayerData.ThrowSpeed);
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.GoToPlayer(FriendData.Target, PlayerData.ThrowSpeed);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.GoToPlayer(FriendData.Target, PlayerData.ThrowSpeed);
+        }
         timeCount += Time.deltaTime;
         if (timeCount > FriendData.CastTime)
         {
             timeCount = 0;
             //变化到大型的动作流程
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
         }
 
     }
@@ -407,14 +484,22 @@ public class FriendCast : FsmBase
         FriendData.Casting = false;
         //添加刚体
         FriendData.AddRigibody = true;
-        FriendCtrl.Instance.RigibodyCtrl();
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.RigibodyCtrl();
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.RigibodyCtrl();
+        }
+
         //转换为变大状态
     }
     private bool Loop()
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x
+            if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -425,9 +510,9 @@ public class FriendCast : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x) < 1f)
+                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - animator.transform.position.x) < 1f)
                     {
-                        if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                        if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                         {
                             EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                             if (tmp != null)
@@ -443,7 +528,7 @@ public class FriendCast : FsmBase
                 }
 
             }
-            else if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x
+            else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
                 && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
@@ -454,9 +539,9 @@ public class FriendCast : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - FriendCtrl.Instance.transform.position.x) < 1f)
+                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - animator.transform.position.x) < 1f)
                     {
-                        if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
+                        if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
                         {
                             EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                             if (tmp != null)
@@ -567,7 +652,14 @@ public class FriendBlow : FsmBase
         {
             timeCount = 0;
             canDamage = true;
-            FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel);
+            }
         }
     }
     public override void OnExit()
@@ -579,11 +671,11 @@ public class FriendBlow : FsmBase
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Vector2.Distance(Data.allEnemy[i].transform.position, FriendCtrl.Instance.transform.position) < FriendData.BlowRadius)
+            if (Vector2.Distance(Data.allEnemy[i].transform.position, animator.transform.position) < FriendData.BlowRadius)
             {
-                if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                 {
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
@@ -596,7 +688,7 @@ public class FriendBlow : FsmBase
                         }
                     }
                 }
-                if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance.transform.position.x)
+                if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
                 {
                     if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance .transform.position.x)
                     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Data
 {
     public static bool EasyTouch = false;
+    public static bool FriendAI = true;
 
     //正常的颜色
     public static byte Rb = 255;

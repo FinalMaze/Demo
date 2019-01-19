@@ -32,7 +32,6 @@ public class FSMManager
     }
     public void ChangeState(sbyte animationrCount)
     {
-
         if (state == animationrCount)
         {
             return;

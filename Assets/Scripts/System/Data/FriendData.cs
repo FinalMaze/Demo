@@ -67,6 +67,9 @@ public class FriendData
     public static float AttackBlinkDistance = 0.3f;
     //攻击位移的速度（也会影响距离）
     public static float AttackBlinkSpeed = 0.1f;
+    //移动速度
+    public static float MoveSpeed = 8f;
+    
 
     //爆破动画几秒后，可以造成伤害
     public static float BlowDamageTime = 0.05f;
@@ -92,7 +95,7 @@ public class FriendData
     //进行跟随的距离
     public static float followDistance = 1.2f;
     //普通多长时间跟随到玩家
-    public static float smoothTime = 0.35f;
+    public static float smoothTime = 3f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长

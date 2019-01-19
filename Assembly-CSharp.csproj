@@ -194,6 +194,7 @@
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyTest.cs" />
     <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\FriendPlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Animator\BallAnimator.cs" />
