@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
+            CancelInvoke("RandomPos");
             Destroy(friend.GetComponent<FriendCtrl>());
             friend.AddComponent<FriendPlayerCtrl>();
         }

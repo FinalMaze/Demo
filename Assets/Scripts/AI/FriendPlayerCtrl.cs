@@ -160,7 +160,8 @@ public class FriendPlayerCtrl :MonoBehaviour
 
     private void Move()
     {
-        if (!FriendData.Attacking)
+        if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting
+    && !FriendData.Amassing&& !FriendData.Blowing)
         {
             if (run == 1)
             {
