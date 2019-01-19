@@ -61,11 +61,11 @@ public class FriendMove : FsmBase
         }
         if (Data.FriendAI)
         {
-            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
+            FriendCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 1f);
         }
         else
         {
-            FriendPlayerCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, 3f);
+            FriendPlayerCtrl.Instance.GoToPlayer(PlayerCtrl.Instance.transform.position, PlayerData.BackSpeed);
         }
 
 
@@ -132,7 +132,7 @@ public class FriendMove : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Data.allEnemy[i].transform.position.x < FriendCtrl.Instance .transform.position.x)
+                    if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
                     {
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
