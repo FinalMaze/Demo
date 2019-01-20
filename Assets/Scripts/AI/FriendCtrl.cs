@@ -170,6 +170,9 @@ public class FriendCtrl : MonoBehaviour
     #region 攻击
     public void Attack()
     {
+        PlayerData.mp -= PlayerData.CastMP;
+        GameInterfaceCtrl.Instance.UpdateMP();
+
         ChangeState((sbyte)Data.FriendAnimationCount.Attack);
         Invoke("Damage", FriendData.EnemyHurtTime);
     }

@@ -120,5 +120,9 @@ public class FriendData
     public static Vector2 Jump2Target;
     //被跳时的Y轴偏移量
     public static float Jump2TargetY=0.5f;
+
+
+    //变大时离玩家多远变小
+    public static float BigToSmallDistance = 10f;
     #endregion
 }

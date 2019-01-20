@@ -132,23 +132,23 @@ public class FriendPlayerCtrl :MonoBehaviour
             Attack();
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            up = 1;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            up = -1;
-        }
-        else
-        {
-            up = 0;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    up = 1;
+        //}
+        //else if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    up = -1;
+        //}
+        //else
+        //{
+        //    up = 0;
+        //}
+        if (Input.GetKey(KeyCode.A))
         {
             run = -1;
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.D))
         {
             run = 1;
         }
@@ -217,6 +217,9 @@ public class FriendPlayerCtrl :MonoBehaviour
     #region 攻击
     public void Attack()
     {
+        PlayerData.mp -= PlayerData.CastMP;
+        GameInterfaceCtrl.Instance.UpdateMP();
+
         ChangeState((sbyte)Data.FriendAnimationCount.Attack);
         Invoke("Damage", FriendData.EnemyHurtTime);
     }
@@ -436,6 +439,10 @@ public class FriendPlayerCtrl :MonoBehaviour
                 {
                     Small();
                 }
+                if (Vector2.Distance(transform.position,PlayerCtrl.Instance.transform.position)>FriendData.BigToSmallDistance)
+                {
+                    Small();
+                }
             }
         }
         else
@@ -448,6 +455,27 @@ public class FriendPlayerCtrl :MonoBehaviour
                 PlayerData.mp += FriendData.SmallMP;
                 GameInterfaceCtrl.Instance.UpdateMP();
             }
+            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing&&run==0)
+            {
+                #region 跟随
+
+                if (PlayerData.distance > FriendData.followDistance)
+                {
+                    if (distance > 0)
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                    }
+                    if (distance < 0)
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                    }
+                    //Debug.Log("跟随中");
+                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime*0.5f);
+                }
+                transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y + 0.3f), PlayerData.distance * 0.001f);
+                #endregion
+            }
+
         }
     }
 
