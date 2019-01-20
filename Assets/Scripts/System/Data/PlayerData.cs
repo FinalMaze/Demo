@@ -23,6 +23,8 @@ public class PlayerData
     public static float BlowTime = 0.48f;
     //受击动作的总时长
     public static float HurtTime = 0.17f;
+    //冲刺攻击动作的总时长
+    public static float RunAttackTime = 0.5f;
 
     #endregion
 
@@ -63,6 +65,8 @@ public class PlayerData
     //玩家是否正在攻击
     public static bool Attacking = false;
     public static bool Attacking1 = false;
+    //玩家是否在冲刺攻击中
+    public static bool RunAttacking = false;
     //开始二段攻击
     public static bool Attack2Start = false;
     //玩家是否二段攻击

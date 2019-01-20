@@ -53,6 +53,7 @@ public class Data
         Back,
         Hurt,
         Blow,
+        RunAttack,
 
         Max
     }

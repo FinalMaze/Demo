@@ -223,13 +223,20 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击按键相关
     public void SimpleAttack()
     {
-        if (PlayerData.Attacking && !PlayerData.Attacking2)
+        if (PlayerData.Runing&&PlayerCtrl.canRunAttack)
         {
-            PlayerCtrl.Instance.Attack2();
+            PlayerCtrl.Instance.RunAttack();
         }
-        else if (!PlayerData.Attacking)
+        else
         {
-            PlayerCtrl.Instance.Attack();
+            if (PlayerData.Attacking && !PlayerData.Attacking2)
+            {
+                PlayerCtrl.Instance.Attack2();
+            }
+            else if (!PlayerData.Attacking)
+            {
+                PlayerCtrl.Instance.Attack1();
+            }
         }
     }
     #endregion
@@ -245,14 +252,14 @@ public class PlayerManager : MonoBehaviour
                 if (PlayerData.mp <= 0)
                 {
                     #region mp=0时，调用的攻击方法
-                    if (PlayerData.Attacking && !PlayerData.Attacking2)
-                    {
-                        PlayerCtrl.Instance.Attack2();
-                    }
-                    else if (!PlayerData.Attacking)
-                    {
-                        PlayerCtrl.Instance.Attack();
-                    }
+                    //if (PlayerData.Attacking && !PlayerData.Attacking2)
+                    //{
+                    //    PlayerCtrl.Instance.Attack2();
+                    //}
+                    //else if (!PlayerData.Attacking)
+                    //{
+                    //    PlayerCtrl.Instance.Attack();
+                    //}
                     #endregion
                     return;
                 }

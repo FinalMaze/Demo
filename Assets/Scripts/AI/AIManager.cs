@@ -33,12 +33,12 @@ public class AIManager : MonoBehaviour
     {
         instance = this;
 
-        tmpBase1 = GameObject.Find("Enemy1");
-        tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
-        tmpBase2 = GameObject.Find("Enemy2");
-        tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
-        tmpBase3 = GameObject.Find("Enemy3");
-        tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
+        //tmpBase1 = GameObject.Find("Enemy1");
+        //tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
+        //tmpBase2 = GameObject.Find("Enemy2");
+        //tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
+        //tmpBase3 = GameObject.Find("Enemy3");
+        //tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
     }
     #endregion
 
@@ -47,33 +47,33 @@ public class AIManager : MonoBehaviour
     float timeCount3;
     private void Update()
     {
-        if (tmpEnemy1 == null)
-        {
-            timeCount1 += Time.deltaTime;
-            if (timeCount1 > 2f)
-            {
-                timeCount1 = 0;
-                tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
-            }
-        }
-        if (tmpEnemy2 == null)
-        {
-            timeCount2 += Time.deltaTime;
-            if (timeCount2 > 2f)
-            {
-                timeCount2 = 0;
-                tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
-            }
-        }
-        if (tmpEnemy3 == null)
-        {
-            timeCount3 += Time.deltaTime;
-            if (timeCount3 > 2f)
-            {
-                timeCount3 = 0;
-                tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
-            }
-        }
+        //if (tmpEnemy1 == null)
+        //{
+        //    timeCount1 += Time.deltaTime;
+        //    if (timeCount1 > 2f)
+        //    {
+        //        timeCount1 = 0;
+        //        tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
+        //    }
+        //}
+        //if (tmpEnemy2 == null)
+        //{
+        //    timeCount2 += Time.deltaTime;
+        //    if (timeCount2 > 2f)
+        //    {
+        //        timeCount2 = 0;
+        //        tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
+        //    }
+        //}
+        //if (tmpEnemy3 == null)
+        //{
+        //    timeCount3 += Time.deltaTime;
+        //    if (timeCount3 > 2f)
+        //    {
+        //        timeCount3 = 0;
+        //        tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
+        //    }
+        //}
     }
 
 

@@ -56,6 +56,9 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(PlayerHurt);
         PlayerBlow PlayerBlow = new PlayerBlow(animator);
         fsmManager.AddState(PlayerBlow);
+        PlayerRunAttack PlayerRunAttack = new PlayerRunAttack(animator);
+        fsmManager.AddState(PlayerRunAttack);
+
         #endregion
 
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -64,11 +67,24 @@ public class PlayerCtrl : MonoBehaviour
     float moveSpeed = PlayerData.runSpeed;
     float lastTestJump;
     float lastJumpPos;
+    float runTimeCount;
+    float runAttackCD = 1;
+    float runAttackTimeCount;
+    public static bool canRunAttack = true;
     private void Update()
     {
         fsmManager.OnStay();
         PlayerData.Dircetion = transform.localScale.x;
 
+        if (!canRunAttack)
+        {
+            runAttackTimeCount += Time.deltaTime;
+            if (runAttackTimeCount>1f)
+            {
+                runAttackTimeCount = 0;
+                canRunAttack = true;
+            }
+        }
 
         #region 检测是否在下落过程中
         if (PlayerData.Jumping)
@@ -120,34 +136,65 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 转向并移动
-        if (ETCInput.GetAxis("Horizontal") > 0f)
+        #region 键盘
+        if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting 
+            && !PlayerData.Blowing && !PlayerData.RunAttacking)
         {
-            run = 1f;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                runTimeCount += Time.deltaTime;
+                run = -0.5f;
+                if (runTimeCount > 0.5f)
+                {
+                    run = -1;
+                }
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                runTimeCount += Time.deltaTime;
+                run = 0.5f;
+                if (runTimeCount > 0.5f)
+                {
+                    run = 1;
+                }
+            }
+            else
+            {
+                runTimeCount = 0;
+                run = 0;
+            }
         }
-        //else if (ETCInput.GetAxis("Horizontal") > 0.5f)
+        #endregion
+        #region 摇杆
+        //if (ETCInput.GetAxis("Horizontal") > 0f)
         //{
-        //    PlayerData.playerWalk = true;
-        //    run = 1;
+        //    run = 1f;
         //}
-        if (ETCInput.GetAxis("Horizontal") < 0f)
-        {
-            run = -1f;
-        }
-        //if (ETCInput.GetAxis("Horizontal") < -0.5f)
+        ////else if (ETCInput.GetAxis("Horizontal") > 0.5f)
+        ////{
+        ////    PlayerData.playerWalk = true;
+        ////    run = 1;
+        ////}
+        //if (ETCInput.GetAxis("Horizontal") < 0f)
         //{
-        //    PlayerData.playerWalk = true;
-        //    run = -1;
+        //    run = -1f;
         //}
-        if (ETCInput.GetAxis("Horizontal") == 0)
-        {
-            PlayerData.Walking = false;
-            run = 0;
-            Data.EasyTouch = false;
-        }
-        if (run != 0)
-        {
-            Data.EasyTouch = true;
-        }
+        ////if (ETCInput.GetAxis("Horizontal") < -0.5f)
+        ////{
+        ////    PlayerData.playerWalk = true;
+        ////    run = -1;
+        ////}
+        //if (ETCInput.GetAxis("Horizontal") == 0)
+        //{
+        //    PlayerData.Walking = false;
+        //    run = 0;
+        //    Data.EasyTouch = false;
+        //}
+        //if (run != 0)
+        //{
+        //    Data.EasyTouch = true;
+        //}
+        #endregion
         #endregion
 
         #region 冲刺
@@ -166,7 +213,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing)
+            && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing&&!PlayerData.RunAttacking)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -180,12 +227,16 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Data.EasyTouch)
+            if (Mathf.Abs(run)==0.5f)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
+            else if (Mathf.Abs(run)==1f)
+            {
+                ChangeState((sbyte)Data.AnimationCount.Run);
+            }
             //如果横轴为0，那么变成Idel状态
-            else if (!Data.EasyTouch && !PlayerData.Walking)
+            else if (!Data.EasyTouch)
             {
                 ChangeState((sbyte)Data.AnimationCount.Idel);
             }
@@ -195,8 +246,6 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 攻击的位移
-        //if (canAttackBlink)
-        //{
         if (PlayerData.Attacking1)
         {
             transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
@@ -205,8 +254,6 @@ public class PlayerCtrl : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed2);
         }
-
-        //}
         #endregion
 
     }
@@ -228,21 +275,12 @@ public class PlayerCtrl : MonoBehaviour
 
     #region 普通攻击
     Vector2 tmpAttackTarget;
-    public void Attack()
+    public void Attack1()
     {
         if (!PlayerData.Jumping && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing)
         {
             PlayerData.Attack = true;
             ChangeState((sbyte)Data.AnimationCount.Attack);
-            //如果攻击距离内有敌人，取消攻击位移
-            //if (CheckEnemy())
-            //{
-            //    Invoke("Damage", PlayerData.EnemyHurtTime);
-            //    tmpAttackTarget.x = transform.position.x;
-            //    tmpAttackTarget.y = transform.position.y;
-            //}
-            //else
-            //{
             Invoke("Damage", PlayerData.EnemyHurtTime);
             if (PlayerData.Dircetion > 0)
             {
@@ -254,35 +292,41 @@ public class PlayerCtrl : MonoBehaviour
                 tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
                 tmpAttackTarget.y = transform.position.y;
             }
-            //}
         }
     }
     public void Attack2()
     {
         PlayerData.Attack2 = true;
-        //如果攻击距离内有敌人，取消攻击位移
-        //if (CheckEnemy())
-        //{
-        //    Invoke("Damage", PlayerData.EnemyHurtTime);
-        //    tmpAttackTarget.x = transform.position.x;
-        //    tmpAttackTarget.y = transform.position.y;
-        //}
-        //else
-        //{
-            Invoke("Damage", PlayerData.EnemyHurtTime);
 
+        if (PlayerData.Dircetion > 0)
+        {
+            tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1;
+            tmpAttackTarget.y = transform.position.y;
+        }
+        if (PlayerData.Dircetion < 0)
+        {
+            tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
+            tmpAttackTarget.y = transform.position.y;
+        }
+    }
+    public void RunAttack()
+    {
+        if (canRunAttack)
+        {
+            canRunAttack = false;
+            ChangeState((sbyte)Data.AnimationCount.RunAttack);
+            Invoke("Damage", PlayerData.EnemyHurtTime);
             if (PlayerData.Dircetion > 0)
             {
-                tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1;
+                tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1 * 10;
                 tmpAttackTarget.y = transform.position.y;
             }
             if (PlayerData.Dircetion < 0)
             {
-                tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
+                tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1 * 10;
                 tmpAttackTarget.y = transform.position.y;
             }
-        //}
-
+        }
     }
     #endregion
 
@@ -430,6 +474,17 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
+    public void RunBlink(float distance, float speed)
+    {
+        if (transform.localScale.x > 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+        }
+        if (transform.localScale.x < 0)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+        }
+    }
 
     Vector2 tmp;
     public void BlinkR(Gesture gesture)

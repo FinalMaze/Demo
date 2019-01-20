@@ -300,7 +300,6 @@ public class PlayerCast : FsmBase
         PlayerData.Casting = false;
     }
 }
-
 public class PlayerBack : FsmBase
 {
     Animator animator;
@@ -330,7 +329,6 @@ public class PlayerBack : FsmBase
         PlayerData.Backing = false;
     }
 }
-
 public class PlayerHurt : FsmBase
 {
     Animator animator;
@@ -361,7 +359,6 @@ public class PlayerHurt : FsmBase
         PlayerData.Hurting = false;
     }
 }
-
 public class PlayerBlow : FsmBase
 {
     Animator animator;
@@ -389,5 +386,36 @@ public class PlayerBlow : FsmBase
     public override void OnExit()
     {
         PlayerData.Blowing = false;
+    }
+}
+public class PlayerRunAttack : FsmBase
+{
+    Animator animator;
+    public static float timeCount;
+    public PlayerRunAttack(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        PlayerData.RunAttacking = true;
+        PlayerData.State = 13;
+        animator.SetInteger("Index", 13);
+    }
+    public override void OnStay()
+    {
+        PlayerCtrl.Instance.RunBlink(PlayerData.AttackDistance1 * 2, PlayerData.AttackSpeed1 * 2);
+        timeCount += Time.deltaTime;
+        if (timeCount > PlayerData.RunAttackTime)
+        {
+            PlayerData.RunAttacking = false;
+                timeCount = 0;
+                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+            
+        }
+    }
+    public override void OnExit()
+    {
+        PlayerData.RunAttacking = false;
     }
 }
