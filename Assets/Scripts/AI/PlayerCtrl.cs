@@ -143,19 +143,19 @@ public class PlayerCtrl : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 runTimeCount += Time.deltaTime;
-                run = -0.5f;
-                if (runTimeCount > 0.5f)
+                run = -PlayerData.walkspeed;
+                if (runTimeCount > PlayerData.walkToRun)
                 {
-                    run = -1;
+                    run = -PlayerData.runspeed;
                 }
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
                 runTimeCount += Time.deltaTime;
-                run = 0.5f;
-                if (runTimeCount > 0.5f)
+                run = PlayerData.walkspeed;
+                if (runTimeCount > PlayerData.walkToRun)
                 {
-                    run = 1;
+                    run = PlayerData.runspeed;
                 }
             }
             else
@@ -227,11 +227,11 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Mathf.Abs(run)==0.5f)
+            if (Mathf.Abs(run)==PlayerData.walkspeed)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
-            else if (Mathf.Abs(run)==1f)
+            else if (Mathf.Abs(run)==PlayerData.runspeed)
             {
                 ChangeState((sbyte)Data.AnimationCount.Run);
             }
@@ -318,12 +318,12 @@ public class PlayerCtrl : MonoBehaviour
             Invoke("Damage", PlayerData.EnemyHurtTime);
             if (PlayerData.Dircetion > 0)
             {
-                tmpAttackTarget.x = transform.position.x + PlayerData.AttackDistance1 * 10;
+                tmpAttackTarget.x = transform.position.x + PlayerData.RunAttackDistance;
                 tmpAttackTarget.y = transform.position.y;
             }
             if (PlayerData.Dircetion < 0)
             {
-                tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1 * 10;
+                tmpAttackTarget.x = transform.position.x - PlayerData.RunAttackDistance;
                 tmpAttackTarget.y = transform.position.y;
             }
         }

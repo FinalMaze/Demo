@@ -69,4 +69,14 @@ public class EnemyData
     public static float BallDamage = 5f;
 
     #endregion
+
+    #region 出生死亡数据 
+    //小怪复活间隔
+    public static float smallReTime = 2f;
+    //大怪复活间隔
+    public static float bigReTime = 2f;
+    //出生自标准点的随机距离（范围）
+    public static int startDis = 5;
+
+    #endregion
 }

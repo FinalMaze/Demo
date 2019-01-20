@@ -132,6 +132,16 @@ public class PlayerData
 
     //玩家的路径
     public static string playerPath = "Prefabs/Player/Player";
+
+    //走路速度
+    public static float walkspeed = 0.5f;
+    //跑步速度
+    public static float runspeed = 1f;
+    //走多少秒后变为跑
+    public static float walkToRun = 0.5f;
+    //冲刺的距离 
+    public static float RunAttackDistance = 8f;
+
     #endregion
 
     #region 玩家与召唤兽互动的数据信息
