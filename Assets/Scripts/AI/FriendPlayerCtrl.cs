@@ -127,9 +127,13 @@ public class FriendPlayerCtrl :MonoBehaviour
     private void Ctrl()
     {
 
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            Attack();
+            if (FriendData.Biging&& !FriendData.Backing && !FriendData.Casting
+    && !FriendData.Amassing && !FriendData.Blowing)
+            {
+                Attack();
+            }
         }
 
         //if (Input.GetKey(KeyCode.UpArrow))

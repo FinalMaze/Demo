@@ -123,6 +123,6 @@ public class FriendData
 
 
     //变大时离玩家多远变小
-    public static float BigToSmallDistance = 10f;
+    public static float BigToSmallDistance = 20f;
     #endregion
 }
