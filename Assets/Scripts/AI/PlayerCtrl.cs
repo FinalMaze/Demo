@@ -63,7 +63,7 @@ public class PlayerCtrl : MonoBehaviour
 
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
-    float run;
+    static float run;
     float moveSpeed = PlayerData.runSpeed;
     float lastTestJump;
     float lastJumpPos;
@@ -79,7 +79,7 @@ public class PlayerCtrl : MonoBehaviour
         if (!canRunAttack)
         {
             runAttackTimeCount += Time.deltaTime;
-            if (runAttackTimeCount>1f)
+            if (runAttackTimeCount > 1f)
             {
                 runAttackTimeCount = 0;
                 canRunAttack = true;
@@ -137,7 +137,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 转向并移动
         #region 键盘
-        if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting 
+        if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting
             && !PlayerData.Blowing && !PlayerData.RunAttacking)
         {
             if (Input.GetKey(KeyCode.LeftArrow))
@@ -158,7 +158,7 @@ public class PlayerCtrl : MonoBehaviour
                     run = PlayerData.runspeed;
                 }
             }
-            else
+            else if (touch == false)
             {
                 runTimeCount = 0;
                 run = 0;
@@ -213,7 +213,7 @@ public class PlayerCtrl : MonoBehaviour
 
         #region 在地上的动作判断
         if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
-            && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing&&!PlayerData.RunAttacking)
+            && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing && !PlayerData.RunAttacking)
         {
             //Debug.Log(PlayerData.Attacking);
             //Debug.Log(PlayerData.Attacking2);
@@ -227,11 +227,11 @@ public class PlayerCtrl : MonoBehaviour
 
             #region 判断是否播放Walk或Run动画
             //如果在Walk状态，变换成Walk动作
-            if (Mathf.Abs(run)==PlayerData.walkspeed)
+            if (Mathf.Abs(run) == PlayerData.walkspeed)
             {
                 ChangeState((sbyte)Data.AnimationCount.Walk);
             }
-            else if (Mathf.Abs(run)==PlayerData.runspeed)
+            else if (Mathf.Abs(run) == PlayerData.runspeed)
             {
                 ChangeState((sbyte)Data.AnimationCount.Run);
             }
@@ -262,6 +262,42 @@ public class PlayerCtrl : MonoBehaviour
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);
         PlayerData.playerStartJump = false;
     }
+
+    #region 摇杆移动
+    bool touch = false;
+    public void Move(Vector2 tmpVec)
+    {
+        if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting
+       && !PlayerData.Blowing && !PlayerData.RunAttacking)
+        {
+            if (tmpVec.x > 0 && tmpVec.x <= PlayerData.touchDis)
+            {
+                touch = true;
+                run = PlayerData.walkspeed;
+            }
+            else if (tmpVec.x < 0 && tmpVec.x >= -PlayerData.touchDis)
+            {
+                touch = true;
+                run = -PlayerData.walkspeed;
+            }
+            else if (tmpVec.x > PlayerData.touchDis)
+            {
+                touch = true;
+                run = PlayerData.runspeed;
+            }
+            else if (tmpVec.x < -PlayerData.touchDis)
+            {
+                touch = true;
+                run = -PlayerData.runspeed;
+            }
+        }
+    }
+    public void MoveEnd()
+    {
+        touch = false;
+        run = 0;
+    }
+    #endregion
 
     #region 蓄力
     public void Amass()

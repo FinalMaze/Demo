@@ -183,4 +183,7 @@ public class PlayerData
     //触发冲刺的最少滑动时间
     public static float SwipeTime = 0.4f;
     #endregion
+
+    //摇杆滑动多远可以从走变成跑（0-1之间）
+    public static float touchDis = 0.7f;
 }
