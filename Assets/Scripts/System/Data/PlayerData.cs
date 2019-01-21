@@ -139,8 +139,10 @@ public class PlayerData
     public static float runspeed = 1f;
     //走多少秒后变为跑
     public static float walkToRun = 0.5f;
-    //冲刺的距离 
+    //冲刺攻击的距离 
     public static float RunAttackDistance = 8f;
+    //冲刺攻击的速度
+    public static float RunAttackSpeed = 1f;
 
     #endregion
 

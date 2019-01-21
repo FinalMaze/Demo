@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendPlayerCtrl :MonoBehaviour
+public class FriendPlayerCtrl : MonoBehaviour
 {
     public static FriendPlayerCtrl Instance;
 
@@ -36,7 +36,7 @@ public class FriendPlayerCtrl :MonoBehaviour
     bool canPartol = false;
     //巡逻用的随机数
     float ran;
-    float run=0;
+    float run = 0;
     float up = 0;
     float moveSpeed;
     #endregion
@@ -106,7 +106,7 @@ public class FriendPlayerCtrl :MonoBehaviour
             if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting
                 && !FriendData.Amassing && !FriendData.Smalling && !FriendData.Blowing)
             {
-                
+
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
             }
         }
@@ -129,25 +129,28 @@ public class FriendPlayerCtrl :MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (FriendData.Biging&& !FriendData.Backing && !FriendData.Casting
+            if (FriendData.Biging && !FriendData.Backing && !FriendData.Casting
     && !FriendData.Amassing && !FriendData.Blowing)
             {
                 Attack();
             }
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (!FriendData.Backing && !FriendData.Casting
+    && !FriendData.Amassing && !FriendData.Blowing)
+            {
+                if (FriendData.Biging)
+                {
+                    Back();
+                }
+                if (FriendData.Smalling)
+                {
+                    ChangeState((sbyte)Data.FriendAnimationCount.Move);
+                }
+            }
+        }
 
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    up = 1;
-        //}
-        //else if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    up = -1;
-        //}
-        //else
-        //{
-        //    up = 0;
-        //}
         if (Input.GetKey(KeyCode.A))
         {
             run = -1;
@@ -165,7 +168,7 @@ public class FriendPlayerCtrl :MonoBehaviour
     private void Move()
     {
         if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting
-    && !FriendData.Amassing&& !FriendData.Blowing)
+    && !FriendData.Amassing && !FriendData.Blowing)
         {
             if (run == 1)
             {
@@ -214,6 +217,8 @@ public class FriendPlayerCtrl :MonoBehaviour
     {
         ChangeState((sbyte)Data.FriendAnimationCount.Back);
     }
+
+
     #endregion
 
     #endregion
@@ -443,7 +448,7 @@ public class FriendPlayerCtrl :MonoBehaviour
                 {
                     Small();
                 }
-                if (Vector2.Distance(transform.position,PlayerCtrl.Instance.transform.position)>FriendData.BigToSmallDistance)
+                if (Vector2.Distance(transform.position, PlayerCtrl.Instance.transform.position) > FriendData.BigToSmallDistance)
                 {
                     Small();
                 }
@@ -459,7 +464,7 @@ public class FriendPlayerCtrl :MonoBehaviour
                 PlayerData.mp += FriendData.SmallMP;
                 GameInterfaceCtrl.Instance.UpdateMP();
             }
-            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing&&run==0)
+            if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing && run == 0)
             {
                 #region 跟随
 
@@ -474,7 +479,7 @@ public class FriendPlayerCtrl :MonoBehaviour
                         transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     }
                     //Debug.Log("跟随中");
-                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime*0.5f);
+                    transform.position = Vector2.SmoothDamp(transform.position, player + distanceV, ref velocity, FriendData.smoothTime * 0.5f);
                 }
                 transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x, player.y + 0.3f), PlayerData.distance * 0.001f);
                 #endregion

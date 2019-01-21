@@ -344,12 +344,15 @@ public class PlayerCtrl : MonoBehaviour
             tmpAttackTarget.x = transform.position.x - PlayerData.AttackDistance1;
             tmpAttackTarget.y = transform.position.y;
         }
+        Invoke("Damage", PlayerData.EnemyHurtTime);
     }
     public void RunAttack()
     {
         if (canRunAttack)
         {
             canRunAttack = false;
+            runTimeCount = 0;
+            run = 0;
             ChangeState((sbyte)Data.AnimationCount.RunAttack);
             Invoke("Damage", PlayerData.EnemyHurtTime);
             if (PlayerData.Dircetion > 0)
@@ -438,7 +441,7 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
         StartCoroutine("Red");
-        if (!PlayerData.Attacking && !PlayerData.Jumping)
+        if (!PlayerData.Attacking && !PlayerData.Jumping&&!PlayerData.RunAttacking)
         {
             dir = tmpDir;
             ChangeState((sbyte)Data.AnimationCount.Hurt);
