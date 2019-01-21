@@ -96,7 +96,7 @@ public class FriendMove : FsmBase
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
             if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
+                && Data.allEnemy[i].transform.position.x < FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -111,18 +111,25 @@ public class FriendMove : FsmBase
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
                         {
-                            tmp.Hurt(FriendData.Damage, 1);
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, 1);
+                            }
+
                         }
                         else
                         {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                            }
                         }
                     }
                 }
 
             }
             else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
+                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -137,11 +144,18 @@ public class FriendMove : FsmBase
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
                         {
-                            tmp.Hurt(FriendData.Damage, -1);
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, -1);
+                            }
+
                         }
                         else
                         {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                            }
                         }
                     }
                 }
@@ -366,7 +380,7 @@ public class FriendBack : FsmBase
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
             if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
+                && Data.allEnemy[i].transform.position.x < FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -381,18 +395,25 @@ public class FriendBack : FsmBase
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
                         {
-                            tmp.Hurt(FriendData.Damage, 1);
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, 1);
+                            }
+                            
                         }
                         else
                         {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                            }
                         }
                     }
                 }
 
             }
             else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
+                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -407,11 +428,18 @@ public class FriendBack : FsmBase
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
                         {
-                            tmp.Hurt(FriendData.Damage, -1);
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, -1);
+                            }
+
                         }
                         else
                         {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                            }
                         }
                     }
                 }
@@ -499,8 +527,8 @@ public class FriendCast : FsmBase
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
-            if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
+            if (Data.allEnemy[i].transform.position.x > animator.transform.position.x&&
+                Data.allEnemy[i].transform.position.x <FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -510,18 +538,24 @@ public class FriendCast : FsmBase
                 if (canDamage)
                 {
                     canDamage = false;
-                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - animator.transform.position.x) < 1f)
+                    if (Mathf.Abs(Data.allEnemy[i].transform.position.x - animator.transform.position.x) < 0.3f)
                     {
                         if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                         {
                             EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                             if (tmp != null)
                             {
-                                tmp.Hurt(FriendData.Damage, -1);
+                                if (!tmp.enemyData.Hurting)
+                                {
+                                    tmp.Hurt(FriendData.Damage, -1);
+                                }
                             }
                             else
                             {
-                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                                if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                                {
+                                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                                }
                             }
                         }
                     }
@@ -529,7 +563,7 @@ public class FriendCast : FsmBase
 
             }
             else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
+                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
             {
                 if (tmpI != i)
                 {
@@ -546,11 +580,17 @@ public class FriendCast : FsmBase
                             EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                             if (tmp != null)
                             {
-                                tmp.Hurt(FriendData.Damage, 1);
+                                if (!tmp.enemyData.Hurting)
+                                {
+                                    tmp.Hurt(FriendData.Damage, 1);
+                                }
                             }
                             else
                             {
-                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                                if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                                {
+                                    Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                                }
                             }
                         }
                     }

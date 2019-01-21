@@ -85,6 +85,8 @@ public class FriendData
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
     public static float EnemyHurtTime = 0.3f;
 
+    //冲刺的起点
+    public static Vector2 StartPos;
     //冲刺的目标点
     public static Vector2 Target;
     //冲刺的击退距离

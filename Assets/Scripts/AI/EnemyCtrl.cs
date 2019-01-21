@@ -6,7 +6,7 @@ public class EnemyCtrl : MonoBehaviour
 {
     FSMManager fsmManager;
     Animator animator;
-    EnemyData enemyData;
+    public  EnemyData enemyData;
     SpriteRenderer sprite;
 
     private void Awake()

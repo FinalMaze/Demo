@@ -269,6 +269,7 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
+            FriendData.StartPos = transform.position;
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
     }

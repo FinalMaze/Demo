@@ -126,19 +126,36 @@ public class FriendPlayerCtrl : MonoBehaviour
 
     private void Ctrl()
     {
-
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (FriendData.Biging && !FriendData.Backing && !FriendData.Casting
-    && !FriendData.Amassing && !FriendData.Blowing)
+            if ( !FriendData.Backing && !FriendData.Casting&& !FriendData.Amassing && !FriendData.Blowing)
             {
-                Attack();
+                if (FriendData.Biging )
+                {
+                    Attack();
+                }
+                if (FriendData.Smalling)
+                {
+                    if (transform.rotation.y == 0)
+                    {
+                        FriendData.StartPos = transform.position;
+                        FriendData.Target = new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
+                        ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+                        //ThrowFriend(new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
+                    }
+                    if (transform.rotation.y != 0)
+                    {
+                        FriendData.StartPos = transform.position;
+                        FriendData.Target = new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
+                        ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+                        //ThrowFriend(new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
+                    }
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            if (!FriendData.Backing && !FriendData.Casting
-    && !FriendData.Amassing && !FriendData.Blowing)
+            if (!FriendData.Backing && !FriendData.Casting && !FriendData.Amassing && !FriendData.Blowing)
             {
                 if (FriendData.Biging)
                 {
