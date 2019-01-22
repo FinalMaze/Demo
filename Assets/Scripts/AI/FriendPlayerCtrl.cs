@@ -72,6 +72,9 @@ public class FriendPlayerCtrl : MonoBehaviour
         fsmManager.AddState(friendRun2);
         FriendBlow FriendBlow = new FriendBlow(animator);
         fsmManager.AddState(FriendBlow);
+        FriendAttack2 friendAttack2 = new FriendAttack2(animator);
+        fsmManager.AddState(friendAttack2);
+
         #endregion
 
     }
@@ -138,16 +141,18 @@ public class FriendPlayerCtrl : MonoBehaviour
                 {
                     if (transform.rotation.y == 0)
                     {
-                        FriendData.StartPos = transform.position;
-                        FriendData.Target = new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
-                        ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+                        //FriendData.StartPos = transform.position;
+                        //FriendData.Target = new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
+                        ChangeState((sbyte)Data.FriendAnimationCount.Attack2);
+                        Invoke("Damage", FriendData.EnemyHurtTime);
                         //ThrowFriend(new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
                     }
                     if (transform.rotation.y != 0)
                     {
-                        FriendData.StartPos = transform.position;
-                        FriendData.Target = new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
-                        ChangeState((sbyte)Data.FriendAnimationCount.Cast);
+                        //FriendData.StartPos = transform.position;
+                        //FriendData.Target = new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
+                        ChangeState((sbyte)Data.FriendAnimationCount.Attack2);
+                        Invoke("Damage", FriendData.EnemyHurtTime);
                         //ThrowFriend(new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
                     }
                 }
@@ -243,7 +248,7 @@ public class FriendPlayerCtrl : MonoBehaviour
     #region 攻击
     public void Attack()
     {
-        PlayerData.mp -= PlayerData.CastMP;
+        PlayerData.mp -= FriendData.AttackMP;
         GameInterfaceCtrl.Instance.UpdateMP();
 
         ChangeState((sbyte)Data.FriendAnimationCount.Attack);

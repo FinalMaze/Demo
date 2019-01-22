@@ -70,7 +70,7 @@ public class Data
         Idel2,
         Run2,
         Blow,
-
+        Attack2,
 
         Max
     }

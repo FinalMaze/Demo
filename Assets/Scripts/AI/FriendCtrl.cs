@@ -120,6 +120,10 @@ public class FriendCtrl : MonoBehaviour
         #region 判断什么时候变小
         if (FriendData.Biging)
         {
+            if (PlayerData.distance>FriendData.BigToSmallDistance)
+            {
+                Small();
+            }
             timeCount += Time.deltaTime;
             if (timeCount > FriendData.BigTime)
             {

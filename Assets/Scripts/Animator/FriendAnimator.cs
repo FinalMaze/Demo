@@ -96,7 +96,7 @@ public class FriendMove : FsmBase
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
             if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x < FriendData.StartPos.x)
+                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
                 {
@@ -129,7 +129,7 @@ public class FriendMove : FsmBase
 
             }
             else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
+                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
                 {
@@ -380,7 +380,7 @@ public class FriendBack : FsmBase
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
             if (Data.allEnemy[i].transform.position.x > animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x < FriendData.StartPos.x)
+                && Data.allEnemy[i].transform.position.x < PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
                 {
@@ -413,7 +413,7 @@ public class FriendBack : FsmBase
 
             }
             else if (Data.allEnemy[i].transform.position.x < animator.transform.position.x
-                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
+                && Data.allEnemy[i].transform.position.x > PlayerCtrl.Instance.transform.position.x)
             {
                 if (tmpI != i)
                 {
@@ -748,5 +748,66 @@ public class FriendBlow : FsmBase
         return canDamage = false;
     }
 
+}
+public class FriendAttack2 : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public FriendAttack2(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        //添加刚体
+        FriendData.AddRigibody = true;
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.RigibodyCtrl();
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.RigibodyCtrl();
+        }
+
+        FriendData.Smalling = false;
+        FriendData.Biging = true;
+        FriendData.Attacking = true;
+        FriendData.Amassing = false;
+        FriendData.Casting = false;
+        FriendData.Backing = false;
+        FriendData.Runing = false;
+        FriendData.Moving = false;
+        FriendData.State = 10;
+        animator.SetInteger("Index", 10);
+    }
+    public override void OnStay()
+    {
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
+        }
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.AttackTime2)
+        {
+            timeCount = 0;
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+        }
+    }
+    public override void OnExit()
+    {
+        FriendData.Attacking = false;
+    }
 }
 

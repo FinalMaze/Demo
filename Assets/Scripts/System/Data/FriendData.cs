@@ -42,6 +42,8 @@ public class FriendData
     #region 动作时间数据
     //攻击动作的总时长
     public static float AttackTime = 0.4f;
+    //攻击2动作的总时长
+    public static float AttackTime2 = 0.21f;
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
@@ -61,6 +63,8 @@ public class FriendData
     #region 基础数据
     //攻击力
     public static float Damage = 15;
+    //攻击耗蓝
+    public static float AttackMP = 5f;
     //攻击距离
     public static float AttackDistance = 4f;
     //攻击的位移距离 
@@ -125,6 +129,6 @@ public class FriendData
 
 
     //变大时离玩家多远变小
-    public static float BigToSmallDistance = 20f;
+    public static float BigToSmallDistance = 15f;
     #endregion
 }

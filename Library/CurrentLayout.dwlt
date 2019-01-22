@@ -111,7 +111,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 342}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 127
+  controlID: 103
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -256,8 +256,8 @@ MonoBehaviour:
     y: 0
     width: 277
     height: 767
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -311,14 +311,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.99614406
+    - e00: 0.49648154
       e01: 0
       e02: 0
-      e03: 21.971422
+      e03: 130.10013
       e10: 0
-      e11: 0.99614406
+      e11: 0.49648154
       e12: 0
-      e13: 85.55313
+      e13: 140.00781
       e20: 0
       e21: 0
       e22: 1
@@ -579,9 +579,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 1c2d0000
     m_LastClickedID: 0
-    m_ExpandedIDs: eefbffff00000000
+    m_ExpandedIDs: eefbffff00000000e8360000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -641,7 +641,8 @@ MonoBehaviour:
     m_ScenePaths: []
     m_ShowAllHits: 0
     m_SearchArea: 0
-    m_Folders: []
+    m_Folders:
+    - Assets/Resources/Animation/Friend
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -653,7 +654,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 4e090000
     m_LastClickedID: 2382
-    m_ExpandedIDs: 00000000162c0000982c0000602d00002e2e00003c2f0000762f0000323000001431000074310000a0320000ac3200006c330000ae330000aa340000ca340000083800000a3800000c380000
+    m_ExpandedIDs: 00000000162c0000982c0000622d0000302e00003e2f0000782f0000343000001631000076310000a2320000ae3200006e330000b0330000ac340000cc340000103800001238000014380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -681,21 +682,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000162c0000982c0000602d00002e2e00003c2f0000762f0000323000001431000074310000a0320000ac3200006c330000ae330000aa340000ca340000083800000a3800000c380000
+    m_ExpandedIDs: 00000000162c0000982c0000622d0000302e00003e2f0000782f000034300000083100001631000076310000aa310000b4310000a2320000ae3200006e33000074330000b033000084340000ac340000cc340000103800001238000014380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: FriendAnimator
+      m_OriginalName: FriendAnimator
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 1868
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
