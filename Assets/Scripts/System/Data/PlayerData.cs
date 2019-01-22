@@ -16,7 +16,7 @@ public class PlayerData
     //二段攻击动作的总时长
     public static float Attack2Time = 0.4f;
     //投掷动作的总时长
-    public static float CastTime = 0.35f;
+    public static float CastTime = 0.3f;
     //召回动作的总时长
     public static float BackTime = 0.24f;
     //爆破动作的总时长
@@ -94,13 +94,13 @@ public class PlayerData
     public static float AddMP = 2f;
 
     //第一段攻击位移距离
-    public static float AttackDistance1 = 0.7f;
+    public static float AttackDistance1 = 0.5f;
     //第一段攻击位移速度
-    public static float AttackSpeed1 = 0.5f;
+    public static float AttackSpeed1 = 10f;
     //第二段攻击位移距离
-    public static float AttackDistance2 = 0.7f;
+    public static float AttackDistance2 = 0.5f;
     //第二段攻击位移速度
-    public static float AttackSpeed2 = 0.5f;
+    public static float AttackSpeed2 = 10f;
 
     //攻击可以造成伤害的距离
     public static float DamageDistance = 2f;
@@ -134,15 +134,15 @@ public class PlayerData
     public static string playerPath = "Prefabs/Player/Player";
 
     //走路速度
-    public static float walkspeed = 0.5f;
+    public static float walkspeed = 0.8f;
     //跑步速度
     public static float runspeed = 1f;
     //走多少秒后变为跑
-    public static float walkToRun = 0.5f;
+    public static float walkToRun = 0.3f;
     //冲刺攻击的距离 
-    public static float RunAttackDistance = 8f;
+    public static float RunAttackDistance = 2f;
     //冲刺攻击的速度
-    public static float RunAttackSpeed = 1f;
+    public static float RunAttackSpeed = 0.5f;
 
     #endregion
 
@@ -150,15 +150,15 @@ public class PlayerData
     //玩家与召唤兽的距离
     public static float distance;
     //玩家可二段跳，所需的脚的位置与宠物距离
-    public static float CanJump = 0.5f;
+    public static float CanJump = 0.85f;
     //可以直接投掷——需要相距手的位置多远
     public static float CanSimpleThrow = 3.5f;
     //可以召唤并投掷的与宠物相距的距离
-    public static float CanThrow = 3.5f;
+    public static float CanThrow = 4f;
     //投掷的距离
-    public static float ThrowDistance = 10f;
+    public static float ThrowDistance = 8f;
     //投掷到目标点所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
-    public static float ThrowSpeed = 2.3f;
+    public static float ThrowSpeed = 2f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)
     public static float ThrowLongTime = 0.6f;
 

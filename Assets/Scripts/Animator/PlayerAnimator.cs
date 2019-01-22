@@ -404,7 +404,7 @@ public class PlayerRunAttack : FsmBase
     }
     public override void OnStay()
     {
-        PlayerCtrl.Instance.RunBlink(PlayerData.AttackDistance1 * 2, PlayerData.RunAttackSpeed);
+        PlayerCtrl.Instance.RunBlink(PlayerData.RunAttackDistance, PlayerData.RunAttackSpeed);
         timeCount += Time.deltaTime;
         if (timeCount > PlayerData.RunAttackTime)
         {

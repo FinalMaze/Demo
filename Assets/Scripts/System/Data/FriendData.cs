@@ -41,7 +41,7 @@ public class FriendData
 
     #region 动作时间数据
     //攻击动作的总时长
-    public static float AttackTime = 0.6f;
+    public static float AttackTime = 0.4f;
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
@@ -97,7 +97,7 @@ public class FriendData
     //进行跟随的距离
     public static float followDistance = 1.2f;
     //普通多长时间跟随到玩家
-    public static float smoothTime = 3f;
+    public static float smoothTime = 0.3f;
     //被召唤或者Back时，移动到玩家位置的时间
     public static float comeTime = 0.1f;
     //变小时,离开可蓄力距离，召回需要按住攻击键的时长

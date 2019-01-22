@@ -517,11 +517,11 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (transform.localScale.x > 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
         }
         if (transform.localScale.x < 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, tmpAttackTarget, PlayerData.AttackSpeed1);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);
         }
     }
 
