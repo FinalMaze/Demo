@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour
     //开始播放
     public void StartAudio(string clipName)
     {
+        DelAudioSource();
         AudioSource freeSouce = source.GetFreeAudioSource();
         AudioClip clip = clipManager.FindClip(clipName);
         freeSouce.clip = clip;
@@ -51,18 +52,27 @@ public class AudioManager : MonoBehaviour
     public void StopAudio(string clipName)
     {
         source.StopClip(clipName);
+        source.DelFeelClip();
         source.DelSurplusAudioSource();
-
+    }
+    //将播放完的音频清空，将多出的音频播放器删除
+    public void DelAudioSource()
+    {
+        source.DelFeelClip();
+        source.DelSurplusAudioSource();
     }
 
     private void Start()
     {
-       // LoopBgm("translate");
     }
 
     private void Update()
     {
-        
+        //LoopBgm("A");
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StartAudio(Data.Audio.A.ToString());
+        }
     }
 
 }

@@ -35,7 +35,7 @@ public class Data
 
     public enum Audio
     {
-        translate
+        A
     }
 
     public enum AnimationCount

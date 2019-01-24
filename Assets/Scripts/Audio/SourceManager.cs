@@ -51,8 +51,20 @@ public class SourceManager
         }
     }
 
-    //删除多余的音频播放器
-    public void DelSurplusAudioSource()
+    //将没有播放的音频清空
+    public void DelFeelClip()
+    {
+        for (int i = 0; i < allSource.Count; i++)
+        {
+            if (!allSource[i].isPlaying && allSource[i].clip != null)
+            {
+                allSource[i].clip = null;
+            }
+        }
+    }
+
+        //删除多余的音频播放器
+        public void DelSurplusAudioSource()
     {
         int count = 0;
         List<AudioSource> allSurplus=new List<AudioSource>();
