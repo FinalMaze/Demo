@@ -401,6 +401,7 @@ public class PlayerRunAttack : FsmBase
         PlayerData.RunAttacking = true;
         PlayerData.State = 13;
         animator.SetInteger("Index", 13);
+        PlayerCtrl.getTarget = true;
     }
     public override void OnStay()
     {

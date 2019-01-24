@@ -513,15 +513,31 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
+    public static  bool getTarget;
+    Vector2 target;
     public void RunBlink(float distance, float speed)
     {
+
+        if (getTarget)
+        {
+            getTarget = false;
+            if (transform.localScale.x > 0)
+            {
+                target = new Vector2((transform.position.x + distance), transform.position.y);
+            }
+            if (transform.localScale.x < 0)
+            {
+                target = new Vector2((transform.position.x - distance), transform.position.y);
+            }
+
+        }
         if (transform.localScale.x > 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x + distance), transform.position.y), speed);
+            transform.position = Vector2.MoveTowards(transform.position, target, speed);
         }
         if (transform.localScale.x < 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2((transform.position.x - distance), transform.position.y), speed);
+            transform.position = Vector2.MoveTowards(transform.position, target, speed);
         }
     }
 

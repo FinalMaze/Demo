@@ -63,8 +63,10 @@ public class FriendData
     #region 基础数据
     //攻击力
     public static float Damage = 15;
-    //攻击耗蓝
+    //角色控制时攻击耗蓝
     public static float AttackMP = 5f;
+    //AI控制时攻击耗蓝
+    public static float AIAttackMP = 2f;
     //攻击距离
     public static float AttackDistance = 4f;
     //攻击的位移距离 
