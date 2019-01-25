@@ -43,7 +43,7 @@ public class FriendData
     //攻击动作的总时长
     public static float AttackTime = 0.4f;
     //攻击2动作的总时长
-    public static float AttackTime2 = 0.21f;
+    public static float AttackTime2 = 0.5f;
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
@@ -64,7 +64,7 @@ public class FriendData
     //攻击力
     public static float Damage = 15;
     //角色控制时攻击耗蓝
-    public static float AttackMP = 5f;
+    public static float AttackMP = 2f;
     //AI控制时攻击耗蓝
     public static float AIAttackMP = 2f;
     //攻击距离
