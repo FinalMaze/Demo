@@ -420,3 +420,30 @@ public class PlayerRunAttack : FsmBase
         PlayerData.RunAttacking = false;
     }
 }
+public class PlayerDie : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    public PlayerDie(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        PlayerData.Dieing = true;
+
+        PlayerData.State = 14;
+        animator.SetInteger("Index", 14);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > PlayerData.DieTime)
+        {
+            timeCount = 0;
+            PlayerData.Die = true;
+            GameInterfaceCtrl.Instance.GameOver();
+        }
+    }
+}
+

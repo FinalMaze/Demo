@@ -54,6 +54,7 @@ public class Data
         Hurt,
         Blow,
         RunAttack,
+        Die,
 
         Max
     }
