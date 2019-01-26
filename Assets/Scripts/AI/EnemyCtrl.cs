@@ -281,7 +281,7 @@ public class EnemyCtrl : MonoBehaviour
     }
     #endregion
 
-    #region 死亡
+    #region 重生
     public void Destory()
     {
         AIManager.Instance.DelEnemy(gameObject);

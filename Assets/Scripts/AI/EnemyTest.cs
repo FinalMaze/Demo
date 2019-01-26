@@ -274,7 +274,7 @@ public class EnemyTest : EnemyCtrl
     }
     #endregion
 
-    #region 死亡
+    #region 重生
     public new void Destory()
     {
         AIManager.Instance.DelEnemy(gameObject);

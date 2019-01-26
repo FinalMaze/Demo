@@ -15,7 +15,7 @@ public class AIManager : MonoBehaviour
     {
         get
         {
-            if (player == null)
+            if(player==null)
             {
                 player = GameObject.FindGameObjectWithTag("Player").transform;
             }
@@ -32,17 +32,13 @@ public class AIManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        InitialEnemy();
-    }
-    //初始化敌人
-    public void InitialEnemy()
-    {
+
         tmpBase1 = GameObject.Find("Enemy1");
-        tmpEnemy1 = RandomEnemy(tmpBase1);
+        tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
         tmpBase2 = GameObject.Find("Enemy2");
-        tmpEnemy2 = RandomEnemy(tmpBase2);
+        tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
         tmpBase3 = GameObject.Find("Enemy3");
-        tmpEnemy3 = RandomEnemy(tmpBase3);
+        tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
     }
     #endregion
 
@@ -57,7 +53,7 @@ public class AIManager : MonoBehaviour
             if (timeCount1 > EnemyData.bigReTime)
             {
                 timeCount1 = 0;
-                tmpEnemy1 = RandomEnemy(tmpBase1);
+                tmpEnemy1 = BulidEnemy("Prefabs/Enemy", tmpBase1.transform);
             }
         }
         if (tmpEnemy2 == null)
@@ -66,7 +62,7 @@ public class AIManager : MonoBehaviour
             if (timeCount2 > EnemyData.bigReTime)
             {
                 timeCount2 = 0;
-                tmpEnemy2 = RandomEnemy(tmpBase2);
+                tmpEnemy2 = BulidEnemy("Prefabs/Enemy", tmpBase2.transform);
             }
         }
         if (tmpEnemy3 == null)
@@ -75,25 +71,14 @@ public class AIManager : MonoBehaviour
             if (timeCount3 > EnemyData.smallReTime)
             {
                 timeCount3 = 0;
-                tmpEnemy3 = RandomEnemy(tmpBase3);
+                tmpEnemy3 = BulidEnemy("Prefabs/Enemy1", tmpBase3.transform);
             }
         }
     }
 
-    private GameObject RandomEnemy(GameObject tmpObj)
-    {
-        int ran = Random.Range(0, 3);
-        switch (ran)
-        {
-            case 0:
-                return BulidEnemy("Prefabs/Enemy", tmpObj.transform);
-            default:
-                return BulidEnemy("Prefabs/Enemy1", tmpObj.transform);
-        }
-    }
 
     #region 创建玩家角色
-    public void BulidPlayer(string path, Transform tmpBase)
+    public void BulidPlayer(string path,Transform tmpBase)
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpPlayer = GameObject.Instantiate(tmpObj) as GameObject;
@@ -103,7 +88,7 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region 创建召唤兽
-    public void BuildFriend(string path, Transform tmpBase)
+    public void BuildFriend(string path,Transform tmpBase)
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpFriend = GameObject.Instantiate(tmpObj) as GameObject;
@@ -113,40 +98,35 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region 创建敌人
-    public GameObject BulidEnemy(string path, Transform tmpBase)
+    public GameObject BulidEnemy(string path,Transform tmpBase)
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
         //tmpEnemy.AddComponent<EnemyCtrl>();
         Data.allEnemy.Add(tmpEnemy);
         int ran = Random.Range(-EnemyData.startDis, EnemyData.startDis);
-        Vector2 tmpT = new Vector2(ran, tmpEnemy.transform.position.y);
-        tmpEnemy.transform.SetParent(tmpBase);
-        tmpEnemy.transform.localPosition = tmpT;
+        Vector2 tmpT = new Vector2(tmpBase.position.x + ran, tmpBase.position.y);
+        tmpEnemy.transform.SetParent(tmpBase, false);
+        tmpEnemy.transform.position = tmpT;
         return tmpEnemy;
     }
     #endregion
 
     #region 销毁敌人
-    //销毁指定
     public void DelEnemy(GameObject tmpObject)
     {
 
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
 
-            if (Data.allEnemy[i] == tmpObject)
+            if (Data.allEnemy[i]== tmpObject)
             {
+
+                //Data.allEnemy.Remove(Data.allEnemy[i]);
+                //Destroy(Data.allEnemy[i]);
                 Del(Data.allEnemy[i]);
+                //Destroy(gameObject);
             }
-        }
-    }
-    //销毁所有
-    public void DelEnemy()
-    {
-        for (int i = 0; i < Data.allEnemy.Count; i++)
-        {
-            Del(Data.allEnemy[i]);
         }
     }
     public void Del(GameObject tmpObj)

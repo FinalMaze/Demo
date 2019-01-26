@@ -120,8 +120,6 @@ public class EnemyDie : FsmBase
     }
     public override void OnEnter()
     {
-        GameInterfaceCtrl.Instance.AddKillCount(1);
-
         enemyData.Die = true;
         animator.SetInteger("Index", 4);
     }

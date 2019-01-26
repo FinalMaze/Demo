@@ -58,8 +58,7 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(PlayerBlow);
         PlayerRunAttack PlayerRunAttack = new PlayerRunAttack(animator);
         fsmManager.AddState(PlayerRunAttack);
-        PlayerDie PlayerDie = new PlayerDie(animator);
-        fsmManager.AddState(PlayerDie);
+
         #endregion
 
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -213,7 +212,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 在地上的动作判断
-        if (!PlayerData.Dieing&& PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
+        if (PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
             && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing && !PlayerData.RunAttacking)
         {
             //Debug.Log(PlayerData.Attacking);
@@ -442,11 +441,7 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
         StartCoroutine("Red");
-        if (PlayerData.hp==0)
-        {
-            ChangeState((sbyte)Data.AnimationCount.Die);
-        }
-        else if (!PlayerData.Attacking && !PlayerData.Jumping&&!PlayerData.RunAttacking)
+        if (!PlayerData.Attacking && !PlayerData.Jumping&&!PlayerData.RunAttacking)
         {
             dir = tmpDir;
             ChangeState((sbyte)Data.AnimationCount.Hurt);
