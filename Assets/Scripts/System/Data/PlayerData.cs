@@ -10,11 +10,11 @@ public class PlayerData
     //落地动作的总时长
     public static float JumpEndTime = 0.05f;
     //一段攻击动作的总时长
-    public static float AttackTime = 0.6f;
+    public static float AttackTime = 0.48f;
     //一段攻击动作开始后，设置第几秒可以进行二段攻击
     public static float Attack2StartTime = 0.2f;
     //二段攻击动作的总时长
-    public static float Attack2Time = 0.4f;
+    public static float Attack2Time = 0.3f;
     //投掷动作的总时长
     public static float CastTime = 0.3f;
     //召回动作的总时长
@@ -24,7 +24,7 @@ public class PlayerData
     //受击动作的总时长
     public static float HurtTime = 0.17f;
     //冲刺攻击动作的总时长
-    public static float RunAttackTime = 0.5f;
+    public static float RunAttackTime = 0.6f;
     //死亡动画时长
     public static float DieTime = 0.21f;
     #endregion
@@ -144,11 +144,11 @@ public class PlayerData
     //走多少秒后变为跑
     public static float walkToRun = 0.3f;
     //冲刺攻击的距离 
-    public static float RunAttackDistance = 2.5f;
+    public static float RunAttackDistance = 3f;
     //冲刺攻击的速度
-    public static float RunAttackSpeed = 0.7f;
+    public static float RunAttackSpeed = 0.8f;
     //冲刺攻击附加的额外击退距离
-    public static float RunAttackDis = 2f;
+    public static float RunAttackDis = 8f;
 
     #endregion
 
@@ -162,7 +162,7 @@ public class PlayerData
     //可以召唤并投掷的与宠物相距的距离
     public static float CanThrow = 4f;
     //投掷的距离
-    public static float ThrowDistance = 8f;
+    public static float ThrowDistance = 9f;
     //投掷到目标点所需的时间（0.1f*下面的数值）<时间长度必须小于动画持续时间>
     public static float ThrowSpeed = 2f;
     //投掷过程的最大持续时间(尽量和投掷持续时间相等)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyData
 {
     #region 怪物的动作状态信息
+    public bool Summoning = false;
     //是否在攻击中
     public bool Attacking = false;
     //是否在远程攻击中
@@ -29,7 +30,8 @@ public class EnemyData
     public static float DieTime = 0.4f;
     //远程攻击动作总时长
     public static float AttackTime2 = 0.65f;
-
+    //出生动作总时长
+    public static float SummonTime = 0.9f;
 
     //子弹开始动画的时长
     //public static float BallStart = 0.1f;

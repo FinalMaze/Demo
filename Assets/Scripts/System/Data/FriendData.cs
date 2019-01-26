@@ -42,7 +42,7 @@ public class FriendData
 
     #region 动作时间数据
     //攻击动作的总时长
-    public static float AttackTime = 0.4f;
+    public static float AttackTime = 0.3f;
     //攻击2动作的总时长
     public static float AttackTime2 = 0.6f;
     //蓄力动作的总时长

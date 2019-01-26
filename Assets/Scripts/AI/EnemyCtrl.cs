@@ -35,7 +35,14 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyDie);
         EnemyAttack2 enemyAttack2 = new EnemyAttack2(animator, enemyData);
         fsmManager.AddState(enemyAttack2);
+        EnemySummon EnemySummon = new EnemySummon(animator, ref enemyData);
+        fsmManager.AddState(EnemySummon);
+
         #endregion
+    }
+    private void Start()
+    {
+        ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
     }
     float distance;
     float direction;
@@ -45,12 +52,18 @@ public class EnemyCtrl : MonoBehaviour
         distance = Mathf.Abs( PlayerCtrl.Instance.transform.position.x- transform.position.x);
         direction = PlayerCtrl.Instance.transform.position.x - transform.position.x;
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
+        }
+
         #region 强制进入Idel
         //Debug.Log(enemyData.Hurting);
         //Debug.Log(enemyData.Attacking);
         //Debug.Log(enemyData.Attacking2);
         //Debug.Log(enemyData.Die);
-        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die
+            && !enemyData.Summoning)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
         }
@@ -72,7 +85,8 @@ public class EnemyCtrl : MonoBehaviour
     bool canLongAttack = true;
     public void Patrol()
     {
-        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die
+            && !enemyData.Summoning)
         {
             //如果大于怪物的可跟随距离，进行巡逻
             if (distance > enemyData.FllowDistance)
@@ -195,7 +209,8 @@ public class EnemyCtrl : MonoBehaviour
     //近战攻击 
     public void Attack()
     {
-        if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die
+            && !enemyData.Summoning)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
         }

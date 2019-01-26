@@ -141,6 +141,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 30afa8783a8bbee2e465ec9ce1efaee2 Assembly-CSharp.dll:Cinemachine.Timeline.CinemachineTrack
+379acab70fc57aedaf18eacfba911dff Assembly-CSharp.dll:.FriendPlayerCtrl
 fe460ef6985517d84e68664be1e7af5b Assembly-CSharp.dll:Cinemachine.CinemachineFramingTransposer
 50667894c33b478dc38ae949114bb1e8 XiaomiSupport.dll:AppStoresSupport.AppStoreSettings
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.UIBehaviour
@@ -248,6 +249,7 @@ a0f94ec51c559b50eab9df220bdfd467 Assembly-CSharp.dll:.Swipe
 4221d6f2d120ea1c2b5b1485c67f9a95 Assembly-CSharp.dll:.MultiLayerTouch
 af4c120c08a83517c5ff7a79f5380780 Assembly-CSharp.dll:.ButtonUIEvent
 ba3bd209617a51f21ebc145dc5acefe8 Assembly-CSharp.dll:.ETCArea
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.UICtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TwoDoubleTapMe
 d653f62696ac919674f74bef9fa06752 Assembly-CSharp.dll:HedgehogTeam.EasyTouch.QuickDrag
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.LitMap

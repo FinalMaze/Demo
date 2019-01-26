@@ -82,11 +82,10 @@ public class Data
         Idel,
         Walk,
         Attack,
-        //Attack2,
         Hurt,
         Die,
         Attack2,
-
+        Summon,
 
         Max
     }

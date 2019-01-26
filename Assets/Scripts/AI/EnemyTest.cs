@@ -38,7 +38,13 @@ public class EnemyTest : EnemyCtrl
         fsmManager.AddState(enemyDie);
         EnemyAttack2 enemyAttack2 = new EnemyAttack2(animator, enemyData);
         fsmManager.AddState(enemyAttack2);
+        EnemySummon EnemySummon = new EnemySummon(animator, ref enemyData);
+        fsmManager.AddState(EnemySummon);
         #endregion
+    }
+    private void Start()
+    {
+        ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
     }
     float distance;
     float direction;
@@ -53,7 +59,8 @@ public class EnemyTest : EnemyCtrl
         //Debug.Log(enemyData.Attacking);
         //Debug.Log(enemyData.Attacking2);
         //Debug.Log(enemyData.Die);
-        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die
+            &&!enemyData.Summoning)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Idel);
         }
@@ -75,7 +82,8 @@ public class EnemyTest : EnemyCtrl
     bool canLongAttack = true;
     public new void Patrol()
     {
-        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2 && !enemyData.Hurting && !enemyData.Die
+            && !enemyData.Summoning)
         {
             //如果大于怪物的可跟随距离，进行巡逻
             if (distance > enemyData.FllowDistance)
@@ -198,7 +206,8 @@ public class EnemyTest : EnemyCtrl
     //近战攻击 
     public new void Attack()
     {
-        if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die)
+        if (!enemyData.Attacking&&!enemyData.Attacking2&&!enemyData.Hurting&&!enemyData.Die
+            && !enemyData.Summoning)
         {
             ChangeState((sbyte)Data.EnemyAnimationCount.Attack);
         }

@@ -166,3 +166,36 @@ public class EnemyAttack2 : FsmBase
         enemyData.Attacking2 = false;
     }
 }
+
+public class EnemySummon : FsmBase
+{
+    Animator animator;
+    EnemyData enemyData;
+    float timeCount;
+    public EnemySummon(Animator tmpAnimator, ref EnemyData tmpEnemyData)
+    {
+        animator = tmpAnimator;
+        this.enemyData = tmpEnemyData;
+    }
+    public override void OnEnter()
+    {
+        GameInterfaceCtrl.Instance.AddKillCount(1);
+
+        enemyData.Summoning = true;
+        animator.SetInteger("Index", 6);
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > EnemyData.SummonTime)
+        {
+            Debug.Log(timeCount);
+            timeCount = 0;
+            enemyData.Summoning = false;
+        }
+    }
+    public override void OnExit()
+    {
+
+    }
+}
