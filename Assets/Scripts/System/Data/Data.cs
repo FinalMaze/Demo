@@ -72,6 +72,7 @@ public class Data
         Run2,
         Blow,
         Attack2,
+        RunAttack,
 
         Max
     }

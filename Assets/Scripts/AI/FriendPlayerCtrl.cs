@@ -74,6 +74,8 @@ public class FriendPlayerCtrl : MonoBehaviour
         fsmManager.AddState(FriendBlow);
         FriendAttack2 friendAttack2 = new FriendAttack2(animator);
         fsmManager.AddState(friendAttack2);
+        FriendRunAttack FriendRunAttack = new FriendRunAttack(animator);
+        fsmManager.AddState(FriendRunAttack);
 
         #endregion
 
@@ -107,7 +109,8 @@ public class FriendPlayerCtrl : MonoBehaviour
         if (FriendData.Biging)
         {
             if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting
-                && !FriendData.Amassing && !FriendData.Smalling && !FriendData.Blowing)
+                && !FriendData.Amassing && !FriendData.Smalling && !FriendData.Blowing
+                &&!FriendData.RunAttacking)
             {
 
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -131,7 +134,8 @@ public class FriendPlayerCtrl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if ( !FriendData.Backing && !FriendData.Casting&& !FriendData.Amassing && !FriendData.Blowing)
+            if ( !FriendData.Backing && !FriendData.Casting&& !FriendData.Amassing && !FriendData.Blowing
+                && !FriendData.RunAttacking)
             {
                 if (FriendData.Biging )
                 {
@@ -181,7 +185,7 @@ public class FriendPlayerCtrl : MonoBehaviour
     private void Move()
     {
         if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting
-    && !FriendData.Amassing && !FriendData.Blowing)
+    && !FriendData.Amassing && !FriendData.Blowing&&!FriendData.RunAttacking)
         {
             if (run == 1)
             {
@@ -293,6 +297,15 @@ public class FriendPlayerCtrl : MonoBehaviour
             }
         }
         return null;
+    }
+    #endregion
+
+    #region 冲刺攻击
+    public void RunAttack(Vector2 target)
+    {
+        FriendData.Target = target;
+        FriendData.StartPos = transform.position;
+        ChangeState((sbyte)Data.FriendAnimationCount.RunAttack);
     }
     #endregion
 

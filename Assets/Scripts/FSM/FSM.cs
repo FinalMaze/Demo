@@ -23,12 +23,12 @@ public class FSMManager
 
     public void AddState(FsmBase tmpFSM)
     {
-        if (stateCount>allState.Length)
+        if (stateCount > allState.Length)
         {
             return;
         }
         stateCount++;
-        allState[stateCount]=tmpFSM;
+        allState[stateCount] = tmpFSM;
     }
     public void ChangeState(sbyte animationrCount)
     {
@@ -36,16 +36,24 @@ public class FSMManager
         {
             return;
         }
-        if (state!=-1)
+        if (state != -1)
         {
             allState[state].OnExit();
         }
         state = animationrCount;
-        allState[state].OnEnter();
+        try
+        {
+            allState[state].OnEnter();
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(state);
+        }
+
     }
     public void OnStay()
     {
-        if (state!=-1)
+        if (state != -1)
         {
             allState[state].OnStay();
         }

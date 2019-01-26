@@ -98,11 +98,11 @@ public class PlayerData
     public static float AddMP = 2f;
 
     //第一段攻击位移距离
-    public static float AttackDistance1 = 0.5f;
+    public static float AttackDistance1 = 0.7f;
     //第一段攻击位移速度
     public static float AttackSpeed1 = 10f;
     //第二段攻击位移距离
-    public static float AttackDistance2 = 0.5f;
+    public static float AttackDistance2 = 0.7f;
     //第二段攻击位移速度
     public static float AttackSpeed2 = 10f;
 
@@ -144,9 +144,9 @@ public class PlayerData
     //走多少秒后变为跑
     public static float walkToRun = 0.3f;
     //冲刺攻击的距离 
-    public static float RunAttackDistance = 2f;
+    public static float RunAttackDistance = 2.5f;
     //冲刺攻击的速度
-    public static float RunAttackSpeed = 0.5f;
+    public static float RunAttackSpeed = 0.7f;
 
     #endregion
 

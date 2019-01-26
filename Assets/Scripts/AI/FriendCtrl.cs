@@ -68,6 +68,10 @@ public class FriendCtrl : MonoBehaviour
         fsmManager.AddState(friendRun2);
         FriendBlow FriendBlow = new FriendBlow(animator);
         fsmManager.AddState(FriendBlow);
+        FriendAttack2 friendAttack2 = new FriendAttack2(animator);
+        fsmManager.AddState(friendAttack2);
+        FriendRunAttack FriendRunAttack = new FriendRunAttack(animator);
+        fsmManager.AddState(FriendRunAttack);
         #endregion
 
     }
@@ -100,7 +104,7 @@ public class FriendCtrl : MonoBehaviour
         if (FriendData.Biging)
         {
             if (!FriendData.Attacking && !FriendData.Backing && !FriendData.Casting && !FriendData.Runing
-                && !FriendData.Amassing && !FriendData.Smalling&&!FriendData.Blowing)
+                && !FriendData.Amassing && !FriendData.Smalling&&!FriendData.Blowing&&!FriendData.RunAttacking)
             {
                 //Debug.Log("强制Idel2");
                 ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
@@ -224,6 +228,15 @@ public class FriendCtrl : MonoBehaviour
             }
         }
         return null;
+    }
+    #endregion
+
+    #region 冲刺攻击
+    public void RunAttack(Vector2 target)
+    {
+        FriendData.Target = target;
+        FriendData.StartPos = transform.position;
+        ChangeState((sbyte)Data.FriendAnimationCount.RunAttack);
     }
     #endregion
 
@@ -408,7 +421,8 @@ public class FriendCtrl : MonoBehaviour
                     Small();
                 }
             }
-            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Backing&&!FriendData.Attacking && !FriendData.Blowing)
+            if (!FriendData.Backing && !FriendData.Casting&&!PlayerData.Casting&&!PlayerData.Backing&&!FriendData.Attacking && !FriendData.Blowing
+                &&!FriendData.RunAttacking)
             {
                 if (CheckEnemy(FriendData.FllowDistance) != null)
                 {

@@ -37,13 +37,14 @@ public class FriendData
     //是否在Run2状态
     public static bool Runing = false;
 
+    public static bool RunAttacking = false;
     #endregion
 
     #region 动作时间数据
     //攻击动作的总时长
     public static float AttackTime = 0.4f;
     //攻击2动作的总时长
-    public static float AttackTime2 = 0.21f;
+    public static float AttackTime2 = 0.6f;
     //蓄力动作的总时长
     public static float AmassTime = 0.1f;
     //Back动作的总时长
@@ -53,6 +54,8 @@ public class FriendData
     //移动动作的总时长
     public static float MoveTime = 0.4f;
     public static float BlowTime = 0.48f;
+    //冲刺攻击动作总时长
+    public static float RunAttackTime = 0.5f;
     #endregion
 
     #region 组件增减条件
@@ -64,7 +67,7 @@ public class FriendData
     //攻击力
     public static float Damage = 15;
     //角色控制时攻击耗蓝
-    public static float AttackMP = 5f;
+    public static float AttackMP = 2f;
     //AI控制时攻击耗蓝
     public static float AIAttackMP = 2f;
     //攻击距离
@@ -74,7 +77,12 @@ public class FriendData
     //攻击位移的速度（也会影响距离）
     public static float AttackBlinkSpeed = 0.1f;
     //移动速度
-    public static float MoveSpeed = 8f;
+    public static float MoveSpeed = 10f;
+
+    //冲刺攻击的位移距离
+    public static float RunAttackDistance = 5f;
+    //冲刺攻击的速度
+    public static float RunAttackSpeed = 0.1f;
     
 
     //爆破动画几秒后，可以造成伤害

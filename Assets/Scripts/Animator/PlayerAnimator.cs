@@ -391,6 +391,7 @@ public class PlayerBlow : FsmBase
 public class PlayerRunAttack : FsmBase
 {
     Animator animator;
+    bool canF;
     public static float timeCount;
     public PlayerRunAttack(Animator tmpAnimator)
     {
@@ -398,6 +399,8 @@ public class PlayerRunAttack : FsmBase
     }
     public override void OnEnter()
     {
+        canF = true;
+
         PlayerData.RunAttacking = true;
         PlayerData.State = 13;
         animator.SetInteger("Index", 13);
@@ -405,6 +408,42 @@ public class PlayerRunAttack : FsmBase
     }
     public override void OnStay()
     {
+        if (canF&&FriendData.Biging)
+        {
+            if (Data.FriendAI)
+            {
+                if (Mathf.Abs( FriendCtrl.Instance.transform.position.x-PlayerCtrl.Instance.transform.position.x)<1f)
+                {
+                    canF = false;
+                    if (PlayerCtrl.Instance.transform.localScale.x > 0)
+                    {
+                        FriendCtrl.Instance.RunAttack(new Vector2(FriendCtrl.Instance.transform.position.x + FriendData.RunAttackDistance, FriendCtrl.Instance.transform.position.y));
+                    }
+                    if (PlayerCtrl.Instance.transform.localScale.x < 0)
+                    {
+                        FriendCtrl.Instance.RunAttack(new Vector2(FriendCtrl.Instance.transform.position.x - FriendData.RunAttackDistance, FriendCtrl.Instance.transform.position.y));
+                    }
+
+                }
+            }
+            else
+            {
+                if (Mathf.Abs(FriendPlayerCtrl.Instance.transform.position.x - PlayerCtrl.Instance.transform.position.x) < 1f)
+                {
+                    canF = false;
+                    if (PlayerCtrl.Instance.transform.localScale.x > 0)
+                    {
+                        FriendPlayerCtrl.Instance.RunAttack(new Vector2(FriendPlayerCtrl.Instance.transform.position.x + FriendData.RunAttackDistance, FriendPlayerCtrl.Instance.transform.position.y));
+                    }
+                    if (PlayerCtrl.Instance.transform.localScale.x < 0)
+                    {
+                        FriendPlayerCtrl.Instance.RunAttack(new Vector2(FriendPlayerCtrl.Instance.transform.position.x - FriendData.RunAttackDistance, FriendPlayerCtrl.Instance.transform.position.y));
+                    }
+                }
+
+            }
+        }
+
         PlayerCtrl.Instance.RunBlink(PlayerData.RunAttackDistance, PlayerData.RunAttackSpeed);
         timeCount += Time.deltaTime;
         if (timeCount > PlayerData.RunAttackTime)
@@ -412,7 +451,6 @@ public class PlayerRunAttack : FsmBase
             PlayerData.RunAttacking = false;
                 timeCount = 0;
                 PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
-            
         }
     }
     public override void OnExit()
@@ -444,6 +482,10 @@ public class PlayerDie : FsmBase
             PlayerData.Die = true;
             GameInterfaceCtrl.Instance.GameOver();
         }
+    }
+    public override void OnExit()
+    {
+        PlayerData.Dieing = false;
     }
 }
 

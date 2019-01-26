@@ -347,6 +347,9 @@ public class PlayerCtrl : MonoBehaviour
         }
         Invoke("Damage", PlayerData.EnemyHurtTime);
     }
+    #endregion
+
+    #region 冲刺攻击
     public void RunAttack()
     {
         if (canRunAttack)

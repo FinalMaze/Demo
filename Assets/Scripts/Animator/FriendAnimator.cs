@@ -809,3 +809,143 @@ public class FriendAttack2 : FsmBase
     }
 }
 
+public class FriendRunAttack : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    bool canDamage;
+    bool canLoop;
+    int tmpI = -1;
+
+    public FriendRunAttack(Animator tmpAnimator)
+    {
+        animator = tmpAnimator;
+    }
+    public override void OnEnter()
+    {
+        FriendData.RunAttacking = true;
+        FriendData.Biging = true;
+        FriendData.Smalling = false;
+        FriendData.Amassing = false;
+        FriendData.Cast = false;
+        FriendData.Casting = false;
+        FriendData.Backing = false;
+        FriendData.Attacking = false;
+        FriendData.Amassing = false;
+        FriendData.Runing = false;
+        FriendData.Moving = false;
+
+        canDamage = true;
+        canLoop = true;
+
+
+        FriendData.State = 11;
+        animator.SetInteger("Index", 11);
+    }
+    public override void OnStay()
+    {
+        Loop();
+        if (Data.FriendAI)
+        {
+            FriendCtrl.Instance.GoToPlayer(FriendData.Target, FriendData.RunAttackSpeed);
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.GoToPlayer(FriendData.Target, FriendData.RunAttackSpeed);
+        }
+        timeCount += Time.deltaTime;
+        if (timeCount > FriendData.RunAttackTime)
+        {
+            timeCount = 0;
+            //变化到大型的动作流程
+            if (Data.FriendAI)
+            {
+                FriendCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+            else
+            {
+                FriendPlayerCtrl.Instance.ChangeState((sbyte)Data.FriendAnimationCount.Idel2);
+            }
+        }
+    }
+    public override void OnExit()
+    {
+        FriendData.RunAttacking = false;
+    }
+    private bool Loop()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Data.allEnemy[i].transform.position.x > FriendData.Target.x &&
+                Data.allEnemy[i].transform.position.x < FriendData.StartPos.x)
+            {
+                if (tmpI != i)
+                {
+                    canDamage = true;
+                    tmpI = i;
+                }
+                if (canDamage)
+                {
+                    canDamage = false;
+                    //Debug.Log("Damage");
+                    if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        if (tmp != null)
+                        {
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, -1, FriendData.CastDistance);
+                            }
+                        }
+                        else
+                        {
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1, FriendData.CastDistance);
+                            }
+                        }
+                    }
+                }
+
+            }
+            else if (Data.allEnemy[i].transform.position.x < FriendData.Target.x
+                && Data.allEnemy[i].transform.position.x > FriendData.StartPos.x)
+            {
+                //Debug.Log("敌人"+Data.allEnemy[i].transform.position.x+" start"+
+                //    FriendData.StartPos.x+"  target"+ FriendData.Target.x);
+                if (tmpI != i)
+                {
+                    canDamage = true;
+                    tmpI = i;
+                }
+                if (canDamage)
+                {
+                    //Debug.Log("Damage");
+                    canDamage = false;
+                    if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        if (tmp != null)
+                        {
+                            if (!tmp.enemyData.Hurting)
+                            {
+                                tmp.Hurt(FriendData.Damage, 1, FriendData.CastDistance);
+                            }
+                        }
+                        else
+                        {
+                            if (!Data.allEnemy[i].GetComponent<EnemyCtrl>().enemyData.Hurting)
+                            {
+                                Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1, FriendData.CastDistance);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return canLoop = false;
+    }
+
+}
+
