@@ -22,8 +22,6 @@ public class FriendCtrl : MonoBehaviour
     public Vector2 distanceV = Vector2.zero;
     //与玩家x相距的距离
     float distance;
-    //宠物的朝向
-    float direction;
     //跟随的速度
     private Vector2 velocity = Vector2.one;
     //计时器
@@ -79,7 +77,6 @@ public class FriendCtrl : MonoBehaviour
     {
         fsmManager.OnStay();
         player = PlayerCtrl.Instance.transform.position;
-        direction = transform.rotation.y;
         distance = PlayerCtrl.Instance.transform.position.x - transform.position.x;
         PlayerData.distance = Vector2.Distance(PlayerCtrl.Instance.transform.position, transform.position);
 

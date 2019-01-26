@@ -33,6 +33,7 @@ public class AIManager : MonoBehaviour
     {
         instance = this;
         InitialEnemy();
+        Time.timeScale = 0;
     }
     //初始化敌人
     public void InitialEnemy()
@@ -117,7 +118,6 @@ public class AIManager : MonoBehaviour
     {
         Object tmpObj = Resources.Load(path);
         GameObject tmpEnemy = GameObject.Instantiate(tmpObj) as GameObject;
-        //tmpEnemy.AddComponent<EnemyCtrl>();
         Data.allEnemy.Add(tmpEnemy);
         int ran = Random.Range(-EnemyData.startDis, EnemyData.startDis);
         Vector2 tmpT = new Vector2(ran, tmpEnemy.transform.position.y);
@@ -144,7 +144,7 @@ public class AIManager : MonoBehaviour
     List<GameObject> tmpAllEnemy;
     public void DelEnemy()
     {
-        if (tmpAllEnemy==null)
+        if (tmpAllEnemy == null)
         {
             tmpAllEnemy = new List<GameObject>();
         }

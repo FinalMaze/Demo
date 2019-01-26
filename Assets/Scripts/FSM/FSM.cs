@@ -45,7 +45,7 @@ public class FSMManager
         {
             allState[state].OnEnter();
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             Debug.Log(state);
         }

@@ -433,11 +433,16 @@
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCInput.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCJoystick.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCTouchPad.cs" />
+    <Compile Include="Assets\enemyHP.cs" />
     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyBallCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyTest.cs" />
     <Compile Include="Assets\Scripts\AI\FriendCtrl.cs" />
+    <Compile Include="Assets\Scripts\AI\FriendPlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Animator\BallAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\EnemyAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\FriendAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />
@@ -458,6 +463,7 @@
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIBehaviour.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\UICtrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cinemachine\ReleaseNotes.txt" />

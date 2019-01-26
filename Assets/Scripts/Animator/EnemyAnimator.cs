@@ -179,8 +179,6 @@ public class EnemySummon : FsmBase
     }
     public override void OnEnter()
     {
-        GameInterfaceCtrl.Instance.AddKillCount(1);
-
         enemyData.Summoning = true;
         animator.SetInteger("Index", 6);
     }
@@ -189,7 +187,6 @@ public class EnemySummon : FsmBase
         timeCount += Time.deltaTime;
         if (timeCount > EnemyData.SummonTime)
         {
-            Debug.Log(timeCount);
             timeCount = 0;
             enemyData.Summoning = false;
         }

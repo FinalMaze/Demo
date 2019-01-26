@@ -21,7 +21,6 @@ public class EnemyCtrl : MonoBehaviour
         ball = transform.Find("FirePostion");
         tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
-
         #region 注册动画
         EnemyIdel enemyIdel = new EnemyIdel(animator);
         fsmManager.AddState(enemyIdel);
@@ -304,7 +303,7 @@ public class EnemyCtrl : MonoBehaviour
     #endregion
 
     #region 变换动作的方法
-    void ChangeState(sbyte animatorCount)
+    public  void ChangeState(sbyte animatorCount)
     {
         fsmManager.ChangeState(animatorCount);
     }

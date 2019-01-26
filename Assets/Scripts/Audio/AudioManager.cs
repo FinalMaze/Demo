@@ -69,10 +69,10 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         //LoopBgm("A");
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            StartAudio(Data.Audio.A.ToString());
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    StartAudio(Data.Audio.A.ToString());
+        //}
     }
 
 }

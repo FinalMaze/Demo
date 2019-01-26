@@ -42,6 +42,19 @@ public class GameInterfaceCtrl : UIBase
     {
         main.SetActive(false);
         Time.timeScale = 1;
+        //foreach (GameObject enemy in Data.allEnemy)
+        //{
+        //    EnemyTest tmp = enemy.GetComponent<EnemyTest>();
+        //    if (tmp != null)
+        //    {
+        //        tmp.ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
+        //    }
+        //    else
+        //    {
+        //        enemy.GetComponent<EnemyCtrl>().ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
+        //    }
+        //}
+
     }
 
     GameObject gameOver;
@@ -79,7 +92,6 @@ public class GameInterfaceCtrl : UIBase
         main = GetControl("Main_UI");
         startGame = GetControl("Start_UI");
         AddPointClick("Start_UI", StartGame);
-        Time.timeScale = 0;
         gameOver.SetActive(false);
         UpdateHP();
         UpdateMP();

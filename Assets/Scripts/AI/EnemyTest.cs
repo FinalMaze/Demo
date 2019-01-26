@@ -24,7 +24,6 @@ public class EnemyTest : EnemyCtrl
         ball = transform.Find("FirePostion");
         tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
-
         #region 注册动画
         EnemyIdel enemyIdel = new EnemyIdel(animator);
         fsmManager.AddState(enemyIdel);
@@ -46,6 +45,7 @@ public class EnemyTest : EnemyCtrl
     {
         ChangeState((sbyte)Data.EnemyAnimationCount.Summon);
     }
+
     float distance;
     float direction;
     private void Update()
@@ -296,7 +296,7 @@ public class EnemyTest : EnemyCtrl
     #endregion
 
     #region 变换动作的方法
-    void ChangeState(sbyte animatorCount)
+    public new void ChangeState(sbyte animatorCount)
     {
         fsmManager.ChangeState(animatorCount);
     }
