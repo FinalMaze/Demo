@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTest : EnemyCtrl
+public class EnemyTest : MonoBehaviour
 {
     FSMManager fsmManager;
     Animator animator;
-    public new EnemyData enemyData;
+    public EnemyData enemyData;
     SpriteRenderer sprite;
 
     private void Awake()
@@ -33,7 +33,7 @@ public class EnemyTest : EnemyCtrl
         fsmManager.AddState(enemyAttack);
         EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData);
         fsmManager.AddState(enemyHurt);
-        EnemyDie enemyDie = new EnemyDie(animator,ref enemyData,this);
+        EnemyDie enemyDie = new EnemyDie(animator,ref enemyData);
         fsmManager.AddState(enemyDie);
         EnemyAttack2 enemyAttack2 = new EnemyAttack2(animator, enemyData);
         fsmManager.AddState(enemyAttack2);

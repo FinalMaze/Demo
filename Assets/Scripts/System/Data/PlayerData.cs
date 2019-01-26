@@ -192,6 +192,13 @@ public class PlayerData
     public static float SwipeTime = 0.4f;
     #endregion
 
+    #region 特效相关
+    //攻击特效播放开始时间
+    public static float AttackEffectStartTime = 0.128f;
+    //攻击特效时长
+    public static float AttackEffectTime = 0.256f;
+    #endregion
+
     //摇杆滑动多远可以从走变成跑（0-1之间）
     public static float touchDis = 0.7f;
 }

@@ -98,4 +98,12 @@ public class Data
 
         Max
     }
+    public enum PlayerEffect
+    {
+        None,
+        Attack,
+
+        Max
+    }
+
 }

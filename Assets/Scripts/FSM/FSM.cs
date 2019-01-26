@@ -28,7 +28,14 @@ public class FSMManager
             return;
         }
         stateCount++;
-        allState[stateCount] = tmpFSM;
+        try
+        {
+            allState[stateCount] = tmpFSM;
+        }
+        catch (System.Exception)
+        {
+            Debug.Log(tmpFSM);
+        }
     }
     public void ChangeState(sbyte animationrCount)
     {

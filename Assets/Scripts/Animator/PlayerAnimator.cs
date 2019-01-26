@@ -177,12 +177,20 @@ public class PlayerAttack : FsmBase
         PlayerData.Runing = false;
         PlayerData.Attacking2 = false;
 
+
+        effect = true;
         PlayerData.State = 5;
         animator.SetInteger("Index", 5);
     }
+    bool effect;
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
+        if (timeCount>PlayerData.AttackEffectStartTime&&effect)
+        {
+            effect = false;
+            PlayerEffectCtrl.Instance.ChangeState((sbyte)Data.PlayerEffect.Attack);
+        }
         if (timeCount > PlayerData.AttackTime)
         {
             if (PlayerData.Attack2)

@@ -11,7 +11,7 @@ public class PlayerCtrl : MonoBehaviour
         get { return instance; }
     }
     FSMManager fsmManager;
-    Animator animator;
+    public Animator animator;
     CharacterController2D control;
     Rigidbody2D rgb;
     SpriteRenderer sprite;
@@ -25,7 +25,6 @@ public class PlayerCtrl : MonoBehaviour
         instance = this;
         control = GetComponent<CharacterController2D>();
         fsmManager = new FSMManager((int)Data.AnimationCount.Max);
-        animator = GetComponentInChildren<Animator>();
         rgb = GetComponent<Rigidbody2D>();
         #endregion
 
@@ -60,6 +59,10 @@ public class PlayerCtrl : MonoBehaviour
         fsmManager.AddState(PlayerRunAttack);
         PlayerDie PlayerDie = new PlayerDie(animator);
         fsmManager.AddState(PlayerDie);
+        #endregion
+
+        #region 添加特效
+
         #endregion
 
         sprite = GetComponentInChildren<SpriteRenderer>();

@@ -108,13 +108,11 @@ public class EnemyDie : FsmBase
 {
     Animator animator;
     EnemyData enemyData;
-    EnemyCtrl enemyCtrl;
     float timeCount;
-    public EnemyDie(Animator tmpAnimator,ref EnemyData tmpEnemyData,EnemyCtrl tmpCtrl)
+    public EnemyDie(Animator tmpAnimator,ref EnemyData tmpEnemyData)
     {
         animator = tmpAnimator;
         this.enemyData = tmpEnemyData;
-        enemyCtrl = tmpCtrl;
     }
     public override void OnEnter()
     {
@@ -122,10 +120,20 @@ public class EnemyDie : FsmBase
 
         enemyData.Die = true;
         animator.SetInteger("Index", 4);
+
+        tmpCtrl = animator.GetComponent<EnemyCtrl>();
     }
+    EnemyCtrl tmpCtrl;
     public override void OnStay()
     {
-        enemyCtrl.Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        if (tmpCtrl==null)
+        {
+            animator.GetComponent<EnemyTest>().Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        }
+        else
+        {
+            tmpCtrl.Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        }
         timeCount += Time.deltaTime;
         if (timeCount > 0.64f)
         {
