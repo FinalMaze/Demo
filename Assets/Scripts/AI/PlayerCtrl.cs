@@ -358,7 +358,7 @@ public class PlayerCtrl : MonoBehaviour
             runTimeCount = 0;
             run = 0;
             ChangeState((sbyte)Data.AnimationCount.RunAttack);
-            Invoke("Damage", PlayerData.EnemyHurtTime);
+            Invoke("RunAttackDamage", PlayerData.EnemyHurtTime);
             if (PlayerData.Dircetion > 0)
             {
                 tmpAttackTarget.x = transform.position.x + PlayerData.RunAttackDistance;
@@ -436,6 +436,51 @@ public class PlayerCtrl : MonoBehaviour
             }
         }
     }
+
+    public void RunAttackDamage()
+    {
+        for (int i = 0; i < Data.allEnemy.Count; i++)
+        {
+            if (Mathf.Abs(Data.allEnemy[i].transform.position.x - transform.position.x) < PlayerData.AttackDistance)
+            {
+                if (PlayerData.Dircetion > 0 && Data.allEnemy[i].transform.position.x > transform.position.x)
+                {
+                    if (Data.allEnemy[i].transform.position.x > transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        if (tmp != null)
+                        {
+                            tmp.Hurt(FriendData.Damage, 1,PlayerData.RunAttackDis);
+                        }
+                        else
+                        {
+                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1, PlayerData.RunAttackDis);
+                        }
+                    }
+
+                }
+                if (PlayerData.Dircetion < 0 && Data.allEnemy[i].transform.position.x < transform.position.x)
+                {
+                    if (Data.allEnemy[i].transform.position.x < transform.position.x)
+                    {
+                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                        if (tmp != null)
+                        {
+                            tmp.Hurt(FriendData.Damage, -1, PlayerData.RunAttackDis);
+                        }
+                        else
+                        {
+                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1, PlayerData.RunAttackDis);
+                        }
+                    }
+
+                }
+                PlayerData.mp = Mathf.Clamp(PlayerData.mp += PlayerData.AddMP, 0, PlayerData.mpMax);
+                GameInterfaceCtrl.Instance.UpdateMP();
+            }
+        }
+    }
+
     #endregion
 
     #region 被攻击

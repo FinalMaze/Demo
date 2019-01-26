@@ -147,6 +147,8 @@ public class PlayerData
     public static float RunAttackDistance = 2.5f;
     //冲刺攻击的速度
     public static float RunAttackSpeed = 0.7f;
+    //冲刺攻击附加的额外击退距离
+    public static float RunAttackDis = 2f;
 
     #endregion
 
