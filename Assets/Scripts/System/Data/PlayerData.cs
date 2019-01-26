@@ -24,14 +24,9 @@ public class PlayerData
     //受击动作的总时长
     public static float HurtTime = 0.17f;
     //冲刺攻击动作的总时长
-<<<<<<< HEAD
     public static float RunAttackTime = 0.48f;
     //死亡动画时长
     public static float DieTime = 0.21f;
-=======
-    public static float RunAttackTime = 0.5f;
-
->>>>>>> parent of df36ba0... 更新
     #endregion
 
     #region 玩家的状态信息
@@ -83,6 +78,9 @@ public class PlayerData
     public static bool playerIsGround = true;
     //玩家是否被攻击
     public static bool playerAttacked = false;
+    //玩家是否死亡
+    public static bool Die = false;
+    public static bool Dieing = false;
     #endregion
 
     #region 玩家的数据信息

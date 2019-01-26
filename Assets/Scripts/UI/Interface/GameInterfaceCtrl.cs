@@ -7,8 +7,12 @@ using UnityEngine.UI;
 public class GameInterfaceCtrl : UIBase
 {
     public static GameInterfaceCtrl Instance;
+    //角色血量
     Slider hp;
+    //角色蓝量
     Slider mp;
+    //击杀数
+    Text killCount;
     float tmpHP;
     float tmpMP;
 
@@ -25,21 +29,58 @@ public class GameInterfaceCtrl : UIBase
         mp.value = Mathf.Clamp(tmpMP, 0, 1);
 
     }
+    int killC = 0;
+    public void AddKillCount(int count)
+    {
+        killC += count;
+        killCount.text = killC.ToString() + " Kill";
+    }
+    GameObject main;
+    GameObject startGame;
+    Vector2 player0;
+    public void StartGame(BaseEventData data)
+    {
+        main.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    GameObject gameOver;
+    public void GameOver()
+    {
+        gameOver.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void NewGame(BaseEventData data)
+    {
+        gameOver.SetActive(false);
+        main.SetActive(true);
+        PlayerData.hp = PlayerData.hpMax;
+        UpdateHP();
+        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
+        PlayerCtrl.Instance.transform.position = player0;
+        killC = 0;
+        killCount.text = null;
+        AIManager.Instance.DelEnemy();
+    }
 
     private void Start()
     {
         Instance = this;
+        player0 = PlayerCtrl.Instance.transform.position;
+
         hp = GetControl("HP_UI").GetComponent<Slider>();
         mp= GetControl("MP_UI").GetComponent<Slider>();
+        killCount = GetControl("KillCount_UI").GetComponent<Text>();
+        gameOver = GetControl("GameOver_UI");
+        AddPointClick("GameOver_UI", NewGame);
+        main = GetControl("Main_UI");
+        startGame = GetControl("Start_UI");
+        AddPointClick("Start_UI", StartGame);
+
+        gameOver.SetActive(false);
         UpdateHP();
         UpdateMP();
     }
-
-
-    private void Update()
-    {
-        
-    }
-
 
 }
