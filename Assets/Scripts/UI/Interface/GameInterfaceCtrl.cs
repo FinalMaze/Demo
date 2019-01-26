@@ -56,14 +56,16 @@ public class GameInterfaceCtrl : UIBase
         gameOver.SetActive(false);
         main.SetActive(true);
         PlayerData.hp = PlayerData.hpMax;
+        PlayerData.mp = PlayerData.mpMax;
         UpdateHP();
+        UpdateMP();
         PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Idel);
         PlayerCtrl.Instance.transform.position = player0;
         killC = 0;
         killCount.text = null;
         AIManager.Instance.DelEnemy();
+        AIManager.Instance.InitialEnemy();
     }
-
     private void Start()
     {
         Instance = this;
@@ -77,7 +79,7 @@ public class GameInterfaceCtrl : UIBase
         main = GetControl("Main_UI");
         startGame = GetControl("Start_UI");
         AddPointClick("Start_UI", StartGame);
-
+        Time.timeScale = 0;
         gameOver.SetActive(false);
         UpdateHP();
         UpdateMP();

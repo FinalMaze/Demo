@@ -78,13 +78,11 @@ public class EnemyHurt : FsmBase
 {
     Animator animator;
     EnemyData enemyData;
-    EnemyCtrl enemyCtrl;
     float timeCount;
-    public EnemyHurt(Animator tmpAnimator, EnemyData tmpEnemyData,EnemyCtrl tmpCtrl)
+    public EnemyHurt(Animator tmpAnimator, EnemyData tmpEnemyData)
     {
         animator = tmpAnimator;
         enemyData = tmpEnemyData;
-        enemyCtrl = tmpCtrl;
     }
     public override void OnEnter()
     {

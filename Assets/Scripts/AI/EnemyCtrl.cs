@@ -29,7 +29,7 @@ public class EnemyCtrl : MonoBehaviour
         fsmManager.AddState(enemyWalk);
         EnemyAttack enemyAttack = new EnemyAttack(animator, enemyData);
         fsmManager.AddState(enemyAttack);
-        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData,this);
+        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData);
         fsmManager.AddState(enemyHurt);
         EnemyDie enemyDie = new EnemyDie(animator,ref enemyData,this);
         fsmManager.AddState(enemyDie);

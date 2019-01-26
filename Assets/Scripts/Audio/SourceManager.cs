@@ -63,18 +63,18 @@ public class SourceManager
         }
     }
 
-        //删除多余的音频播放器
-        public void DelSurplusAudioSource()
+    //删除多余的音频播放器
+    public void DelSurplusAudioSource()
     {
         int count = 0;
-        List<AudioSource> allSurplus=new List<AudioSource>();
-        for (int i = allSource.Count-1; i >= 0; i--)
+        List<AudioSource> allSurplus = new List<AudioSource>();
+        for (int i = allSource.Count - 1; i >= 0; i--)
         {
 
             if (!allSource[i].isPlaying)
             {
                 count++;
-                if (count>3)
+                if (count > 3)
                 {
                     allSurplus.Add(allSource[i]);
                 }
@@ -83,8 +83,6 @@ public class SourceManager
         for (int i = 0; i < allSurplus.Count; i++)
         {
             RemoveAudio(allSurplus[i]);
-            //allSurplus.Remove(allSurplus[i]);
-            //GameObject.Destroy(allSurplus[i]);
         }
         allSurplus.Clear();
         allSurplus = null;

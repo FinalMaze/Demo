@@ -6,7 +6,7 @@ public class EnemyTest : EnemyCtrl
 {
     FSMManager fsmManager;
     Animator animator;
-    public  EnemyData enemyData;
+    public new EnemyData enemyData;
     SpriteRenderer sprite;
 
     private void Awake()
@@ -32,7 +32,7 @@ public class EnemyTest : EnemyCtrl
         fsmManager.AddState(enemyWalk);
         EnemyAttack enemyAttack = new EnemyAttack(animator, enemyData);
         fsmManager.AddState(enemyAttack);
-        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData,this);
+        EnemyHurt enemyHurt = new EnemyHurt(animator, enemyData);
         fsmManager.AddState(enemyHurt);
         EnemyDie enemyDie = new EnemyDie(animator,ref enemyData,this);
         fsmManager.AddState(enemyDie);
@@ -59,6 +59,11 @@ public class EnemyTest : EnemyCtrl
         }
         #endregion
         EnemyAI();
+
+        if (enemyData.Hurting)
+        {
+            Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        }
 
     }
 

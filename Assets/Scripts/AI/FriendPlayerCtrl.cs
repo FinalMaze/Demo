@@ -139,21 +139,12 @@ public class FriendPlayerCtrl : MonoBehaviour
                 }
                 if (FriendData.Smalling)
                 {
-                    if (transform.rotation.y == 0)
+                    if (PlayerData.mp > FriendData.AttackMP)
                     {
-                        //FriendData.StartPos = transform.position;
-                        //FriendData.Target = new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
+                        PlayerData.mp -= FriendData.AttackMP;
+                        GameInterfaceCtrl.Instance.UpdateMP();
                         ChangeState((sbyte)Data.FriendAnimationCount.Attack2);
                         Invoke("Damage", FriendData.EnemyHurtTime);
-                        //ThrowFriend(new Vector2(transform.position.x + PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
-                    }
-                    if (transform.rotation.y != 0)
-                    {
-                        //FriendData.StartPos = transform.position;
-                        //FriendData.Target = new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY);
-                        ChangeState((sbyte)Data.FriendAnimationCount.Attack2);
-                        Invoke("Damage", FriendData.EnemyHurtTime);
-                        //ThrowFriend(new Vector2(transform.position.x - PlayerData.ThrowDistance, PlayerCtrl.Instance.transform.position.y + PlayerData.ThrowEndY));
                     }
                 }
             }
@@ -248,11 +239,14 @@ public class FriendPlayerCtrl : MonoBehaviour
     #region 攻击
     public void Attack()
     {
-        PlayerData.mp -= FriendData.AttackMP;
-        GameInterfaceCtrl.Instance.UpdateMP();
+        if (PlayerData.mp>FriendData.AttackMP)
+        {
+            PlayerData.mp -= FriendData.AttackMP;
+            GameInterfaceCtrl.Instance.UpdateMP();
 
-        ChangeState((sbyte)Data.FriendAnimationCount.Attack);
-        Invoke("Damage", FriendData.EnemyHurtTime);
+            ChangeState((sbyte)Data.FriendAnimationCount.Attack);
+            Invoke("Damage", FriendData.EnemyHurtTime);
+        }
     }
     public void Damage()
     {
@@ -307,6 +301,7 @@ public class FriendPlayerCtrl : MonoBehaviour
     {
         FriendData.Cast = true;
         FriendData.Target = target;
+        FriendData.StartPos = transform.position;
         if (animator.GetInteger("Index") != 4)
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Amassing);

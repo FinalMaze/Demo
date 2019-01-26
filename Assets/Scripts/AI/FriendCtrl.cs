@@ -239,6 +239,8 @@ public class FriendCtrl : MonoBehaviour
     {
         FriendData.Cast = true;
         FriendData.Target = target;
+        FriendData.StartPos = transform.position;
+
         if (animator.GetInteger("Index") != 4)
         {
             ChangeState((sbyte)Data.FriendAnimationCount.Amassing);
@@ -273,7 +275,6 @@ public class FriendCtrl : MonoBehaviour
         }
         else
         {
-            FriendData.StartPos = transform.position;
             ChangeState((sbyte)Data.FriendAnimationCount.Cast);
         }
     }

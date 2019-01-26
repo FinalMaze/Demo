@@ -131,7 +131,6 @@ public class AIManager : MonoBehaviour
     //销毁指定
     public void DelEnemy(GameObject tmpObject)
     {
-
         for (int i = 0; i < Data.allEnemy.Count; i++)
         {
 
@@ -142,12 +141,23 @@ public class AIManager : MonoBehaviour
         }
     }
     //销毁所有
+    List<GameObject> tmpAllEnemy;
     public void DelEnemy()
     {
-        for (int i = 0; i < Data.allEnemy.Count; i++)
+        if (tmpAllEnemy==null)
         {
-            Del(Data.allEnemy[i]);
+            tmpAllEnemy = new List<GameObject>();
         }
+        foreach (GameObject item in Data.allEnemy)
+        {
+            tmpAllEnemy.Add(item);
+        }
+        for (int i = 0; i < tmpAllEnemy.Count; i++)
+        {
+            Del(tmpAllEnemy[i]);
+        }
+        tmpAllEnemy.Clear();
+        tmpAllEnemy = null;
     }
     public void Del(GameObject tmpObj)
     {
