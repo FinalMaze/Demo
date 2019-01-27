@@ -219,7 +219,7 @@ public class EnemyTest : MonoBehaviour
     //远程攻击
     Transform ball;
     GameObject tmpBall;
-    public new void Attack2()
+    public void Attack2()
     {
         
     }
@@ -229,14 +229,16 @@ public class EnemyTest : MonoBehaviour
     }
     private void Damage()
     {
-        if (distance<3f)
+        if (distance < enemyData.AttackDistance)
         {
-            if (PlayerCtrl.Instance.transform.position.x>transform.position.x)
+            if (PlayerCtrl.Instance.transform.position.x > transform.position.x)
             {
-                PlayerCtrl.Instance.Hurt(enemyData.Damage,1);
+                AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
+                PlayerCtrl.Instance.Hurt(enemyData.Damage, 1);
             }
             if (PlayerCtrl.Instance.transform.position.x < transform.position.x)
             {
+                AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
                 PlayerCtrl.Instance.Hurt(enemyData.Damage, -1);
             }
 

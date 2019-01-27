@@ -35,6 +35,7 @@ public class Data
 
     public enum Audio
     {
+        BGM,
         Cast,
         Die,
         Hurt

@@ -486,11 +486,11 @@ public class PlayerDie : FsmBase
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (timeCount > PlayerData.DieTime)
+        if (timeCount > PlayerData.DieTime+1.5f)
         {
             timeCount = 0;
             PlayerData.Die = true;
-            GameInterfaceCtrl.Instance.GameOver();
+            PlayerCtrl.Instance.GameOver();
         }
     }
     public override void OnExit()

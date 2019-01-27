@@ -235,14 +235,16 @@ public class EnemyCtrl : MonoBehaviour
     }
     private void Damage()
     {
-        if (distance<3f)
+        if (distance<enemyData.AttackDistance)
         {
             if (PlayerCtrl.Instance.transform.position.x>transform.position.x)
             {
+                AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
                 PlayerCtrl.Instance.Hurt(enemyData.Damage,1);
             }
             if (PlayerCtrl.Instance.transform.position.x < transform.position.x)
             {
+                AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
                 PlayerCtrl.Instance.Hurt(enemyData.Damage, -1);
             }
 

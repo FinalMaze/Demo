@@ -36,6 +36,21 @@ public class SourceManager
         allSource.Add(tmpSource);
         return tmpSource;
     }
+    //根据音频名称查找播放器
+    public AudioSource GetSameClipSource(string clipName)
+    {
+        for (int i = 0; i < allSource.Count; i++)
+        {
+            if (allSource[i].clip != null)
+            {
+                if (allSource[i].clip.name == clipName)
+                {
+                    return allSource[i];
+                }
+            }
+        }
+        return null;
+    }
 
     //停止正在播放的音频
     public void StopClip(string clipName)

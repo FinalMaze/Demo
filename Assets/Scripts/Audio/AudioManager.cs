@@ -21,21 +21,13 @@ public class AudioManager : MonoBehaviour
     AudioClip bgmClip;
     public void LoopBgm(string clipName)
     {
-        if (bgmSouce == null)
+        bgmSouce = source.GetSameClipSource(clipName);
+        if (bgmSouce != null)
         {
-            bgmSouce = source.GetFreeAudioSource();
-        }
-        if (bgmClip == null)
-        {
-            bgmClip = clipManager.FindClip(clipName);
-        }
-        if (bgmSouce.clip == null)
-        {
-            bgmSouce.clip = bgmClip;
-        }
-        if (!bgmSouce.isPlaying)
-        {
-            bgmSouce.Play();
+            if (!bgmSouce.isPlaying)
+            {
+                bgmSouce.Play();
+            }
         }
     }
 
@@ -68,7 +60,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        //LoopBgm("A");
         //if (Input.GetKeyDown(KeyCode.B))
         //{
         //    StartAudio(Data.Audio.A.ToString());

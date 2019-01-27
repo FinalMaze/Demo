@@ -205,6 +205,7 @@
     <Compile Include="Assets\Scripts\Animator\FriendEffect.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerEffect.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioCtrl.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Audio\ClipManager.cs" />
     <Compile Include="Assets\Scripts\Audio\SourceManager.cs" />

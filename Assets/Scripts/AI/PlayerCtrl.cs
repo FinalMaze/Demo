@@ -261,6 +261,11 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
     }
+    public void GameOver()
+    {
+        GameInterfaceCtrl.Instance.GameOver();
+    }
+
     private void FixedUpdate()
     {
         control.Move(run * moveSpeed * Time.fixedDeltaTime, false, PlayerData.playerStartJump);

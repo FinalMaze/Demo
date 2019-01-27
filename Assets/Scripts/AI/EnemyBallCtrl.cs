@@ -50,10 +50,12 @@ public class EnemyBallCtrl : MonoBehaviour {
     {
         if (PlayerCtrl.Instance.transform.position.x>transform.position.x)
         {
+            AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
             PlayerCtrl.Instance.Hurt(EnemyData.BallDamage,1);
         }
         if (PlayerCtrl.Instance.transform.position.x < transform.position.x)
         {
+            AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
             PlayerCtrl.Instance.Hurt(EnemyData.BallDamage, -1);
         }
     }

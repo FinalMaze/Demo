@@ -42,6 +42,7 @@ public class GameInterfaceCtrl : UIBase
     {
         main.SetActive(false);
         Time.timeScale = 1;
+        AudioManager.Instance.StartAudio(Data.Audio.BGM.ToString());
         //foreach (GameObject enemy in Data.allEnemy)
         //{
         //    EnemyTest tmp = enemy.GetComponent<EnemyTest>();
@@ -62,6 +63,7 @@ public class GameInterfaceCtrl : UIBase
     {
         gameOver.SetActive(true);
         Time.timeScale = 0;
+        AudioManager.Instance.StopAudio(Data.Audio.BGM.ToString());
     }
 
     public void NewGame(BaseEventData data)
@@ -88,7 +90,7 @@ public class GameInterfaceCtrl : UIBase
         mp= GetControl("MP_UI").GetComponent<Slider>();
         killCount = GetControl("KillCount_UI").GetComponent<Text>();
         gameOver = GetControl("GameOver_UI");
-        AddPointClick("GameOver_UI", NewGame);
+        AddPointClick("TmpGameOver_UI", NewGame);
         main = GetControl("Main_UI");
         startGame = GetControl("Start_UI");
         AddPointClick("Start_UI", StartGame);
