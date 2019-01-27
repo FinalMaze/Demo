@@ -25,7 +25,7 @@ public class EnemyData
     //攻击动作总时长
     public static float AttackTime = 1f;
     //受击动作总时长
-    public static float HurtTime = 0.3f;
+    public static float HurtTime = 0.28f;
     //死亡动作总时长
     public static float DieTime = 0.4f;
     //远程攻击动作总时长
@@ -80,5 +80,26 @@ public class EnemyData
     //出生自标准点的随机距离（范围）
     public static int startDis = 5;
 
+    #endregion
+
+    #region 特效是否在播放
+    public bool Attacking1E = false;
+    public bool HurtingE = false;
+    public bool SummoningE = false;
+    #endregion
+    #region 特效信息
+    //攻击后第几秒播放特效
+    public static float AttackEStartTime=0.75f;
+    //攻击特效的时长
+    public static float AttackTimeE = 0.25f;
+    //受击后第几少播放特效
+    public static float HurtEStartTime = 0f;
+    //受击特效时长
+    public static float HurtTimeE = 0.32f;
+
+    //出生后第几秒播放特效
+    public static float SummonEStartTime = 0f;
+    //出生特效时长
+    public static float SummonTimeE = 0.8f;
     #endregion
 }

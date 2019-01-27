@@ -141,4 +141,17 @@ public class FriendData
     //变大时离玩家多远变小
     public static float BigToSmallDistance = 15f;
     #endregion
+
+    #region 特效状态
+    public static bool AttackingE = false;
+    #endregion
+
+    #region 特效信息
+    //普通攻击后开始播放特效的相对时间
+    public static float AttackEffectStartTime = 0f;
+    //变大攻击后开始播放特效的相对时间
+    public static float AttackEffectStartTimeB = 0f;
+    //特效动画的时长
+    public static float AttackEffectTime = 0.24f;
+    #endregion
 }

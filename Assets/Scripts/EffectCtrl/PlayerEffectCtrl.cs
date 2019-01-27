@@ -25,6 +25,12 @@ public class PlayerEffectCtrl : MonoBehaviour
     private void Update()
     {
         fsmManager.OnStay();
+        #region    强制为空
+        if (!PlayerData.AttackingE)
+        {
+            ChangeState((sbyte)Data.PlayerEffect.None);
+        }
+        #endregion
     }
     public void ChangeState(sbyte animatorCount)
     {

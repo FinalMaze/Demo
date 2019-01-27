@@ -184,9 +184,16 @@ public class FriendAttack : FsmBase
         FriendData.Moving = false;
         FriendData.State = 2;
         animator.SetInteger("Index", 2);
+        effect = true;
     }
+    bool effect = true;
     public override void OnStay()
     {
+        if (effect&&timeCount>FriendData.AttackEffectStartTime)
+        {
+            effect = false;
+            FriendEffectCtrl.Instance.ChangeState((sbyte)Data.FriendEffect.Attack);
+        }
         if (Data.FriendAI)
         {
             FriendCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
@@ -211,6 +218,7 @@ public class FriendAttack : FsmBase
     }
     public override void OnExit()
     {
+        effect = true;
         FriendData.Attacking = false;
     }
 }
@@ -778,7 +786,9 @@ public class FriendAttack2 : FsmBase
         FriendData.Moving = false;
         FriendData.State = 10;
         animator.SetInteger("Index", 10);
+        effect = true;
     }
+    bool effect = true;
     public override void OnStay()
     {
         if (Data.FriendAI)
@@ -790,6 +800,12 @@ public class FriendAttack2 : FsmBase
             FriendPlayerCtrl.Instance.Blink(FriendData.AttackBlinkDistance, FriendData.AttackBlinkSpeed);
         }
         timeCount += Time.deltaTime;
+        if (effect && timeCount > FriendData.AttackEffectStartTimeB)
+        {
+            effect = false;
+            FriendEffectCtrl.Instance.ChangeState((sbyte)Data.FriendEffect.Attack);
+        }
+
         if (timeCount > FriendData.AttackTime2)
         {
             timeCount = 0;
@@ -805,6 +821,7 @@ public class FriendAttack2 : FsmBase
     }
     public override void OnExit()
     {
+        effect = true;
         FriendData.Attacking = false;
     }
 }

@@ -235,10 +235,12 @@ public class PlayerAttack2 : FsmBase
         PlayerAttack.timeCount = 0;
         PlayerData.State = 6;
         animator.SetInteger("Index", 6);
+
     }
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
+
         if (timeCount > PlayerData.Attack2Time)
         {
             PlayerData.Attacking = false;

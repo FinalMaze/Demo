@@ -105,5 +105,20 @@ public class Data
 
         Max
     }
+    public enum FriendEffect
+    {
+        None,
+        Attack,
 
+        Max
+    }
+    public enum EnemyEffect
+    {
+        None,
+        Attack1,
+        Hurt,
+        Summon,
+
+        Max
+    }
 }

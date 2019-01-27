@@ -144,9 +144,9 @@ public class PlayerData
     //走多少秒后变为跑
     public static float walkToRun = 0.3f;
     //冲刺攻击的距离 
-    public static float RunAttackDistance = 3f;
+    public static float RunAttackDistance = 3.5f;
     //冲刺攻击的速度
-    public static float RunAttackSpeed = 0.8f;
+    public static float RunAttackSpeed = 0.6f;
     //冲刺攻击附加的额外击退距离
     public static float RunAttackDis = 8f;
 
@@ -190,6 +190,10 @@ public class PlayerData
     public static float SwipeDistance = 80f;
     //触发冲刺的最少滑动时间
     public static float SwipeTime = 0.4f;
+    #endregion
+
+    #region 特效是否在播放
+    public static bool AttackingE = false;
     #endregion
 
     #region 特效相关

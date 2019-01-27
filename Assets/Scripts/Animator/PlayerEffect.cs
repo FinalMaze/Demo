@@ -13,7 +13,14 @@ public class None : FsmBase
     {
         animator.SetInteger("Index", 0);
     }
-
+    public override void OnStay()
+    {
+        
+    }
+    public override void OnExit()
+    {
+        
+    }
 }
 public class PlayerAttackEffect : FsmBase
 {
@@ -26,6 +33,7 @@ public class PlayerAttackEffect : FsmBase
     public override void OnEnter()
     {
         animator.SetInteger("Index", 1);
+        PlayerData.AttackingE = true;
     }
     public override void OnStay()
     {
@@ -33,7 +41,12 @@ public class PlayerAttackEffect : FsmBase
         if (timeCount>PlayerData.AttackEffectTime)
         {
             timeCount = 0;
-            PlayerEffectCtrl.Instance.ChangeState((sbyte)Data.PlayerEffect.None);
+            PlayerData.AttackingE = false;
         }
+    }
+    public override void OnExit()
+    {
+        timeCount = 0;
+        PlayerData.AttackingE = false;
     }
 }

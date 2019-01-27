@@ -58,10 +58,29 @@ public class EnemyAttack : FsmBase
     {
         enemyData.Attacking = true;
         animator.SetInteger("Index", 2);
+
+        effect = true;
+        baseA = animator.GetComponentInParent<Rigidbody2D>();
+        tmp = baseA.GetComponentInChildren<EnemyEffectCtrl>();
     }
+    bool effect = true;
+    Rigidbody2D baseA;
+    EnemyEffectCtrl tmp;
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
+        if (effect&&timeCount>EnemyData.AttackEStartTime)
+        {
+            effect = false;
+            if (tmp==null)
+            {
+                Debug.Log("没找到");
+            }
+            else
+            {
+                tmp.ChangeState((sbyte)Data.EnemyEffect.Attack1);
+            }
+        }
         if (timeCount> EnemyData.AttackTime)
         {
             enemyData.Attacking = false;
@@ -70,6 +89,7 @@ public class EnemyAttack : FsmBase
     }
     public override void OnExit()
     {
+        effect = true;
         enemyData.Attacking = false;
     }
 }
@@ -88,10 +108,30 @@ public class EnemyHurt : FsmBase
     {
         enemyData.Hurting = true;
         animator.SetInteger("Index", 3);
+
+        effect = true;
+        baseA = animator.GetComponentInParent<Rigidbody2D>();
+        tmp = baseA.GetComponentInChildren<EnemyEffectCtrl>();
     }
+    bool effect = true;
+    Rigidbody2D baseA;
+    EnemyEffectCtrl tmp;
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
+        if (effect && timeCount > EnemyData.HurtEStartTime)
+        {
+            effect = false;
+            if (tmp == null)
+            {
+                Debug.Log("没找到");
+            }
+            else
+            {
+                tmp.ChangeState((sbyte)Data.EnemyEffect.Hurt);
+            }
+        }
+
         if (timeCount> EnemyData.HurtTime)
         {
             timeCount = 0;
@@ -100,6 +140,7 @@ public class EnemyHurt : FsmBase
     }
     public override void OnExit()
     {
+        timeCount = 0;
         enemyData.Hurting = false;
     }
 }
@@ -121,19 +162,19 @@ public class EnemyDie : FsmBase
         enemyData.Die = true;
         animator.SetInteger("Index", 4);
 
-        tmpCtrl = animator.GetComponent<EnemyCtrl>();
+        //tmpCtrl = animator.GetComponent<EnemyTest>();
     }
-    EnemyCtrl tmpCtrl;
+    //EnemyTest tmpCtrl;
     public override void OnStay()
     {
-        if (tmpCtrl==null)
-        {
-            animator.GetComponent<EnemyTest>().Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
-        }
-        else
-        {
-            tmpCtrl.Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
-        }
+        //if (tmpCtrl==null)
+        //{
+        //    tmpCtrl.Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        //}
+        //else
+        //{
+        //    animator.GetComponent<EnemyTest>().Blink(enemyData.HurtDistance, enemyData.HurtSpeed);
+        //}
         timeCount += Time.deltaTime;
         if (timeCount > 0.64f)
         {
@@ -189,10 +230,31 @@ public class EnemySummon : FsmBase
     {
         enemyData.Summoning = true;
         animator.SetInteger("Index", 6);
+
+        effect = true;
+        baseA = animator.GetComponentInParent<Rigidbody2D>();
+        tmp = baseA.GetComponentInChildren<EnemyEffectCtrl>();
     }
+    bool effect = true;
+    Rigidbody2D baseA;
+    EnemyEffectCtrl tmp;
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
+        if (effect && timeCount > EnemyData.SummonEStartTime)
+        {
+            effect = false;
+            if (tmp == null)
+            {
+                Debug.Log("没找到");
+            }
+            else
+            {
+                tmp.ChangeState((sbyte)Data.EnemyEffect.Summon);
+            }
+        }
+
+
         if (timeCount > EnemyData.SummonTime)
         {
             timeCount = 0;

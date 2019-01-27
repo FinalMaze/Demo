@@ -189,6 +189,7 @@
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCJoystick.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\ETCTouchPad.cs" />
     <Compile Include="Assets\enemyHP.cs" />
+    <Compile Include="Assets\p2.cs" />
     <Compile Include="Assets\Scripts\AI\AIManager.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyBallCtrl.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyCtrl.cs" />
@@ -199,12 +200,16 @@
     <Compile Include="Assets\Scripts\AI\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Animator\BallAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\EnemyAnimator.cs" />
+    <Compile Include="Assets\Scripts\Animator\EnemyEffect.cs" />
     <Compile Include="Assets\Scripts\Animator\FriendAnimator.cs" />
+    <Compile Include="Assets\Scripts\Animator\FriendEffect.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerAnimator.cs" />
     <Compile Include="Assets\Scripts\Animator\PlayerEffect.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Audio\ClipManager.cs" />
     <Compile Include="Assets\Scripts\Audio\SourceManager.cs" />
+    <Compile Include="Assets\Scripts\EffectCtrl\EnemyEffectCtrl.cs" />
+    <Compile Include="Assets\Scripts\EffectCtrl\FriendEffectCtrl.cs" />
     <Compile Include="Assets\Scripts\EffectCtrl\PlayerEffectCtrl.cs" />
     <Compile Include="Assets\Scripts\FSM\FSM.cs" />
     <Compile Include="Assets\Scripts\PanelCtrl\LitMap.cs" />
