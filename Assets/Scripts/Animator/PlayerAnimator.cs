@@ -12,6 +12,8 @@ public class PlayerIdel : FsmBase
     public override void OnEnter()
     {
         PlayerData.Ideling = true;
+        PlayerData.Dieing = false;
+        PlayerData.Die = false;
 
         PlayerData.State = 0;
         animator.SetInteger("Index", 0);

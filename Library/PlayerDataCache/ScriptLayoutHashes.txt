@@ -1,6 +1,6 @@
-WindowsStandalone
+Android
 PlayerPath?
-C:/Users/Administrator/Desktop/Demo/Demo.exe
+C:/Users/Administrator/Desktop/Demo.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
