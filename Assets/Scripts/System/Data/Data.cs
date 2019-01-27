@@ -35,7 +35,9 @@ public class Data
 
     public enum Audio
     {
-        A
+        Cast,
+        Die,
+        Hurt
     }
 
     public enum AnimationCount

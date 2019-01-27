@@ -30,8 +30,6 @@ public class EnemyEffectCtrl : MonoBehaviour
     {
         fsmManager.OnStay();
         #region    强制为空
-        Debug.Log(!data.Attacking1E);
-        Debug.Log(!data.HurtingE);
         if (!data.Attacking1E&&!data.HurtingE&&!data.SummoningE)
         {
             ChangeState((sbyte)Data.EnemyEffect.None);

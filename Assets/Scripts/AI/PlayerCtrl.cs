@@ -396,6 +396,8 @@ public class PlayerCtrl : MonoBehaviour
         return false;
     }
 
+    Rigidbody2D baseA;
+    EnemyEffectCtrl tmpA;
     public void Damage()
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
@@ -410,10 +412,16 @@ public class PlayerCtrl : MonoBehaviour
                         if (tmp != null)
                         {
                             tmp.Hurt(FriendData.Damage, 1);
+                            baseA = tmp.GetComponentInParent<Rigidbody2D>();
+                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                         else
                         {
                             Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                            baseA = Data.allEnemy[i].GetComponent<EnemyCtrl>().GetComponentInParent<Rigidbody2D>();
+                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                     }
 

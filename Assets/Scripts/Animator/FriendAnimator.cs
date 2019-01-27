@@ -487,6 +487,8 @@ public class FriendCast : FsmBase
 
         FriendData.State = 6;
         animator.SetInteger("Index", 6);
+
+        AudioManager.Instance.StartAudio(Data.Audio.Cast.ToString());
     }
     public override void OnStay()
     {

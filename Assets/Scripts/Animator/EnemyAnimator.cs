@@ -109,28 +109,28 @@ public class EnemyHurt : FsmBase
         enemyData.Hurting = true;
         animator.SetInteger("Index", 3);
 
-        effect = true;
-        baseA = animator.GetComponentInParent<Rigidbody2D>();
-        tmp = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+        //effect = true;
+        //baseA = animator.GetComponentInParent<Rigidbody2D>();
+        //tmp = baseA.GetComponentInChildren<EnemyEffectCtrl>();
     }
-    bool effect = true;
-    Rigidbody2D baseA;
-    EnemyEffectCtrl tmp;
+    //bool effect = true;
+    //Rigidbody2D baseA;
+    //EnemyEffectCtrl tmp;
     public override void OnStay()
     {
         timeCount += Time.deltaTime;
-        if (effect && timeCount > EnemyData.HurtEStartTime)
-        {
-            effect = false;
-            if (tmp == null)
-            {
-                Debug.Log("没找到");
-            }
-            else
-            {
-                tmp.ChangeState((sbyte)Data.EnemyEffect.Hurt);
-            }
-        }
+        //if (effect && timeCount > EnemyData.HurtEStartTime)
+        //{
+        //    effect = false;
+        //    if (tmp == null)
+        //    {
+        //        Debug.Log("没找到");
+        //    }
+        //    else
+        //    {
+        //        tmp.ChangeState((sbyte)Data.EnemyEffect.Hurt);
+        //    }
+        //}
 
         if (timeCount> EnemyData.HurtTime)
         {
@@ -162,6 +162,7 @@ public class EnemyDie : FsmBase
         enemyData.Die = true;
         animator.SetInteger("Index", 4);
 
+        AudioManager.Instance.StartAudio(Data.Audio.Die.ToString());
         //tmpCtrl = animator.GetComponent<EnemyTest>();
     }
     //EnemyTest tmpCtrl;

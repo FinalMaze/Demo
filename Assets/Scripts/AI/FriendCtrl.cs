@@ -181,6 +181,8 @@ public class FriendCtrl : MonoBehaviour
         ChangeState((sbyte)Data.FriendAnimationCount.Attack);
         Invoke("Damage", FriendData.EnemyHurtTime);
     }
+    Rigidbody2D baseA;
+    EnemyEffectCtrl tmpA;
     public void Damage()
     {
         for (int i = 0; i < Data.allEnemy.Count; i++)
@@ -193,9 +195,16 @@ public class FriendCtrl : MonoBehaviour
                     if (tmp!=null)
                     {
                         tmp.Hurt(FriendData.Damage, 1);
-                    }else
+                        baseA = tmp.GetComponentInParent<Rigidbody2D>();
+                        tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                        tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
+                    }
+                    else
                     {
                         Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
+                        baseA = Data.allEnemy[i].GetComponent<EnemyCtrl>().GetComponentInParent<Rigidbody2D>();
+                        tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                        tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                     }
                 }
                 if (Data.allEnemy[i].transform.position.x < transform.position.x)
@@ -204,10 +213,16 @@ public class FriendCtrl : MonoBehaviour
                     if (tmp != null)
                     {
                         tmp.Hurt(FriendData.Damage, -1);
+                        baseA = tmp.GetComponentInParent<Rigidbody2D>();
+                        tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                        tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                     }
                     else
                     {
                         Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
+                        baseA = Data.allEnemy[i].GetComponent<EnemyCtrl>().GetComponentInParent<Rigidbody2D>();
+                        tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
+                        tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                     }
                 }
             }

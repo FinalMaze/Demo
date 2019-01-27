@@ -46,6 +46,7 @@ public class EnemyHurtEffect : FsmBase
     {
         animator.SetInteger("Index", 2);
         tmpData.HurtingE = true;
+        AudioManager.Instance.StartAudio(Data.Audio.Hurt.ToString());
     }
     public override void OnStay()
     {
