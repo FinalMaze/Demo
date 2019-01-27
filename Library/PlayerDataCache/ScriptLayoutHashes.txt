@@ -1,6 +1,6 @@
-Android
+WindowsStandalone
 PlayerPath?
-C:/Users/Administrator/Desktop/Demo/Demo.apk
+C:/Users/Administrator/Desktop/Demo/Demo.exe
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
@@ -93,6 +93,7 @@ ca3ac0b37762af0a2124a1fd6e4bfbed Assembly-CSharp.dll:Cinemachine.CinemachineExte
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AIManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TwoDragMe
 6a8efab554b1045c2c9dd2e0836bac77 Assembly-CSharp.dll:HedgehogTeam.EasyTouch.QuickSwipe
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.FriendEffectCtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.UICompatibility
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 cf455f7a806648c6ed4c7d3e3f8a0e03 UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
@@ -164,10 +165,12 @@ c261e943c1efad142d715ca930c9b7c6 Assembly-CSharp.dll:Cinemachine.CinemachineComp
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ImpactEffect
 c3b726e1ef77ecefcf78c4586a6bf32e Assembly-CSharp.dll:Cinemachine.CinemachineTrackedDolly
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Main
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerEffectCtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CubeSelect
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Cinemachine.CinemachinePipeline
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AudioManager
 1d0ed45a65af4d08065a79ace88b43fc Assembly-CSharp.dll:Cinemachine.CinemachinePath
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.EnemyEffectCtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.LongTapMe
 98c01a2e666d6d7f66de029568da7db7 Assembly-CSharp.dll:HedgehogTeam.EasyTouch.QuickTouch
 166f2fb08a5bd8e5be94b11ac3fce237 Assembly-CSharp.dll:Cinemachine.CinemachineTargetGroup
@@ -196,6 +199,7 @@ a2fcde0f386c1b7adb06e5d9737c4c9c Assembly-CSharp.dll:Cinemachine.CinemachineGrou
 d9ae8c6401801a4a88651871144fd209 Assembly-CSharp.dll:Cinemachine.CinemachineBlendListCamera
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.EnemyCtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TwoTapMe
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.p2
 76f3454fd858ca9749a9b7152f3017b1 Assembly-CSharp.dll:Cinemachine.CinemachineMixingCamera
 0d9c8b4275ad157d5c0da68d795fd426 Assembly-CSharp.dll:Cinemachine.Timeline.CinemachineShot
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ETCInput
@@ -243,7 +247,8 @@ f739fe68956c7babcc274f024cbc4a87 Assembly-CSharp.dll:Cinemachine.CinemachineSmoo
 a0f94ec51c559b50eab9df220bdfd467 Assembly-CSharp.dll:.Swipe
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.UIBase
 5e15245a410c44a1daa341620c1fb47c Assembly-CSharp.dll:.ButtonInputUI
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerCtrl
+e1ff970319fa33ba4daa3ef83c5282a8 Assembly-CSharp.dll:.PlayerCtrl
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AudioCtrl
 379acab70fc57aedaf18eacfba911dff Assembly-CSharp.dll:.FriendCtrl
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.PlayerManager
 4221d6f2d120ea1c2b5b1485c67f9a95 Assembly-CSharp.dll:.MultiLayerTouch

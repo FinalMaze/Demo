@@ -400,7 +400,7 @@ public class FriendPlayerCtrl : MonoBehaviour
         tmpRgb.sharedMaterial = Resources.Load<PhysicsMaterial2D>("Material/Friend");
         tmpRgb.freezeRotation = true;
         //tmpRgb.mass = 100;
-        //tmpRgb.gravityScale = 100;
+        tmpRgb.gravityScale = 3;
     }
 
     //销毁刚体
@@ -501,13 +501,13 @@ public class FriendPlayerCtrl : MonoBehaviour
         else
         {
             //小型时持续 回蓝
-            smallMPTimeCount += Time.deltaTime;
-            if (smallMPTimeCount > FriendData.UpdataTime * 1.6f)
-            {
-                smallMPTimeCount = 0;
-                PlayerData.mp += FriendData.SmallMP;
-                GameInterfaceCtrl.Instance.UpdateMP();
-            }
+            //smallMPTimeCount += Time.deltaTime;
+            //if (smallMPTimeCount > FriendData.UpdataTime * 1.6f)
+            //{
+            //    smallMPTimeCount = 0;
+            //    PlayerData.mp += FriendData.SmallMP;
+            //    GameInterfaceCtrl.Instance.UpdateMP();
+            //}
             if (!FriendData.Casting && !FriendData.Amassing && !FriendData.Backing && run == 0)
             {
                 #region 跟随

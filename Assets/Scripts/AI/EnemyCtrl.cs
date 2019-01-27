@@ -128,7 +128,7 @@ public class EnemyCtrl : MonoBehaviour
                     transform.rotation = Quaternion.Euler(0, 180, 0);
                 }
 
-                if (distance > enemyData.AttackDistance)
+                if (distance > enemyData.AttackDistance-0.5f)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, PlayerCtrl.Instance.transform.position, enemyData.MoveSpeed);
                     ChangeState((sbyte)Data.EnemyAnimationCount.Walk);
@@ -149,7 +149,7 @@ public class EnemyCtrl : MonoBehaviour
                     }
 
                 }
-                else if (distance <= enemyData.AttackDistance)
+                else if (distance <= enemyData.AttackDistance-0.5f)
                 {
                     if (canAttack)
                     {

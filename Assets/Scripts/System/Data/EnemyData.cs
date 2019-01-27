@@ -78,7 +78,7 @@ public class EnemyData
     //大怪复活间隔
     public static float bigReTime = 2f;
     //出生自标准点的随机距离（范围）
-    public static int startDis = 5;
+    public static int startDis = 3;
 
     #endregion
 
