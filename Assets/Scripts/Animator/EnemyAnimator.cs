@@ -264,6 +264,6 @@ public class EnemySummon : FsmBase
     }
     public override void OnExit()
     {
-
+        enemyData.Summoning = false;
     }
 }
