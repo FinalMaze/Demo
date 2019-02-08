@@ -1,6 +1,6 @@
-WindowsStandalone
+Android
 PlayerPath?
-C:/Users/Administrator/Desktop/Demo/Demo.exe
+C:/Users/Administrator/Desktop/Demo.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
@@ -142,7 +142,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 30afa8783a8bbee2e465ec9ce1efaee2 Assembly-CSharp.dll:Cinemachine.Timeline.CinemachineTrack
-379acab70fc57aedaf18eacfba911dff Assembly-CSharp.dll:.FriendPlayerCtrl
+e1c5bb5a08c38920f4f19db4821ae1b9 Assembly-CSharp.dll:.FriendPlayerCtrl
 fe460ef6985517d84e68664be1e7af5b Assembly-CSharp.dll:Cinemachine.CinemachineFramingTransposer
 50667894c33b478dc38ae949114bb1e8 XiaomiSupport.dll:AppStoresSupport.AppStoreSettings
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.UIBehaviour

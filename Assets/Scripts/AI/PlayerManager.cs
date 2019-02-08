@@ -81,53 +81,9 @@ public class PlayerManager : MonoBehaviour
 
     public void SimpleFriend()
     {
-        if (up)
+        if (Data.FriendAI)
         {
-            if (FriendData.Biging)
-            {
-                if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
-                {
-                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-                    {
-                        if (!PlayerData.Jumping)
-                        {
-                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
-                        }
-                        Back();
-
-                        PlayerData.mp -= PlayerData.BackMP;
-                        GameInterfaceCtrl.Instance.UpdateMP();
-                    }
-                }
-            }
-            if (FriendData.Smalling)
-            {
-                if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
-                {
-                    if (PlayerData.distance < PlayerData.CanSimpleThrow)
-                    {
-
-                    }
-                    else
-                    {
-                        if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-                        {
-                            PlayerData.mp -= PlayerData.BackMP;
-                            GameInterfaceCtrl.Instance.UpdateMP();
-                            if (!PlayerData.Jumping)
-                            {
-                                PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
-                            }
-                            Move();
-                        }
-                    }
-                }
-            }
-        }
-        //下加宠物键的技能
-        else if (down)
-        {
-            if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
+            if (up)
             {
                 if (FriendData.Biging)
                 {
@@ -146,14 +102,13 @@ public class PlayerManager : MonoBehaviour
                         }
                     }
                 }
-
                 if (FriendData.Smalling)
                 {
                     if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
                     {
                         if (PlayerData.distance < PlayerData.CanSimpleThrow)
                         {
-                            Blow();
+
                         }
                         else
                         {
@@ -171,51 +126,104 @@ public class PlayerManager : MonoBehaviour
                     }
                 }
             }
-        }
-        //不按上下时的宠物键
-        else if (!up && !down)
-        {
-            if (FriendData.Biging)
-            {
-                if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
-                {
-                    if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
-                    {
-                        if (!PlayerData.Jumping)
-                        {
-                            PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
-                        }
-                        Back();
-
-                        PlayerData.mp -= PlayerData.BackMP;
-                        GameInterfaceCtrl.Instance.UpdateMP();
-                    }
-                }
-            }
-            if (FriendData.Smalling)
+            //下加宠物键的技能
+            else if (down)
             {
                 if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
                 {
-                    if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                    if (FriendData.Biging)
                     {
-                        Throw();
+                        if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
+                        {
+                            if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                            {
+                                if (!PlayerData.Jumping)
+                                {
+                                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                }
+                                Back();
+
+                                PlayerData.mp -= PlayerData.BackMP;
+                                GameInterfaceCtrl.Instance.UpdateMP();
+                            }
+                        }
                     }
-                    else
+
+                    if (FriendData.Smalling)
+                    {
+                        if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
+                        {
+                            if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                            {
+                                Blow();
+                            }
+                            else
+                            {
+                                if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                                {
+                                    PlayerData.mp -= PlayerData.BackMP;
+                                    GameInterfaceCtrl.Instance.UpdateMP();
+                                    if (!PlayerData.Jumping)
+                                    {
+                                        PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                    }
+                                    Move();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //不按上下时的宠物键
+            else if (!up && !down)
+            {
+                if (FriendData.Biging)
+                {
+                    if (!PlayerData.Attacking && !FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Blowing)
                     {
                         if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
                         {
-                            PlayerData.mp -= PlayerData.BackMP;
-                            GameInterfaceCtrl.Instance.UpdateMP();
                             if (!PlayerData.Jumping)
                             {
                                 PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
                             }
-                            Move();
+                            Back();
+
+                            PlayerData.mp -= PlayerData.BackMP;
+                            GameInterfaceCtrl.Instance.UpdateMP();
                         }
                     }
                 }
+                if (FriendData.Smalling)
+                {
+                    if (!FriendData.Backing && !FriendData.Casting && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Attacking && !PlayerData.Blowing)
+                    {
+                        if (PlayerData.distance < PlayerData.CanSimpleThrow)
+                        {
+                            Throw();
+                        }
+                        else
+                        {
+                            if (PlayerData.mp != 0 && PlayerData.mp >= PlayerData.BackMP)
+                            {
+                                PlayerData.mp -= PlayerData.BackMP;
+                                GameInterfaceCtrl.Instance.UpdateMP();
+                                if (!PlayerData.Jumping)
+                                {
+                                    PlayerCtrl.Instance.ChangeState((sbyte)Data.AnimationCount.Back);
+                                }
+                                Move();
+                            }
+                        }
+                    }
+                }
+
             }
 
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.FriendBack();
         }
     }
     #endregion
@@ -223,20 +231,27 @@ public class PlayerManager : MonoBehaviour
     #region 普通攻击按键相关
     public void SimpleAttack()
     {
-        if (PlayerData.Runing&&PlayerCtrl.canRunAttack)
+        if (Data.FriendAI)
         {
-            PlayerCtrl.Instance.RunAttack();
+            if (PlayerData.Runing && PlayerCtrl.canRunAttack)
+            {
+                PlayerCtrl.Instance.RunAttack();
+            }
+            else
+            {
+                if (PlayerData.Attacking && !PlayerData.Attacking2)
+                {
+                    PlayerCtrl.Instance.Attack2();
+                }
+                else if (!PlayerData.Attacking)
+                {
+                    PlayerCtrl.Instance.Attack1();
+                }
+            }
         }
         else
         {
-            if (PlayerData.Attacking && !PlayerData.Attacking2)
-            {
-                PlayerCtrl.Instance.Attack2();
-            }
-            else if (!PlayerData.Attacking)
-            {
-                PlayerCtrl.Instance.Attack1();
-            }
+            FriendPlayerCtrl.Instance.FriendAttack();
         }
     }
     #endregion

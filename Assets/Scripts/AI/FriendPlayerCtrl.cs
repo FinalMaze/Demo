@@ -36,7 +36,7 @@ public class FriendPlayerCtrl : MonoBehaviour
     bool canPartol = false;
     //巡逻用的随机数
     float ran;
-    float run = 0;
+    public float run = 0;
     float up = 0;
     float moveSpeed;
     #endregion
@@ -125,9 +125,46 @@ public class FriendPlayerCtrl : MonoBehaviour
             }
         }
         #endregion
-        Ctrl();
+        //Ctrl();
         Move();
 
+    }
+
+    public void FriendAttack()
+    {
+        if (!FriendData.Backing && !FriendData.Casting && !FriendData.Amassing && !FriendData.Blowing
+    && !FriendData.RunAttacking)
+        {
+            if (FriendData.Biging)
+            {
+                Attack();
+            }
+            if (FriendData.Smalling)
+            {
+                if (PlayerData.mp > FriendData.AttackMP)
+                {
+                    PlayerData.mp -= FriendData.AttackMP;
+                    GameInterfaceCtrl.Instance.UpdateMP();
+                    ChangeState((sbyte)Data.FriendAnimationCount.Attack2);
+                    Invoke("Damage", FriendData.EnemyHurtTime);
+                }
+            }
+        }
+    }
+
+    public void FriendBack()
+    {
+        if (!FriendData.Backing && !FriendData.Casting && !FriendData.Amassing && !FriendData.Blowing)
+        {
+            if (FriendData.Biging)
+            {
+                Back();
+            }
+            if (FriendData.Smalling)
+            {
+                ChangeState((sbyte)Data.FriendAnimationCount.Move);
+            }
+        }
     }
 
     private void Ctrl()

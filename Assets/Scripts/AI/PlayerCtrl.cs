@@ -216,7 +216,7 @@ public class PlayerCtrl : MonoBehaviour
         #endregion
 
         #region 在地上的动作判断
-        if (!PlayerData.Dieing&& PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
+        if (!PlayerData.Dieing && PlayerData.playerIsGround && !PlayerData.Jumping && !PlayerData.Amassing && !PlayerData.Attacking
             && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting && !PlayerData.Blowing && !PlayerData.RunAttacking)
         {
             //Debug.Log(PlayerData.Attacking);
@@ -276,35 +276,57 @@ public class PlayerCtrl : MonoBehaviour
     bool touch = false;
     public void Move(Vector2 tmpVec)
     {
-        if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting
-       && !PlayerData.Blowing && !PlayerData.RunAttacking)
+        if (Data.FriendAI)
         {
-            if (tmpVec.x > 0 && tmpVec.x <= PlayerData.touchDis)
+            if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting
+&& !PlayerData.Blowing && !PlayerData.RunAttacking)
             {
-                touch = true;
-                run = PlayerData.walkspeed;
+                if (tmpVec.x > 0 && tmpVec.x <= PlayerData.touchDis)
+                {
+                    touch = true;
+                    run = PlayerData.walkspeed;
+                }
+                else if (tmpVec.x < 0 && tmpVec.x >= -PlayerData.touchDis)
+                {
+                    touch = true;
+                    run = -PlayerData.walkspeed;
+                }
+                else if (tmpVec.x > PlayerData.touchDis)
+                {
+                    touch = true;
+                    run = PlayerData.runspeed;
+                }
+                else if (tmpVec.x < -PlayerData.touchDis)
+                {
+                    touch = true;
+                    run = -PlayerData.runspeed;
+                }
             }
-            else if (tmpVec.x < 0 && tmpVec.x >= -PlayerData.touchDis)
+
+        }
+        else
+        {
+            if (tmpVec.x > 0 )
             {
-                touch = true;
-                run = -PlayerData.walkspeed;
+                FriendPlayerCtrl.Instance.run = 1;
             }
-            else if (tmpVec.x > PlayerData.touchDis)
+            else if (tmpVec.x < 0)
             {
-                touch = true;
-                run = PlayerData.runspeed;
-            }
-            else if (tmpVec.x < -PlayerData.touchDis)
-            {
-                touch = true;
-                run = -PlayerData.runspeed;
+                FriendPlayerCtrl.Instance.run = -1;
             }
         }
     }
     public void MoveEnd()
     {
-        touch = false;
-        run = 0;
+        if (Data.FriendAI)
+        {
+            touch = false;
+            run = 0;
+        }
+        else
+        {
+            FriendPlayerCtrl.Instance.run = 0;
+        }
     }
     #endregion
 
@@ -472,7 +494,7 @@ public class PlayerCtrl : MonoBehaviour
                         EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
                         if (tmp != null)
                         {
-                            tmp.Hurt(FriendData.Damage, 1,PlayerData.RunAttackDis);
+                            tmp.Hurt(FriendData.Damage, 1, PlayerData.RunAttackDis);
                             baseA = tmp.GetComponentInParent<Rigidbody2D>();
                             tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
                             tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
@@ -524,11 +546,11 @@ public class PlayerCtrl : MonoBehaviour
         PlayerData.hp -= reduceHP;
         GameInterfaceCtrl.Instance.UpdateHP();
         StartCoroutine("Red");
-        if (PlayerData.hp==0)
+        if (PlayerData.hp == 0)
         {
             ChangeState((sbyte)Data.AnimationCount.Die);
         }
-        else if (!PlayerData.Attacking && !PlayerData.Jumping&&!PlayerData.RunAttacking)
+        else if (!PlayerData.Attacking && !PlayerData.Jumping && !PlayerData.RunAttacking)
         {
             dir = tmpDir;
             ChangeState((sbyte)Data.AnimationCount.Hurt);
@@ -600,7 +622,7 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
-    public static  bool getTarget;
+    public static bool getTarget;
     Vector2 target;
     public void RunBlink(float distance, float speed)
     {

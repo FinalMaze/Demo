@@ -498,6 +498,8 @@ public class PlayerDie : FsmBase
     public override void OnExit()
     {
         PlayerData.Dieing = false;
+        PlayerData.Jumping = false;
+        PlayerData.Jump2ing = false;
     }
 }
 
