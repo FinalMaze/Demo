@@ -85,7 +85,6 @@ public class SourceManager
         List<AudioSource> allSurplus = new List<AudioSource>();
         for (int i = allSource.Count - 1; i >= 0; i--)
         {
-
             if (!allSource[i].isPlaying)
             {
                 count++;

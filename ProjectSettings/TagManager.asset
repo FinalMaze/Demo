@@ -9,6 +9,7 @@ TagManager:
   - EasyTouch
   - PlayerDown
   - FriendParent
+  - Enemy
   layers:
   - Default
   - TransparentFX

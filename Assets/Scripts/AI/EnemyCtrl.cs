@@ -8,6 +8,7 @@ public class EnemyCtrl : MonoBehaviour
     Animator animator;
     public  EnemyData enemyData;
     SpriteRenderer sprite;
+    EnemyEffectCtrl enemyEffect;
 
     private void Awake()
     {
@@ -21,6 +22,8 @@ public class EnemyCtrl : MonoBehaviour
         ball = transform.Find("FirePostion");
         tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
+        enemyEffect = GetComponentInChildren<EnemyEffectCtrl>();
+
         #region 注册动画
         EnemyIdel enemyIdel = new EnemyIdel(animator);
         fsmManager.AddState(enemyIdel);
@@ -266,6 +269,7 @@ public class EnemyCtrl : MonoBehaviour
             if (!enemyData.Attacking || addDistance != 0)
             {
                 ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
+                enemyEffect.ChangeState((sbyte)Data.EnemyEffect.Hurt);
             }
         }
         else

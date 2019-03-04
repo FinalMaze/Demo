@@ -142,7 +142,7 @@ public class PlayerCtrl : MonoBehaviour
         #region 转向并移动
         #region 键盘
         if (!PlayerData.Attacking && !PlayerData.Casting && !PlayerData.Backing && !PlayerData.Hurting
-            && !PlayerData.Blowing && !PlayerData.RunAttacking)
+            && !PlayerData.Blowing && !PlayerData.RunAttacking&& PlayerData.hp != 0 && !PlayerData.Dieing)
         {
             if (Input.GetKey(KeyCode.LeftArrow))
             {
@@ -306,13 +306,16 @@ public class PlayerCtrl : MonoBehaviour
         }
         else
         {
-            if (tmpVec.x > 0 )
+            if (PlayerData.hp!=0&&!PlayerData.Dieing)
             {
-                FriendPlayerCtrl.Instance.run = 1;
-            }
-            else if (tmpVec.x < 0)
-            {
-                FriendPlayerCtrl.Instance.run = -1;
+                if (tmpVec.x > 0)
+                {
+                    FriendPlayerCtrl.Instance.run = 1;
+                }
+                else if (tmpVec.x < 0)
+                {
+                    FriendPlayerCtrl.Instance.run = -1;
+                }
             }
         }
     }
@@ -440,15 +443,11 @@ public class PlayerCtrl : MonoBehaviour
                         {
                             tmp.Hurt(FriendData.Damage, 1);
                             baseA = tmp.GetComponentInParent<Rigidbody2D>();
-                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
-                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                         else
                         {
                             Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
                             baseA = Data.allEnemy[i].GetComponent<EnemyCtrl>().GetComponentInParent<Rigidbody2D>();
-                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
-                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                     }
 
@@ -462,15 +461,11 @@ public class PlayerCtrl : MonoBehaviour
                         {
                             tmp.Hurt(FriendData.Damage, -1);
                             baseA = tmp.GetComponentInParent<Rigidbody2D>();
-                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
-                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                         else
                         {
                             Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
                             baseA = Data.allEnemy[i].GetComponent<EnemyCtrl>().GetComponentInParent<Rigidbody2D>();
-                            tmpA = baseA.GetComponentInChildren<EnemyEffectCtrl>();
-                            tmpA.ChangeState((sbyte)Data.EnemyEffect.Hurt);
                         }
                     }
 

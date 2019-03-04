@@ -55,7 +55,7 @@ public class FriendData
     public static float MoveTime = 0.4f;
     public static float BlowTime = 0.48f;
     //冲刺攻击动作总时长
-    public static float RunAttackTime = 0.5f;
+    public static float RunAttackTime = 0.6f;
     #endregion
 
     #region 组件增减条件
@@ -126,7 +126,7 @@ public class FriendData
     //变大的持续时间
     public static float BigTime = 4f;
     //变大时的持续耗蓝量
-    public static float BigMP = 1f;
+    public static float BigMP = 0.5f;
     //变大时召回需要按住攻击键的时长
     public static float BackStayTime = 0.3f;
     //与玩家的脚相距的距离

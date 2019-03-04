@@ -95,7 +95,7 @@ public class PlayerData
     //攻击后第几秒调用怪物被 攻击(造成伤害)动画
     public static float EnemyHurtTime = 0.3f;
     //攻击回蓝量
-    public static float AddMP = 2f;
+    public static float AddMP = 3f;
 
     //第一段攻击位移距离
     public static float AttackDistance1 = 0.7f;
@@ -127,7 +127,7 @@ public class PlayerData
     //移动速度
     public static float runSpeed = 50f;
     //冲刺距离
-    public static float BlinkDistance = 4f;
+    public static float BlinkDistance = 0.3f;
     //冲刺的CD
     public static float BlinkTime = 1f;
     //冲刺时每次移动的距离
@@ -144,11 +144,11 @@ public class PlayerData
     //走多少秒后变为跑
     public static float walkToRun = 0.3f;
     //冲刺攻击的距离 
-    public static float RunAttackDistance = 3.5f;
+    public static float RunAttackDistance = 3f;
     //冲刺攻击的速度
-    public static float RunAttackSpeed = 0.6f;
+    public static float RunAttackSpeed = 0.4f;
     //冲刺攻击附加的额外击退距离
-    public static float RunAttackDis = 8f;
+    public static float RunAttackDis = 6f;
 
     #endregion
 

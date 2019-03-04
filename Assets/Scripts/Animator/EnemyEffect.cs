@@ -83,13 +83,12 @@ public class EnemySummonEffect : FsmBase
         timeCount += Time.deltaTime;
         if (timeCount > EnemyData.SummonTimeE)
         {
+            Debug.Log(timeCount);
             timeCount = 0;
             tmpData.SummoningE = false;
         }
     }
     public override void OnExit()
     {
-        timeCount = 0;
-        tmpData.SummoningE = false;
     }
 }

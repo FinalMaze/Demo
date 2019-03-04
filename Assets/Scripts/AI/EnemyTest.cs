@@ -8,6 +8,7 @@ public class EnemyTest : MonoBehaviour
     Animator animator;
     public EnemyData enemyData;
     SpriteRenderer sprite;
+    EnemyEffectCtrl enemyEffect;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class EnemyTest : MonoBehaviour
 
         sprite.color = new Color(Data.Rm / 255f, Data.Gm / 255f, Data.Bm / 255f, Data.Am / 255f);
 
+        enemyEffect = GetComponentInChildren<EnemyEffectCtrl>();
         ball = transform.Find("FirePostion");
         tmpBall = Resources.Load("Prefabs/Ball") as GameObject;
         InvokeRepeating("RandomPos", 2, 2);
@@ -260,6 +262,7 @@ public class EnemyTest : MonoBehaviour
             if (!enemyData.Attacking || addDistance != 0)
             {
                 ChangeState((sbyte)Data.EnemyAnimationCount.Hurt);
+                enemyEffect.ChangeState((sbyte)Data.EnemyEffect.Hurt);
             }
         }
         else
