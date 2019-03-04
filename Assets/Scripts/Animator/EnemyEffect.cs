@@ -83,9 +83,37 @@ public class EnemySummonEffect : FsmBase
         timeCount += Time.deltaTime;
         if (timeCount > EnemyData.SummonTimeE)
         {
-            Debug.Log(timeCount);
             timeCount = 0;
             tmpData.SummoningE = false;
+        }
+    }
+    public override void OnExit()
+    {
+    }
+}
+
+public class EnemyDieEffect : FsmBase
+{
+    Animator animator;
+    float timeCount;
+    EnemyData tmpData;
+    public EnemyDieEffect(Animator tmpAnimator, ref EnemyData data)
+    {
+        animator = tmpAnimator;
+        tmpData = data;
+    }
+    public override void OnEnter()
+    {
+        animator.SetInteger("Index", 4);
+        tmpData.DieE = true;
+    }
+    public override void OnStay()
+    {
+        timeCount += Time.deltaTime;
+        if (timeCount > EnemyData.DieTimeE)
+        {
+            timeCount = 0;
+            tmpData.DieE = false;
         }
     }
     public override void OnExit()

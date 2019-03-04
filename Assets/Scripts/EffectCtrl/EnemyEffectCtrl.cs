@@ -23,6 +23,8 @@ public class EnemyEffectCtrl : MonoBehaviour
         fsmManager.AddState(EnemyHurtEffect);
         EnemySummonEffect EnemySummonEffect = new EnemySummonEffect(animator, ref data);
         fsmManager.AddState(EnemySummonEffect);
+        EnemyDieEffect EnemyDieEffect = new EnemyDieEffect(animator, ref data);
+        fsmManager.AddState(EnemyDieEffect);
         #endregion
 
     }
@@ -30,7 +32,7 @@ public class EnemyEffectCtrl : MonoBehaviour
     {
         fsmManager.OnStay();
         #region    强制为空
-        if (!data.Attacking1E&&!data.HurtingE&&!data.SummoningE)
+        if (!data.Attacking1E&&!data.HurtingE&&!data.SummoningE&&!data.DieE)
         {
             ChangeState((sbyte)Data.EnemyEffect.None);
         }

@@ -86,6 +86,7 @@ public class EnemyData
     public bool Attacking1E = false;
     public bool HurtingE = false;
     public bool SummoningE = false;
+    public bool DieE = false;
     #endregion
     #region 特效信息
     //攻击后第几秒播放特效
@@ -101,5 +102,10 @@ public class EnemyData
     public static float SummonEStartTime = 0f;
     //出生特效时长
     public static float SummonTimeE = 0.8f;
+
+    //死亡第几秒播放特效
+    public static float DieEStartTime = 0f;
+    //死亡特效时长
+    public static float DieTimeE = 0.25f * 1.6f;
     #endregion
 }
