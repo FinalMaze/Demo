@@ -189,7 +189,7 @@ public class FriendAttack : FsmBase
     bool effect = true;
     public override void OnStay()
     {
-        if (effect&&timeCount>FriendData.AttackEffectStartTime)
+        if (effect && timeCount > FriendData.AttackEffectStartTime)
         {
             effect = false;
             FriendEffectCtrl.Instance.ChangeState((sbyte)Data.FriendEffect.Attack);
@@ -723,32 +723,26 @@ public class FriendBlow : FsmBase
             {
                 if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
                 {
-                    if (Data.allEnemy[i].transform.position.x > animator.transform.position.x)
+                    EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                    if (tmp != null)
                     {
-                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
-                        if (tmp != null)
-                        {
-                            tmp.Hurt(FriendData.Damage, 1);
-                        }
-                        else
-                        {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
-                        }
+                        tmp.Hurt(FriendData.Damage, 1);
+                    }
+                    else
+                    {
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, 1);
                     }
                 }
                 if (Data.allEnemy[i].transform.position.x < animator.transform.position.x)
                 {
-                    if (Data.allEnemy[i].transform.position.x > FriendCtrl.Instance.transform.position.x)
+                    EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
+                    if (tmp != null)
                     {
-                        EnemyTest tmp = Data.allEnemy[i].GetComponent<EnemyTest>();
-                        if (tmp != null)
-                        {
-                            tmp.Hurt(FriendData.Damage, -1);
-                        }
-                        else
-                        {
-                            Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
-                        }
+                        tmp.Hurt(FriendData.Damage, -1);
+                    }
+                    else
+                    {
+                        Data.allEnemy[i].GetComponent<EnemyCtrl>().Hurt(FriendData.Damage, -1);
                     }
                 }
             }
